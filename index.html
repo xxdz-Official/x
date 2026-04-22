@@ -6,6 +6,7 @@
     <title>電籽的灵质空间 | 小小电子xxdz 主站</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" id="dynamic-favicon" href="https://xxdz-official.github.io/x/img/ico_1.ico">
     <style>
         * {
             margin: 0;
@@ -305,7 +306,7 @@
             font-style: normal;
             font-size: 1.2rem;
         }
-        
+
         .section-title img {
             width: 56px;
             height: 56px;
@@ -314,13 +315,13 @@
             margin: 0;
             padding: 0;
         }
-        
+
         /* 视频卡片容器紧贴标题，无任何额外间距 */
         #latestVideoContainer,
         #masterpiecesContainer {
             margin-top: 0px;
         }
-        
+
         /* 视频卡片本身的上内边距也移除 */
         .video-card {
             margin-top: 0px;
@@ -930,7 +931,10 @@
 
 <header class="top-bar">
     <div class="logo-area">
-        <div class="site-title">⚡電籽的灵质空间</div>
+        <div class="site-title" style="display: flex; align-items: center; gap: 6px;">
+            <img src="https://xxdz-official.github.io/x/img/logo.png" alt="logo" style="height: 3.6rem; width: auto; vertical-align: middle;">
+            <span>電籽的灵质空间</span>
+        </div>
     </div>
     <div class="nav-links">
         <a href="#">灵质主页</a>
@@ -1016,11 +1020,15 @@
                     <img src="https://i0.hdslb.com/bfs/new_dyn/c7157b2992c78870fc3f7f1a0b78184f3461569935575626.png" alt="原创项目"> 原创项目
                 </div>
                 <div class="projects-grid">
-                    <div class="project-card">
-                        <h4>✨ 灵质面板 <span style="font-size:0.7rem;">#原创创意软件</span></h4>
-                        <p>一款自研创意工具，融合术力口元素与狼系设计，效率+萌感并存。具体即将揭晓 (◕ᴗ◕✿)</p>
-                        <div class="tag">预告·秘密研发</div>
-                    </div>
+                    <a href="https://xxdz-official.github.io/xxdz-Itoc/OwO.html" target="_blank" rel="noopener" class="project-card" style="text-decoration: none; color: inherit; display: block; transition: all 0.2s;">
+                        <h4 style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 8px 0;">
+                            <img src="https://xxdz-official.github.io/xxdz-Itoc/icon.png" alt="Itoc编辑器" style="width: 1.8rem; height: 1.8rem; object-fit: contain;">
+                            <span style="font-weight: 700; background: linear-gradient(135deg, #B19BF6 0%, #8B6FE0 100%); background-clip: text; -webkit-background-clip: text; color: transparent;">Itoc编辑器</span>
+                            <span style="font-size:0.7rem; background: #B19BF620; padding: 2px 8px; border-left: 2px solid #B19BF6; white-space: nowrap; color: #7A5FD0;">#CrazyError开发工具</span>
+                        </h4>
+                        <p>可无代码开发Windows弹窗鬼畜程序。像剪视频一样做个真程序、支持导出EXE，释放你的创作力！</p>
+                        <div class="tag" style="background: #B19BF615; border-left-color: #B19BF6; color: #7A5FD0;">现已发布 · 免费使用</div>
+                    </a>
                     <div class="project-card">
                         <h4>🎮 XXDZ 工具箱</h4>
                         <p>工作室孵化中，专注让电脑操作变得有趣的小工具集，术曲BGM + 实用功能。</p>
@@ -1393,20 +1401,20 @@
             if (currentImageSrc === originalSrc && previewOverlay.classList.contains('active')) return;
 
             const previewImg = previewOverlay.querySelector('.image-preview-img');
-            
+
             // 关键修复：先清空旧图片，避免残留
             previewImg.src = '';
             previewImg.style.transition = 'none';
             previewImg.style.transform = 'scale(0.5)';
             previewImg.style.opacity = '0';
-            
+
             // 强制重绘，清除旧状态
             void previewImg.offsetHeight;
-            
+
             // 加载新图片
             previewImg.src = originalSrc;
             currentImageSrc = originalSrc;
-            
+
             // 等待图片加载完成后再执行打开动画，避免动画过程中图片未显示
             const onImageLoad = () => {
                 previewImg.removeEventListener('load', onImageLoad);
@@ -1421,7 +1429,7 @@
                     });
                 });
             };
-            
+
             previewImg.addEventListener('load', onImageLoad);
             // 如果图片已缓存，load 事件可能已触发，兜底处理
             if (previewImg.complete) {
@@ -1452,20 +1460,20 @@
                 fansNumberSpan.textContent = fans || '?';
                 return;
             }
-            
+
             // 获取当前显示的数字，如果当前是 '?' 或无效，从 0 开始
             let currentValue = parseInt(fansNumberSpan.textContent);
             if (isNaN(currentValue)) currentValue = 0;
-            
+
             // 如果目标值和当前值相同，不执行动画
             if (currentValue === targetValue) return;
-            
+
             const duration = 1000; // 总时长 1 秒
             const startTime = performance.now();
             const startValue = currentValue;
             const endValue = targetValue;
             const diff = endValue - startValue;
-            
+
             function animate(currentTime) {
                 const elapsed = currentTime - startTime;
                 let progress = Math.min(1, elapsed / duration);
@@ -1478,7 +1486,7 @@
                     fansNumberSpan.textContent = endValue;
                 }
             }
-            
+
             requestAnimationFrame(animate);
         }
 
@@ -1610,6 +1618,25 @@
         });
 
         console.log("%c電籽の灵质空间已启动！！！！！！！嗷嗷嗷啊啊吖", "color: #0097FE; font-size: 15px; font-weight: bold;");
+    })();
+</script>
+<script>
+    // 动态标签页图标切换
+    (function() {
+        const iconUrls = [
+            'https://xxdz-official.github.io/x/img/ico_1.ico',
+            'https://xxdz-official.github.io/x/img/ico_2.ico',
+            'https://xxdz-official.github.io/x/img/ico_3.ico'
+        ];
+        let currentIndex = 0;
+        const faviconLink = document.getElementById('dynamic-favicon');
+        
+        if (faviconLink) {
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % iconUrls.length;
+                faviconLink.href = iconUrls[currentIndex];
+            }, 1000);
+        }
     })();
 </script>
 </body>
