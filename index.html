@@ -8,6 +8,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" id="dynamic-favicon" href="https://xxdz-official.github.io/x/img/ico_1.ico">
     <style>
+        :root {
+            --shadow-sm: 3px 3px 8px rgba(0, 0, 0, 0.1);
+            --shadow-md: 4px 4px 12px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 6px 6px 18px rgba(0, 0, 0, 0.15);
+            --shadow-hover: 6px 8px 20px rgba(0, 151, 254, 0.3);
+            --shadow-hover-strong: 8px 12px 24px rgba(0, 151, 254, 0.35);
+            --shadow-topbar: 4px 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -20,6 +29,32 @@
             color: #1F2A3E;
             line-height: 1.4;
             overflow-x: hidden;
+            position: relative;
+        }
+        /* 独立的背景图片层 - 填充模式，动画缩小+渐显 */
+        .bg-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://xxdz-official.github.io/x/img/bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+            pointer-events: none;
+            animation: bgZoomIn 1.2s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+        }
+        @keyframes bgZoomIn {
+            0% {
+                opacity: 0;
+                transform: scale(1.3);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .card, .nav-bar, .button, .avatar, .link-card, .right-section > div, footer {
@@ -40,7 +75,7 @@
             align-items: center;
             justify-content: space-between;
             z-index: 100;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            box-shadow: var(--shadow-topbar);
         }
 
         .logo-area {
@@ -51,18 +86,31 @@
         }
 
         .site-title {
-            font-size: clamp(1.2rem, 4vw, 1.65rem);
+            font-size: clamp(1rem, 3.5vw, 1.65rem);
             font-weight: 700;
             letter-spacing: -0.3px;
             background: linear-gradient(135deg, #0097FE 0%, #005FAA 100%);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
+            white-space: nowrap;
         }
 
         .nav-links {
             display: flex;
-            gap: clamp(12px, 3vw, 28px);
+            gap: clamp(8px, 2vw, 28px);
+            flex-wrap: nowrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 600;
+            font-size: clamp(0.7rem, 2vw, 1rem);
+            color: #2C3E50;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+            white-space: nowrap;
         }
 
         .nav-links a {
@@ -133,15 +181,15 @@
         .info-card {
             background: #FFFFFF;
             border: 1px solid #E9EDF2;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
-            transition: transform 0.2s ease, box-shadow 0.25s ease;
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1), box-shadow 0.3s ease, border-color 0.2s;
             margin-bottom: 28px;
         }
 
         .info-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 24px rgba(0,151,254,0.08);
-            border-color: #0097FE30;
+            transform: translateY(-5px) translateX(-1px);
+            box-shadow: var(--shadow-hover-strong);
+            border-color: #0097FE80;
         }
 
         .avatar-section {
@@ -333,14 +381,16 @@
             background: white;
             border: 1px solid #E9EDF2;
             padding: 12px;
-            transition: all 0.2s;
+            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             text-decoration: none;
             color: inherit;
             display: block;
+            box-shadow: var(--shadow-sm);
         }
         .video-card:hover {
             border-color: #0097FE;
-            transform: translateY(-4px);
+            transform: translateY(-5px) translateX(-1px);
+            box-shadow: var(--shadow-hover);
         }
         .video-cover-wrapper {
             position: relative;
@@ -428,12 +478,13 @@
             background: #FFFFFF;
             border: 1px solid #E9EDF2;
             padding: 6px 12px;
-            transition: transform 0.2s ease, box-shadow 0.25s ease;
+            transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1), box-shadow 0.3s ease;
+            box-shadow: var(--shadow-sm);
         }
         .quick-links:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 24px rgba(0,151,254,0.08);
-            border-color: #0097FE30;
+            transform: translateY(-4px) translateX(-1px);
+            box-shadow: var(--shadow-hover);
+            border-color: #0097FE70;
         }
         .quick-links-title {
             display: none;
@@ -496,12 +547,14 @@
             background: white;
             border: 1px solid #E9EDF2;
             padding: 20px;
-            transition: all 0.2s;
+            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            box-shadow: var(--shadow-sm);
         }
 
         .project-card:hover {
             border-color: #0097FE;
-            transform: translateY(-4px);
+            transform: translateY(-5px) translateX(-1px);
+            box-shadow: var(--shadow-hover);
         }
 
         .project-card h4 {
@@ -928,6 +981,7 @@
     </style>
 </head>
 <body>
+<div class="bg-layer"></div>
 
 <header class="top-bar">
     <div class="logo-area">
@@ -1024,16 +1078,20 @@
                         <h4 style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 8px 0;">
                             <img src="https://xxdz-official.github.io/xxdz-Itoc/icon.png" alt="Itoc编辑器" style="width: 1.8rem; height: 1.8rem; object-fit: contain;">
                             <span style="font-weight: 700; background: linear-gradient(135deg, #B19BF6 0%, #8B6FE0 100%); background-clip: text; -webkit-background-clip: text; color: transparent;">Itoc编辑器</span>
-                            <span style="font-size:0.7rem; background: #B19BF620; padding: 2px 8px; border-left: 2px solid #B19BF6; white-space: nowrap; color: #7A5FD0;">#CrazyError开发工具</span>
+                            <span style="font-size:0.7rem; background: #B19BF620; padding: 2px 8px; border-left: 2px solid #B19BF6; white-space: nowrap; color: #7A5FD0;">#软件项目</span>
                         </h4>
-                        <p>可无代码开发Windows弹窗鬼畜程序。像剪视频一样做个真程序、支持导出EXE，释放你的创作力！</p>
+                        <p>可无代码开发Windows弹窗鬼畜（crazy error）程序。像剪视频一样做个真程序、支持导出EXE，释放你的创作力！</p>
                         <div class="tag" style="background: #B19BF615; border-left-color: #B19BF6; color: #7A5FD0;">现已发布 · 免费使用</div>
                     </a>
-                    <div class="project-card">
-                        <h4>🎮 XXDZ 工具箱</h4>
-                        <p>工作室孵化中，专注让电脑操作变得有趣的小工具集，术曲BGM + 实用功能。</p>
-                        <div class="tag">工作室首发筹备</div>
-                    </div>
+                    <a href="https://xxdz-official.github.io/ShangBackground" target="_blank" rel="noopener" class="project-card" style="text-decoration: none; color: inherit; display: block; transition: all 0.2s;">
+                        <h4 style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 8px 0;">
+                            <img src="https://xxdz-official.github.io/ShangBackground/img/LOGO.png" alt="上一个桌面背景" style="width: 1.8rem; height: 1.8rem; object-fit: contain;">
+                            <span style="font-weight: 700; background: linear-gradient(135deg, #0098FE 0%, #0080D0 100%); background-clip: text; -webkit-background-clip: text; color: transparent;">上一个桌面背景</span>
+                            <span style="font-size:0.7rem; background: #0098FE20; padding: 2px 8px; border-left: 2px solid #0098FE; white-space: nowrap; color: #0098FE;">#软件项目</span>
+                        </h4>
+                        <p>实现“上一个桌面背景”的Windows原生风格桌面菜单项，以及解决更多壁纸方面痛点！比如切换动画、跳转壁纸侧边栏、随机概率等</p>
+                        <div class="tag" style="background: #0098FE15; border-left-color: #0098FE; color: #0098FE;">首发筹备 · 即将上线</div>
+                    </a>
                 </div>
             </div>
 
@@ -1618,6 +1676,7 @@
         });
 
         console.log("%c電籽の灵质空间已启动！！！！！！！嗷嗷嗷啊啊吖", "color: #0097FE; font-size: 15px; font-weight: bold;");
+        // 背景动画由 CSS 独立完成，无需额外触发
     })();
 </script>
 <script>
