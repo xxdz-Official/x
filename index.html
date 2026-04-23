@@ -100,20 +100,15 @@
             display: flex;
             gap: clamp(8px, 2vw, 28px);
             flex-wrap: nowrap;
+            align-items: center;
         }
 
-        .nav-links a {
-            text-decoration: none;
-            font-weight: 600;
-            font-size: clamp(0.7rem, 2vw, 1rem);
-            color: #2C3E50;
-            transition: all 0.2s ease;
-            border-bottom: 2px solid transparent;
-            padding-bottom: 4px;
-            white-space: nowrap;
+        .nav-item-wrapper {
+            position: relative;
+            display: inline-block;
         }
 
-        .nav-links a {
+        .nav-item-wrapper a {
             text-decoration: none;
             font-weight: 600;
             font-size: clamp(0.8rem, 2.5vw, 1rem);
@@ -121,12 +116,66 @@
             transition: all 0.2s ease;
             border-bottom: 2px solid transparent;
             padding-bottom: 4px;
+            display: inline-block;
         }
 
-        .nav-links a:hover {
+        .nav-item-wrapper a:hover {
             color: #0097FE;
             border-bottom-color: #0097FE;
             transform: translateY(-1px);
+        }
+
+        .nav-tooltip {
+            position: absolute;
+            bottom: -28px;
+            left: 50%;
+            transform: translateX(-50%) translateY(5px);
+            background: #2C3E50;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 400;
+            padding: 4px 10px;
+            white-space: nowrap;
+            border-radius: 0px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            pointer-events: none;
+            z-index: 200;
+            box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .nav-item-wrapper:hover .nav-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+        .forum-icon-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+        }
+        .nav-icon-img {
+            height: 1.6em;
+            width: auto;
+            object-fit: contain;
+            transition: all 0.2s ease;
+            vertical-align: middle;
+        }
+        .forum-icon-link:hover {
+            border-bottom-color: #0097FE;
+            transform: translateY(-1px);
+        }
+        .forum-icon-link:hover .nav-icon-img {
+            transform: scale(1.02);
+        }
+        /* 为论坛图标单独调整 tooltip 位置 */
+        .forum-icon-link + .nav-tooltip {
+            bottom: -28px;
         }
 
         .main-container {
@@ -348,11 +397,13 @@
             padding-left: 18px;
             position: relative;
             line-height: 1.2;
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.9), 0 0 5px rgba(255, 255, 255, 0.6);
         }
 
         .section-title i {
             font-style: normal;
             font-size: 1.2rem;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.95));
         }
 
         .section-title img {
@@ -362,6 +413,7 @@
             display: block;
             margin: 0;
             padding: 0;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
         }
 
         /* 视频卡片容器紧贴标题，无任何额外间距 */
@@ -991,11 +1043,36 @@
         </div>
     </div>
     <div class="nav-links">
-        <a href="#">電籽壁纸库</a>
-        <a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener">B站空间</a>
-        <a href="https://github.com/xxdz-Official" target="_blank" rel="noopener">GitHub</a>
-        <a href="#">术术播放器</a>
-        <a href="#">✨秘密</a>
+        <div class="nav-item-wrapper">
+            <a href="https://miku66ccff.freeflarum.com" class="forum-icon-link" target="_blank" rel="noopener">
+                <img src="https://miku66ccff.freeflarum.com/assets/logo-cyvx1jbh.png" alt="Miku66ccff论坛" class="nav-icon-img">
+            </a>
+            <span class="nav-tooltip">我旗下的术力口、furry、科技圈论坛：Miku66ccff论坛</span>
+        </div>
+        <div class="nav-item-wrapper">
+            <a href="#">電籽壁纸库</a>
+            <span class="nav-tooltip">我制作的壁纸~</span>
+        </div>
+        <div class="nav-item-wrapper">
+            <a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener">B站空间</a>
+            <span class="nav-tooltip">关注我的最新动态 >w<</span>
+        </div>
+        <div class="nav-item-wrapper">
+            <a href="https://github.com/xxdz-Official" target="_blank" rel="noopener">GitHub</a>
+            <span class="nav-tooltip">嗷呜~ 为我的仓库给个星标？</span>
+        </div>
+        <div class="nav-item-wrapper">
+            <a href="https://xxdz-official.github.io/x/FriendURL.html" target="_blank" rel="noopener">友情链接</a>
+            <span class="nav-tooltip">为我或我的项目做出贡献的朋友们~</span>
+        </div>
+        <div class="nav-item-wrapper">
+            <a href="#">术术播放器</a>
+            <span class="nav-tooltip">这是个内嵌的术力口音乐播放器？！</span>
+        </div>
+        <div class="nav-item-wrapper">
+            <a href="#">展开更多 ▼</a>
+            <span class="nav-tooltip">即将揭晓</span>
+        </div>
     </div>
 </header>
 
