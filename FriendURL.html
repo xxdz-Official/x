@@ -1,1 +1,757 @@
-这是友情链接
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>友情链接 | 電籽的灵质空间</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" id="dynamic-favicon" href="https://xxdz-official.github.io/x/img/ico_1.ico">
+    <style>
+        :root {
+            --shadow-sm: 3px 3px 8px rgba(0, 0, 0, 0.1);
+            --shadow-md: 4px 4px 12px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 6px 6px 18px rgba(0, 0, 0, 0.15);
+            --shadow-hover: 6px 8px 20px rgba(0, 151, 254, 0.3);
+            --shadow-hover-strong: 8px 12px 24px rgba(0, 151, 254, 0.35);
+            --shadow-topbar: 4px 4px 12px rgba(0, 0, 0, 0.12);
+            --primary-color: #0097FE;
+            --primary-dark: #0077CC;
+            --text-dark: #1F2A3E;
+            --text-muted: #4A5C79;
+            --border-light: #E9EDF2;
+            --bg-light: #F5F7FC;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.4;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 背景图片层 */
+        .bg-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://xxdz-official.github.io/x/img/bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+            pointer-events: none;
+            animation: bgZoomIn 1.2s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+        }
+
+        @keyframes bgZoomIn {
+            0% {
+                opacity: 0;
+                transform: scale(1.3);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .card, .nav-bar, .button, .avatar, .link-card, .right-section > div, footer {
+            border-radius: 0px !important;
+        }
+
+        /* 顶栏 - 直角磁贴 */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #FFFFFF;
+            border-bottom: 3px solid var(--primary-color);
+            padding: 0 clamp(16px, 4vw, 32px);
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+            box-shadow: var(--shadow-topbar);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .site-title {
+            font-size: clamp(1rem, 3.5vw, 1.65rem);
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #005FAA 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: clamp(4px, 1.5vw, 28px);
+            flex-wrap: nowrap;
+            align-items: center;
+        }
+
+        .nav-item-wrapper {
+            position: relative;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .nav-item-wrapper a {
+            text-decoration: none;
+            font-weight: 600;
+            font-size: clamp(0.65rem, 2vw, 1rem);
+            color: #2C3E50;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .nav-item-wrapper a:hover {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        .nav-tooltip {
+            position: absolute;
+            bottom: -28px;
+            left: 50%;
+            transform: translateX(-50%) translateY(5px);
+            background: #2C3E50;
+            color: white;
+            font-size: 0.6rem;
+            font-weight: 400;
+            padding: 4px 10px;
+            white-space: nowrap;
+            border-radius: 0px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            pointer-events: none;
+            z-index: 200;
+            box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .nav-item-wrapper:hover .nav-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .forum-icon-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+        }
+
+        .nav-icon-img {
+            height: 1.4em;
+            width: auto;
+            object-fit: contain;
+            transition: all 0.2s ease;
+            vertical-align: middle;
+        }
+
+        .forum-icon-link:hover {
+            border-bottom-color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        .forum-icon-link:hover .nav-icon-img {
+            transform: scale(1.02);
+        }
+
+        .forum-icon-link + .nav-tooltip {
+            bottom: -28px;
+        }
+
+        .more-dropdown {
+            position: absolute;
+            top: 70px;
+            right: clamp(16px, 4vw, 32px);
+            background: #FFFFFF;
+            border: 1px solid #E9EDF2;
+            box-shadow: var(--shadow-lg);
+            z-index: 101;
+            flex-direction: column;
+            min-width: 160px;
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: opacity 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1), visibility 0.25s;
+        }
+
+        .more-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            padding: 8px 20px;
+            margin: 0;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-item a {
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #2C3E50;
+            display: block;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 0px;
+        }
+
+        .dropdown-item:hover {
+            background: #F0F9FF;
+        }
+
+        .dropdown-item:hover a {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 700px) {
+            .nav-item-wrapper[data-collapsible="true"] {
+                display: none;
+            }
+            .more-dropdown {
+                display: flex !important;
+            }
+        }
+
+        @media (min-width: 701px) {
+            .more-dropdown {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .nav-links {
+                gap: clamp(2px, 1vw, 8px);
+            }
+            .nav-item-wrapper a {
+                font-size: clamp(0.55rem, 1.8vw, 0.75rem);
+            }
+            .nav-icon-img {
+                height: 1.2em;
+            }
+            .nav-tooltip {
+                font-size: 0.55rem;
+                padding: 2px 6px;
+                bottom: -24px;
+            }
+        }
+
+        .main-container {
+            margin-top: 90px;
+            padding: 0 clamp(16px, 4vw, 32px) 60px clamp(16px, 4vw, 32px);
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* 主卡片 - 直角风格 */
+        .friend-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(233, 237, 242, 0.8);
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1), box-shadow 0.3s ease, border-color 0.2s;
+            padding: 28px 32px;
+        }
+
+        .friend-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(0,151,254,0.08);
+            border-color: #0097FE30;
+        }
+
+        .section-title {
+            font-size: clamp(1.3rem, 4vw, 1.7rem);
+            font-weight: 700;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 6px solid var(--primary-color);
+            padding-left: 18px;
+        }
+
+        .section-title img {
+            width: 56px;
+            height: 56px;
+            object-fit: contain;
+            display: block;
+            margin: 0;
+            padding: 0;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .friend-card-item {
+            position: relative;
+            border: 1px solid rgba(233, 237, 242, 0.8);
+            padding: 18px 14px;
+            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .friend-card-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: var(--bg-url);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.25;
+            filter: blur(10px);
+            z-index: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .friend-card-item:hover::before {
+            opacity: 0.35;
+        }
+
+        .friend-card-item:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px) translateX(-1px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .friend-card-item > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .friend-logo {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            border: 1px solid rgba(233, 237, 242, 0.8);
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .friend-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-dark);
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        .friend-note {
+            font-size: 0.65rem;
+            background: rgba(0, 151, 254, 0.15);
+            padding: 2px 8px;
+            border-left: 3px solid var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-bottom: 6px;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .friend-desc {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            line-height: 1.3;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        .friend-link-btn {
+            margin-top: auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: rgba(245, 247, 252, 0.8);
+            border: 1px solid rgba(233, 237, 242, 0.8);
+            padding: 6px 14px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.2s;
+            width: fit-content;
+        }
+
+        .friend-link-btn:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            transform: translateX(3px);
+        }
+
+        .placeholder-card {
+            background: rgba(248, 250, 254, 0.7);
+            backdrop-filter: blur(6px);
+            border: 1px dashed rgba(208, 216, 232, 0.8);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 200px;
+        }
+
+        .placeholder-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            color: #8C9AB0;
+        }
+
+        .placeholder-text {
+            font-size: 0.75rem;
+            color: #8C9AB0;
+        }
+
+        .footer {
+            margin-top: 32px;
+            padding: 20px 0;
+            border-top: 1px solid #E9EDF2;
+            color: #7A8BA3;
+            font-size: 0.7rem;
+            text-align: center;
+        }
+
+        .footer-corner {
+            position: fixed;
+            bottom: 20px;
+            right: 24px;
+            font-size: 0.75rem;
+            color: #7A8BA3;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(4px);
+            padding: 6px 14px;
+            border: 1px solid #E2E8F0;
+            font-weight: 500;
+            z-index: 99;
+            letter-spacing: 0.3px;
+            transition: opacity 0.2s;
+        }
+
+        .footer-corner:hover {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        @media (max-width: 850px) {
+            .top-bar {
+                height: 60px;
+            }
+            .main-container {
+                margin-top: 80px;
+            }
+            .friend-card {
+                padding: 20px;
+            }
+            .section-title {
+                font-size: 1.3rem;
+            }
+            .section-title img {
+                width: 44px;
+                height: 44px;
+            }
+            .friend-logo {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .friend-card-item {
+                flex-direction: row;
+                align-items: center;
+                text-align: left;
+                gap: 16px;
+                padding: 14px;
+            }
+            .friend-logo {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 0;
+                flex-shrink: 0;
+            }
+            .friend-info {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .friend-name {
+                font-size: 0.9rem;
+                margin-bottom: 4px;
+            }
+            .friend-note {
+                font-size: 0.6rem;
+                padding: 2px 8px;
+                margin-bottom: 4px;
+            }
+            .friend-desc {
+                font-size: 0.6rem;
+                margin-bottom: 8px;
+            }
+            .friend-link-btn {
+                padding: 4px 10px;
+                font-size: 0.65rem;
+            }
+            .footer-corner {
+                bottom: 16px;
+                right: 16px;
+                font-size: 0.7rem;
+            }
+        }
+
+        .dynamic-fade {
+            animation: fadeSlideUp 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="bg-layer"></div>
+
+<header class="top-bar">
+    <div class="logo-area">
+        <div class="site-title" style="display: flex; align-items: center; gap: 6px;">
+            <img src="https://xxdz-official.github.io/x/img/logo.png" alt="logo" style="height: 3.6rem; width: auto; vertical-align: middle;">
+            <span>電籽的灵质空间</span>
+        </div>
+    </div>
+    <div class="nav-links" id="navLinks">
+        <div class="nav-item-wrapper nav-item-forum">
+            <a href="https://miku66ccff.freeflarum.com" class="forum-icon-link" target="_blank" rel="noopener">
+                <img src="https://miku66ccff.freeflarum.com/assets/logo-cyvx1jbh.png" alt="Miku66ccff论坛" class="nav-icon-img">
+            </a>
+            <span class="nav-tooltip">我旗下的术力口、furry、科技圈论坛：Miku66ccff论坛</span>
+        </div>
+        <div class="nav-item-wrapper nav-item-wallpaper" data-collapsible="true">
+            <a href="#">電籽壁纸库</a>
+            <span class="nav-tooltip">我制作的壁纸~</span>
+        </div>
+        <div class="nav-item-wrapper nav-item-bili">
+            <a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener">B站空间</a>
+            <span class="nav-tooltip">关注我的最新动态 >w<</span>
+        </div>
+        <div class="nav-item-wrapper nav-item-github">
+            <a href="https://github.com/xxdz-Official" target="_blank" rel="noopener">GitHub</a>
+            <span class="nav-tooltip">嗷呜~ 为我的仓库给个星标？</span>
+        </div>
+        <div class="nav-item-wrapper nav-item-friend">
+            <a href="FriendURL.html" target="_blank" rel="noopener">友情链接</a>
+            <span class="nav-tooltip">为我或我的项目做出贡献的朋友们~</span>
+        </div>
+        <div class="nav-item-wrapper nav-item-player" data-collapsible="true">
+            <a href="#">术术播放器</a>
+            <span class="nav-tooltip">这是个内嵌的术力口音乐播放器？！</span>
+        </div>
+        <div class="nav-item-wrapper nav-item-more" id="moreBtn">
+            <a href="#">展开更多 ▼</a>
+        </div>
+    </div>
+    <div id="moreDropdown" class="more-dropdown">
+        <div class="dropdown-item" data-collapsible="true">
+            <a href="#">電籽壁纸库</a>
+        </div>
+        <div class="dropdown-item" data-collapsible="true">
+            <a href="#">术术播放器</a>
+        </div>
+    </div>
+</header>
+
+<main class="main-container">
+    <div class="friend-card dynamic-fade">
+        <div class="section-title">
+            <img src="https://xxdz-official.github.io/x/img/logo.png" alt="友情链接">
+            友情链接
+        </div>
+
+        <div class="links-grid">
+            <div class="friend-card-item" data-bg="https://file.uhsea.com/2603/a0cd8058162b0a4ec9ae697a7445fe9b6G.png">
+                <img src="https://file.uhsea.com/2603/a0cd8058162b0a4ec9ae697a7445fe9b6G.png" alt="硅量实验室" class="friend-logo">
+                <div class="friend-info">
+                    <div class="friend-name">硅量实验室 官网</div>
+                    <div class="friend-note">技术帮助与赞助</div>
+                    <div class="friend-desc">glsite.com</div>
+                    <a href="https://glsite.com" class="friend-link-btn" target="_blank">访问网站 →</a>
+                </div>
+            </div>
+            <div class="friend-card-item" data-bg="https://i0.hdslb.com/bfs/face/62f653e1cf6af937b6af4f869afc6bfe463f50d9.jpg">
+                <img src="https://i0.hdslb.com/bfs/face/62f653e1cf6af937b6af4f869afc6bfe463f50d9.jpg" alt="爱科技的学生党" class="friend-logo">
+                <div class="friend-info">
+                    <div class="friend-name">爱科技的学生党</div>
+                    <div class="friend-note">打赏 <strong>2B</strong> 币</div>
+                    <div class="friend-desc">MC启动器开源地址</div>
+                    <a href="https://github.com/herbrine8403/Amethyst-iOS-MyRemastered" class="friend-link-btn" target="_blank">访问仓库 →</a>
+                </div>
+            </div>
+            <div class="friend-card-item" data-bg="https://i0.hdslb.com/bfs/face/7a464e41d3f23322c11db9c7fe74ded88c01b463.jpg">
+                <img src="https://i0.hdslb.com/bfs/face/7a464e41d3f23322c11db9c7fe74ded88c01b463.jpg" alt="紫妈就是个亻" class="friend-logo">
+                <div class="friend-info">
+                    <div class="friend-name">紫妈就是个亻</div>
+                    <div class="friend-note">为音可取名/绘画赠图</div>
+                    <div class="friend-desc">神秘流浪小画手，兴趣使然更视频</div>
+                    <a href="https://space.bilibili.com/439220189" class="friend-link-btn" target="_blank">访问主页 →</a>
+                </div>
+            </div>
+            <div class="friend-card-item" data-bg="https://i0.hdslb.com/bfs/face/6f2fce7c5f0f8c81bd98cd1eb0dfc2eefc0d5ca6.jpg">
+                <img src="https://i0.hdslb.com/bfs/face/6f2fce7c5f0f8c81bd98cd1eb0dfc2eefc0d5ca6.jpg" alt="バックアップP" class="friend-logo">
+                <div class="friend-info">
+                    <div class="friend-name">バックアップP</div>
+                    <div class="friend-note">为音可画赠图</div>
+                    <div class="friend-desc">神秘备份P</div>
+                    <a href="https://space.bilibili.com/1226073828" class="friend-link-btn" target="_blank">访问主页 →</a>
+                </div>
+            </div>
+            <div class="friend-card-item" data-bg="https://i1.hdslb.com/bfs/face/20f5fa77e9dd408046dc629838d933ff5cde1c78.jpg">
+                <img src="https://i1.hdslb.com/bfs/face/20f5fa77e9dd408046dc629838d933ff5cde1c78.jpg" alt="某人十分讲科学" class="friend-logo">
+                <div class="friend-info">
+                    <div class="friend-name">某人十分讲科学</div>
+                    <div class="friend-note">为项目推广捐助 <strong>50</strong> 元</div>
+                    <div class="friend-desc">那就这么定了</div>
+                    <a href="https://space.bilibili.com/2079108658" class="friend-link-btn" target="_blank">访问主页 →</a>
+                </div>
+            </div>
+            <div class="placeholder-card">
+                <div class="placeholder-icon">(lll￢ω￢)</div>
+                <div class="placeholder-text">更多友链<br>敬请期待~</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            © 2026 小小电子xxdz · 電籽的灵质空间 · 感谢一路支持的朋友们！
+        </div>
+    </div>
+</main>
+
+<div class="footer-corner">
+    小小电子xxdz | 友情链接
+</div>
+
+<script>
+    (function() {
+        // 为每个卡片设置背景图
+        document。querySelectorAll('.friend-card-item')。forEach(function(item) {
+            var bgUrl = item。getAttribute('data-bg');
+            if (bgUrl) {
+                item。style。setProperty('--bg-url'， 'url(' + bgUrl + ')');
+                var style = document。createElement('style');
+                style。textContent = '.friend-card-item[data-bg="' + bgUrl + '"]::before { background-image: url(' + bgUrl + '); }';
+                document。head。appendChild(style);
+            }
+        });
+
+        // 展开更多下拉菜单逻辑
+        const moreBtn = document。getElementById('moreBtn');
+        const moreDropdown = document。getElementById('moreDropdown');
+        if (moreBtn && moreDropdown) {
+            let hideTimeout;
+            moreBtn。addEventListener('mouseenter'， () => {
+                clearTimeout(hideTimeout);
+                moreDropdown。classList。add('show');
+            });
+            moreBtn。addEventListener('mouseleave'， () => {
+                hideTimeout = setTimeout(() => {
+                    moreDropdown。classList。remove('show');
+                }， 200);
+            });
+            moreDropdown。addEventListener('mouseenter'， () => {
+                clearTimeout(hideTimeout);
+                moreDropdown。classList。add('show');
+            });
+            moreDropdown。addEventListener('mouseleave'， () => {
+                hideTimeout = setTimeout(() => {
+                    moreDropdown。classList。remove('show');
+                }， 200);
+            });
+        }
+
+        // 动态标签页图标切换
+        const iconUrls = [
+            'https://xxdz-official.github.io/x/img/ico_1.ico'，
+            'https://xxdz-official.github.io/x/img/ico_2.ico'，
+            'https://xxdz-official.github.io/x/img/ico_3.ico'
+        ];
+        let currentIndex = 0;
+        const faviconLink = document。getElementById('dynamic-favicon');
+        if (faviconLink) {
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % iconUrls。length;
+                faviconLink。href = iconUrls[currentIndex];
+            }， 1000);
+        }
+
+        console。log("%c友情链接页面已加载，欢迎朋友们！🐾"， "color: #0097FE; font-size: 14px; font-weight: bold;");
+    })();
+</script>
+</body>
+</html>
