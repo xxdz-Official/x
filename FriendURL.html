@@ -581,12 +581,12 @@
 <div class="bg-layer"></div>
 
 <header class="top-bar">
-    <div class="logo-area">
-        <div class="site-title" style="display: flex; align-items: center; gap: 6px;">
-            <img src="https://xxdz-official.github.io/x/img/logo.png" alt="logo" style="height: 3.6rem; width: auto; vertical-align: middle;">
-            <span>電籽的灵质空间</span>
+        <div class="logo-area">
+            <a href="https://xxdz-official.github.io/x" target="_blank" rel="noopener" class="site-title" style="display: flex; align-items: center; gap: 6px; text-decoration: none;">
+                <img src="https://xxdz-official.github.io/x/img/logo.png" alt="logo" style="height: 3.6rem; width: auto; vertical-align: middle;">
+                <span>電籽的灵质空间</span>
+            </a>
         </div>
-    </div>
     <div class="nav-links" id="navLinks">
         <div class="nav-item-wrapper nav-item-forum">
             <a href="https://miku66ccff.freeflarum.com" class="forum-icon-link" target="_blank" rel="noopener">
@@ -700,57 +700,57 @@
 <script>
     (function() {
         // 为每个卡片设置背景图
-        document。querySelectorAll('.friend-card-item')。forEach(function(item) {
-            var bgUrl = item。getAttribute('data-bg');
+        document.querySelectorAll('.friend-card-item').forEach(function(item) {
+            var bgUrl = item.getAttribute('data-bg');
             if (bgUrl) {
-                item。style。setProperty('--bg-url'， 'url(' + bgUrl + ')');
-                var style = document。createElement('style');
-                style。textContent = '.friend-card-item[data-bg="' + bgUrl + '"]::before { background-image: url(' + bgUrl + '); }';
-                document。head。appendChild(style);
+                item.style.setProperty('--bg-url', 'url(' + bgUrl + ')');
+                var style = document.createElement('style');
+                style.textContent = '.friend-card-item[data-bg="' + bgUrl + '"]::before { background-image: url(' + bgUrl + '); }';
+                document.head.appendChild(style);
             }
         });
 
         // 展开更多下拉菜单逻辑
-        const moreBtn = document。getElementById('moreBtn');
-        const moreDropdown = document。getElementById('moreDropdown');
+        const moreBtn = document.getElementById('moreBtn');
+        const moreDropdown = document.getElementById('moreDropdown');
         if (moreBtn && moreDropdown) {
             let hideTimeout;
-            moreBtn。addEventListener('mouseenter'， () => {
+            moreBtn.addEventListener('mouseenter', () => {
                 clearTimeout(hideTimeout);
-                moreDropdown。classList。add('show');
+                moreDropdown.classList.add('show');
             });
-            moreBtn。addEventListener('mouseleave'， () => {
+            moreBtn.addEventListener('mouseleave', () => {
                 hideTimeout = setTimeout(() => {
-                    moreDropdown。classList。remove('show');
-                }， 200);
+                    moreDropdown.classList.remove('show');
+                }, 200);
             });
-            moreDropdown。addEventListener('mouseenter'， () => {
+            moreDropdown.addEventListener('mouseenter', () => {
                 clearTimeout(hideTimeout);
-                moreDropdown。classList。add('show');
+                moreDropdown.classList.add('show');
             });
-            moreDropdown。addEventListener('mouseleave'， () => {
+            moreDropdown.addEventListener('mouseleave', () => {
                 hideTimeout = setTimeout(() => {
-                    moreDropdown。classList。remove('show');
-                }， 200);
+                    moreDropdown.classList.remove('show');
+                }, 200);
             });
         }
 
         // 动态标签页图标切换
         const iconUrls = [
-            'https://xxdz-official.github.io/x/img/ico_1.ico'，
-            'https://xxdz-official.github.io/x/img/ico_2.ico'，
+            'https://xxdz-official.github.io/x/img/ico_1.ico',
+            'https://xxdz-official.github.io/x/img/ico_2.ico',
             'https://xxdz-official.github.io/x/img/ico_3.ico'
         ];
         let currentIndex = 0;
-        const faviconLink = document。getElementById('dynamic-favicon');
+        const faviconLink = document.getElementById('dynamic-favicon');
         if (faviconLink) {
             setInterval(() => {
-                currentIndex = (currentIndex + 1) % iconUrls。length;
-                faviconLink。href = iconUrls[currentIndex];
-            }， 1000);
+                currentIndex = (currentIndex + 1) % iconUrls.length;
+                faviconLink.href = iconUrls[currentIndex];
+            }, 1000);
         }
 
-        console。log("%c友情链接页面已加载，欢迎朋友们！🐾"， "color: #0097FE; font-size: 14px; font-weight: bold;");
+        console.log("%c友情链接页面已加载，欢迎朋友们！🐾", "color: #0097FE; font-size: 14px; font-weight: bold;");
     })();
 </script>
 </body>
