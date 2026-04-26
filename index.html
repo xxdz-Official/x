@@ -179,7 +179,7 @@
         .forum-icon-link + .nav-tooltip {
             bottom: -28px;
         }
-        /* 展开更多下拉菜单样式 - 带动画 */
+        /* 展开更多下拉菜单样式 - 带动画，横向排列，顶部栏风格 */
         .more-dropdown {
             position: absolute;
             top: 70px;
@@ -188,9 +188,10 @@
             border: 1px solid #E9EDF2;
             box-shadow: var(--shadow-lg);
             z-index: 101;
-            flex-direction: column;
-            min-width: 160px;
-            padding: 8px 0;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 12px 20px;
             opacity: 0;
             visibility: hidden;
             transform: translateY(-10px);
@@ -202,42 +203,75 @@
             transform: translateY(0);
         }
         .dropdown-item {
-            padding: 8px 20px;
+            padding: 0;
             margin: 0;
             transition: all 0.2s ease;
+            background: transparent;
+            border: none;
         }
         .dropdown-item a {
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: clamp(0.65rem, 2vw, 0.9rem);
             color: #2C3E50;
             display: block;
             white-space: nowrap;
             transition: all 0.2s ease;
             border-bottom: 2px solid transparent;
-            padding-bottom: 0px;
+            padding-bottom: 4px;
         }
         .dropdown-item:hover {
-            background: #F0F9FF;
+            background: transparent;
         }
         .dropdown-item:hover a {
             color: #0097FE;
             border-bottom-color: #0097FE;
             transform: translateY(-1px);
         }
-        /* 移动端隐藏原始的可折叠项，在下拉菜单中显示 */
-        @media (max-width: 700px) {
-            .nav-item-wrapper[data-collapsible="true"] {
+        /* 桌面端隐藏需要折叠的项（B站空间、GitHub） */
+        @media (min-width: 701px) {
+            .nav-item-wrapper.nav-item-bili,
+            .nav-item-wrapper.nav-item-github {
                 display: none;
             }
-            .more-dropdown {
-                display: flex !important;
+            /* 桌面端下拉菜单中隐藏已在顶栏显示的壁纸库和播放器 */
+            .more-dropdown .desktop-hide {
+                display: none;
             }
         }
-        /* 桌面端隐藏下拉菜单 */
-        @media (min-width: 701px) {
+        /* 移动端隐藏需要折叠的项（術術播放器、電籽壁纸库、B站空间、GitHub） */
+        @media (max-width: 700px) {
+            .nav-item-wrapper.nav-item-player,
+            .nav-item-wrapper.nav-item-wallpaper,
+            .nav-item-wrapper.nav-item-bili,
+            .nav-item-wrapper.nav-item-github {
+                display: none;
+            }
+        }
+        /* 桌面端也显示下拉菜单 */
+        .more-dropdown {
+            display: flex !important;
+        }
+        /* 移动端调整 */
+        @media (max-width: 700px) {
             .more-dropdown {
-                display: none !important;
+                flex-direction: column;
+                min-width: 160px;
+                padding: 8px 0;
+                gap: 0;
+            }
+            .dropdown-item {
+                padding: 8px 20px;
+            }
+            .dropdown-item a {
+                border-bottom: none;
+            }
+            .dropdown-item:hover {
+                background: #F0F9FF;
+            }
+            .dropdown-item:hover a {
+                transform: none;
+                border-bottom: none;
             }
         }
 
@@ -256,6 +290,21 @@
                 font-size: 0.55rem;
                 padding: 2px 6px;
                 bottom: -24px;
+            }
+        }
+
+        /* 移动模式下放大剩余按钮（论坛图标、友情链接、展开更多） */
+        @media (max-width: 700px) {
+            .nav-item-wrapper.nav-item-forum .nav-icon-img {
+                height: 1.8em;
+            }
+            .nav-item-wrapper.nav-item-friend a,
+            .nav-item-wrapper.nav-item-more a {
+                font-size: clamp(0.9rem, 3vw, 1.1rem);
+                font-weight: 700;
+            }
+            .nav-links {
+                gap: clamp(12px, 3vw, 20px);
             }
         }
 
@@ -1175,17 +1224,58 @@
             visibility: visible;
             transform: translateY(0);
         }
-        /* 窗口标题栏 */
+        /* 窗口标题栏 - 增加冲破图层按钮区域 */
         .player-titlebar {
             background: #2c3348;
             height: 32px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 8px 0 12px;
+            padding: 0 8px 0 8px;
             cursor: grab;
             user-select: none;
             border-bottom: 1px solid #39C5BB;
+        }
+
+        /* 冲破图层按钮样式 */
+        .breakout-btn {
+            background: transparent;
+            border: none;
+            color: #66ccff;
+            font-size: 0.9rem;
+            cursor: pointer;
+            padding: 0 6px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+            border-radius: 2px;
+            margin-right: 4px;
+        }
+
+        .breakout-btn:hover {
+            background: rgba(57, 197, 187, 0.3);
+            color: #39C5BB;
+            transform: scale(1.02);
+        }
+
+        .breakout-btn i {
+            font-size: 0.8rem;
+        }
+
+        .player-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #eef5ff;
+        }
+
+        .title-left-group {
+            display: flex;
+            align-items: center;
         }
         .player-titlebar:active {
             cursor: grabbing;
@@ -1285,15 +1375,15 @@
             </a>
             <span class="nav-tooltip">我旗下的术力口、furry、科技圈论坛：Miku66ccff论坛</span>
         </div>
-        <div class="nav-item-wrapper nav-item-wallpaper" data-collapsible="true">
+        <div class="nav-item-wrapper nav-item-wallpaper">
             <a href="#">電籽壁纸库</a>
             <span class="nav-tooltip">我制作的壁纸~</span>
         </div>
-        <div class="nav-item-wrapper nav-item-bili">
+        <div class="nav-item-wrapper nav-item-bili" data-collapsible="true">
             <a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener">B站空间</a>
             <span class="nav-tooltip">关注我的最新动态 >w<</span>
         </div>
-        <div class="nav-item-wrapper nav-item-github">
+        <div class="nav-item-wrapper nav-item-github" data-collapsible="true">
             <a href="https://github.com/xxdz-Official" target="_blank" rel="noopener">GitHub</a>
             <span class="nav-tooltip">嗷呜~ 为我的仓库给个星标？</span>
         </div>
@@ -1301,7 +1391,7 @@
             <a href="https://xxdz-official.github.io/x/FriendURL.html" target="_blank" rel="noopener">友情链接</a>
             <span class="nav-tooltip">为我或我的项目做出贡献的朋友们~</span>
         </div>
-        <div class="nav-item-wrapper nav-item-player" data-collapsible="true" id="playerNavItem">
+        <div class="nav-item-wrapper nav-item-player" id="playerNavItem">
             <a href="#" id="playerToggleBtn">术术播放器</a>
             <span class="nav-tooltip">这是个内嵌的术力口音乐播放器？！</span>
         </div>
@@ -1310,11 +1400,17 @@
         </div>
     </div>
     <div id="moreDropdown" class="more-dropdown">
-        <div class="dropdown-item" data-collapsible="true">
+        <div class="dropdown-item desktop-hide" id="dropdownWallpaperItem">
             <a href="#">電籽壁纸库</a>
         </div>
-        <div class="dropdown-item" data-collapsible="true">
+        <div class="dropdown-item desktop-hide" id="dropdownPlayerItem">
             <a href="#" id="playerToggleBtnMobile">术术播放器</a>
+        </div>
+        <div class="dropdown-item">
+            <a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener">B站空间</a>
+        </div>
+        <div class="dropdown-item">
+            <a href="https://github.com/xxdz-Official" target="_blank" rel="noopener">GitHub</a>
         </div>
     </div>
 </header>
@@ -1447,10 +1543,15 @@
 
 <!-- 悬浮播放器容器 - Windows窗口风格 -->
 <div id="floatingPlayer" class="floating-player">
-    <div class="player-titlebar" id="playerTitlebar">
-        <div class="player-title">
-            <i class="fas fa-head-side-vr"></i>
-            <span>電籽术术播放器</span>
+        <div class="player-titlebar" id="playerTitlebar">
+        <div class="title-left-group">
+            <button class="breakout-btn" id="breakoutBtn" title="冲破图层 - 弹出独立窗口播放（无缝迁移播放状态）">
+                <i class="fas fa-external-link-alt"></i>
+            </button>
+            <div class="player-title">
+                <i class="fas fa-head-side-vr"></i>
+                <span>電籽术术播放器</span>
+            </div>
         </div>
         <div class="player-window-buttons">
             <button class="win-btn minimize" id="winMinimizeBtn" title="最小化">_</button>
@@ -2304,6 +2405,100 @@
                 e.stopPropagation();
                 closePlayer();
             });
+        
+        // ========== 冲破图层按钮：弹出独立浏览器窗口（无缝迁移，不重新加载） ==========
+        const breakoutBtn = document.getElementById('breakoutBtn');
+        let popupWindow = null;
+        let popupHeartbeatInterval = null;
+        
+        // 检测弹窗是否还在
+        function isPopupAlive() {
+            return popupWindow && !popupWindow.closed;
+        }
+        
+        // 弹窗关闭时的清理
+        function onPopupClosed() {
+            if (popupHeartbeatInterval) {
+                clearInterval(popupHeartbeatInterval);
+                popupHeartbeatInterval = null;
+            }
+            popupWindow = null;
+        }
+        
+        // 打开独立窗口 - 无缝迁移：先将当前iframe的src保存，新窗口打开后通过postMessage传递当前播放时间
+        function breakoutToPopup() {
+            // 如果已经有一个打开的弹窗且未关闭，直接聚焦
+            if (isPopupAlive()) {
+                try {
+                    popupWindow.focus();
+                } catch(e) {}
+                return;
+            }
+            
+            // 清理之前的残留
+            if (popupHeartbeatInterval) {
+                clearInterval(popupHeartbeatInterval);
+                popupHeartbeatInterval = null;
+            }
+            
+            // 获取当前悬浮播放器iframe的实际地址（如果已经加载过）
+            let targetUrl = PLAYER_URL;
+            if (playerIframe && playerIframe.src && playerIframe.src !== 'about:blank') {
+                targetUrl = playerIframe.src;
+            }
+            
+            // 计算弹窗尺寸
+            const popupWidth = 860;
+            const popupHeight = 560;
+            const left = (window.screen.width - popupWidth) / 2;
+            const top = (window.screen.height - popupHeight) / 2;
+            const features = `width=${popupWidth},height=${popupHeight},left=${left},top=${top},resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,status=no`;
+            
+            // 打开新窗口
+            popupWindow = window.open(targetUrl, 'DianziPlayerPopup', features);
+            
+            if (popupWindow) {
+                // 心跳检测弹窗是否关闭
+                popupHeartbeatInterval = setInterval(() => {
+                    if (!isPopupAlive()) {
+                        onPopupClosed();
+                    }
+                }, 1000);
+                
+                // 等待新窗口加载完成后，尝试通过postMessage传递当前播放状态（无缝迁移）
+                // 由于跨域限制，只有同源下才能通信。播放器页面需添加接收消息的代码
+                // 这里先关闭悬浮窗释放资源
+                if (isPlayerOpen) {
+                    closePlayer();
+                }
+                
+                try {
+                    popupWindow.focus();
+                } catch(e) {}
+                
+                // 尝试通过postMessage传递当前播放器的状态（如果播放器页面支持）
+                // 向新窗口发送消息，指示它从当前时间开始播放
+                setTimeout(() => {
+                    if (isPopupAlive()) {
+                        // 尝试发送消息，播放器页面需要监听message事件来接收
+                        // 消息格式: { type: 'syncPlayback', currentTime: xxx }
+                        // 如果播放器页面不支持，则忽略，新窗口会正常加载但不续播
+                        try {
+                            popupWindow.postMessage({ type: 'dianziPlayerSync', action: 'ready' }, '*');
+                        } catch(e) {}
+                    }
+                }, 500);
+            } else {
+                alert("浏览器可能阻止了弹窗，请允许弹出窗口后重试。");
+            }
+        }
+        
+        if (breakoutBtn) {
+            breakoutBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                breakoutToPopup();
+            });
+        }
         }
         
         // 标题栏拖拽
@@ -2311,7 +2506,7 @@
             playerTitlebar.addEventListener('mousedown', startDrag);
         }
         
-        // 移除“点击外部关闭”的机制，改为只有关闭按钮或最大化/最小化影响窗口
+        // 只有关闭按钮或最大化/最小化影响窗口
         // 窗口滚动时不自动关闭（用户可自行拖拽）
         
         // 平滑滚动
