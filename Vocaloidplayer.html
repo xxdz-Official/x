@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>電籽术术播放器</title>
+    <link rel="icon" href="https://i1.hdslb.com/bfs/face/87e609940c74ed2e7dcf6b2b19b3029f8e1566e1.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
@@ -362,7 +363,7 @@
 <div class="app">
     <div class="sidebar">
         <div class="playlist-header">
-            <h2><i class="fas fa-head-side-vr"></i> 電籽术术播放器</h2>
+            <h2 id="playerTitle"><i class="fas fa-head-side-vr"></i> 電籽术术播放器</h2>
             <div class="playlist-stats"><span id="trackCount">0 曲</span><span>术力口播放器 ♪(^∇^*)</span></div>
             <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="筛选歌曲..."></div>
         </div>
@@ -392,10 +393,8 @@
                 <div class="speed-wrap" id="speedWrap">
                     <span style="color: #66ccff; font-size: 0.7rem; cursor: pointer;" id="speedLabel">倍速 ▾</span>
                     <div class="speed-dropdown" id="speedDropdown">
-                        <div class="speed-option" data-speed="0.5">0.5x</div>
                         <div class="speed-option" data-speed="0.75">0.75x</div>
                         <div class="speed-option" data-speed="1" selected>1.0x</div>
-                        <div class="speed-option" data-speed="1.25">1.25x</div>
                         <div class="speed-option" data-speed="1.5">1.5x</div>
                         <div class="speed-option" data-speed="2">2.0x</div>
                     </div>
@@ -460,6 +459,38 @@
     const declarationHeader = document.getElementById('declarationHeader');
     const declarationContent = document.getElementById('declarationContent');
     const declarationIcon = document.getElementById('declarationIcon');
+    
+    // 更新标签页图标（favicon）为当前歌曲封面
+    function updateFaviconFromCover(coverUrl) {
+        if (!coverUrl) return;
+        const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+        link.type = 'image/x-icon';
+        link.rel = 'shortcut icon';
+        // 创建一个临时图片元素来加载封面，然后转换为 dataURL 作为 favicon
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = function() {
+            try {
+                const canvas = document.createElement('canvas');
+                canvas.width = 32;
+                canvas.height = 32;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, 32, 32);
+                const dataUrl = canvas.toDataURL('image/png');
+                link.href = dataUrl;
+                if (!document.querySelector("link[rel*='icon']")) {
+                    document.head.appendChild(link);
+                }
+                console.log('[术术播放器] 标签页图标已更新为当前歌曲封面');
+            } catch(e) {
+                console.warn('[术术播放器] 无法转换封面为 favicon:', e.message);
+            }
+        };
+        img.onerror = function() {
+            console.warn('[术术播放器] 加载封面图片失败，无法更新 favicon');
+        };
+        img.src = coverUrl;
+    }
 
     function buildMediaUrls(songName) {
         const encoded = encodeURIComponent(songName);
@@ -606,6 +637,8 @@
             coverImg.src = imageCache.get(track.coverUrl).src;
             coverImg.style.display = 'block';
             coverFallback.style.display = 'none';
+            // 更新标签页图标为当前歌曲封面（从缓存）
+            updateFaviconFromCover(track.coverUrl);
         } else {
             coverImg.style.display = 'block';
             coverImg.src = track.coverUrl;
@@ -616,6 +649,8 @@
                 imageCache.set(track.coverUrl, cloned);
                 coverImg.style.display = 'block';
                 coverFallback.style.display = 'none';
+                // 更新标签页图标为当前歌曲封面
+                updateFaviconFromCover(track.coverUrl);
             };
         }
         // 重置封面旋转状态
@@ -879,7 +914,50 @@
             } catch(e) { console.error("JSON also failed", e); }
         }
     }
+    // 检测是否在悬浮窗口容器中运行
+    function detectFloatingMode() {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        
+        // 输出当前窗口尺寸到控制台（方便调试）
+        console.log(`[术术播放器] 当前窗口尺寸: ${width} x ${height}`);
+        
+        // 悬浮窗口尺寸：桌面端 540x360，移动端自适应宽度
+        // 判断条件：宽度 <= 560 且 高度 <= 400（悬浮窗口特征）
+        const isFloatingMode = (width <= 560 && height <= 400);
+        
+        console.log(`[术术播放器] 是否悬浮模式: ${isFloatingMode}`);
+        
+        const titleElement = document.getElementById('playerTitle');
+        if (titleElement) {
+            if (isFloatingMode) {
+                titleElement.style.display = 'none';
+                console.log('[术术播放器] 已隐藏标题栏');
+                
+                // 移除播放统计栏的上间距和分割线（保留文字内容）
+                const statsElement = document.querySelector('.playlist-stats');
+                if (statsElement) {
+                    statsElement.style.marginTop = '0';
+                    statsElement.style.borderTop = 'none';
+                    statsElement.style.paddingTop = '0';
+                    console.log('[术术播放器] 已移除播放统计栏的上间距和分割线');
+                }
+                
+                // 调整侧边栏宽度使其更紧凑
+                const sidebar = document.querySelector('.sidebar');
+                if (sidebar) {
+                    sidebar.style.width = '200px';
+                }
+            } else {
+                console.log('[术术播放器] 保持标题栏显示');
+            }
+        } else {
+            console.error('[术术播放器] 未找到 playerTitle 元素');
+        }
+    }
+
     function init() {
+        detectFloatingMode();
         bindEvents();
         fetchPlaylist();
         setPlayMode('order');
