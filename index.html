@@ -1152,6 +1152,120 @@
             border: none;
             font-weight: bold;
         }
+
+        /* ========== 悬浮播放器样式 - Windows窗口风格 ========== */
+        .floating-player {
+            position: fixed;
+            width: 540px;
+            height: 360px;
+            background: #1a1f2e;
+            border: 1px solid #39C5BB;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s, transform 0.2s ease;
+            transform: translateY(-8px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .floating-player.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        /* 窗口标题栏 */
+        .player-titlebar {
+            background: #2c3348;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8px 0 12px;
+            cursor: grab;
+            user-select: none;
+            border-bottom: 1px solid #39C5BB;
+        }
+        .player-titlebar:active {
+            cursor: grabbing;
+        }
+        .player-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #eef5ff;
+        }
+        .player-title i {
+            font-size: 0.85rem;
+            color: #66ccff;
+        }
+        .player-window-buttons {
+            display: flex;
+            gap: 6px;
+        }
+        .win-btn {
+            width: 28px;
+            height: 24px;
+            background: transparent;
+            border: none;
+            color: #eef5ff;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+        }
+        .win-btn:hover {
+            background: #4a5568;
+        }
+        .win-btn.minimize:hover {
+            background: #4a5568;
+        }
+        .win-btn.maximize:hover {
+            background: #4a5568;
+        }
+        .win-btn.close:hover {
+            background: #e81123;
+            color: white;
+        }
+        /* 播放器内容区 */
+        .player-content {
+            flex: 1;
+            background: #0a0e1a;
+            position: relative;
+        }
+        .player-content iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #0a0e1a;
+        }
+        /* 最小化动画类 */
+        .floating-player.minimizing {
+            transition: transform 0.35s cubic-bezier(0.55, 0, 0.75, 0.5), opacity 0.3s ease;
+            transform: translateY(-120vh) !important;
+            opacity: 0;
+        }
+        /* 拖拽时的过渡优化 */
+        .floating-player.dragging {
+            transition: none;
+        }
+        @media (max-width: 600px) {
+            .floating-player {
+                width: calc(100vw - 24px);
+                height: calc((100vw - 24px) * 360 / 540);
+                min-height: 280px;
+                left: 12px !important;
+            }
+            .win-btn {
+                width: 32px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1187,8 +1301,8 @@
             <a href="https://xxdz-official.github.io/x/FriendURL.html" target="_blank" rel="noopener">友情链接</a>
             <span class="nav-tooltip">为我或我的项目做出贡献的朋友们~</span>
         </div>
-        <div class="nav-item-wrapper nav-item-player" data-collapsible="true">
-            <a href="#">术术播放器</a>
+        <div class="nav-item-wrapper nav-item-player" data-collapsible="true" id="playerNavItem">
+            <a href="#" id="playerToggleBtn">术术播放器</a>
             <span class="nav-tooltip">这是个内嵌的术力口音乐播放器？！</span>
         </div>
         <div class="nav-item-wrapper nav-item-more" id="moreBtn">
@@ -1200,7 +1314,7 @@
             <a href="#">電籽壁纸库</a>
         </div>
         <div class="dropdown-item" data-collapsible="true">
-            <a href="#">术术播放器</a>
+            <a href="#" id="playerToggleBtnMobile">术术播放器</a>
         </div>
     </div>
 </header>
@@ -1329,6 +1443,24 @@
 
 <div class="footer-corner">
     小小电子xxdz | 主站
+</div>
+
+<!-- 悬浮播放器容器 - Windows窗口风格 -->
+<div id="floatingPlayer" class="floating-player">
+    <div class="player-titlebar" id="playerTitlebar">
+        <div class="player-title">
+            <i class="fas fa-head-side-vr"></i>
+            <span>電籽术术播放器</span>
+        </div>
+        <div class="player-window-buttons">
+            <button class="win-btn minimize" id="winMinimizeBtn" title="最小化">_</button>
+            <button class="win-btn maximize" id="winMaximizeBtn" title="在新标签页打开">🗖</button>
+            <button class="win-btn close" id="winCloseBtn" title="关闭">🗙</button>
+        </div>
+    </div>
+    <div class="player-content">
+        <iframe id="playerIframe" src="about:blank" loading="lazy" allow="autoplay; fullscreen" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
 </div>
 
 <script>
@@ -1904,6 +2036,284 @@
             });
         }
 
+        // ========== 悬浮播放器逻辑 - Windows窗口风格 ==========
+        const floatingPlayer = document.getElementById('floatingPlayer');
+        const playerIframe = document.getElementById('playerIframe');
+        const playerTitlebar = document.getElementById('playerTitlebar');
+        const winMinimizeBtn = document.getElementById('winMinimizeBtn');
+        const winMaximizeBtn = document.getElementById('winMaximizeBtn');
+        const winCloseBtn = document.getElementById('winCloseBtn');
+        const PLAYER_URL = 'https://xxdz-official.github.io/x/Vocaloidplayer.html';
+        
+        let isPlayerOpen = false;
+        let isMinimized = false;
+        let savedPosition = { left: null, top: null };  // 保存最小化前的位置
+        
+        // 拖拽相关变量
+        let isDragging = false;
+        let dragOffsetX = 0, dragOffsetY = 0;
+        
+        // 显示悬浮播放器（恢复最小化时使用之前的位置）
+        function showFloatingPlayer(triggerElement, useSavedPosition = false) {
+            if (!floatingPlayer) return;
+            
+            // 清除最小化类
+            floatingPlayer.classList.remove('minimizing');
+            
+            if (!useSavedPosition && triggerElement) {
+                // 根据触发按钮计算位置
+                const rect = triggerElement.getBoundingClientRect();
+                const playerWidth = 540;
+                const playerHeight = 360;
+                
+                let left = rect.left + (rect.width / 2) - (playerWidth / 2);
+                let top = rect.bottom + 8;
+                
+                if (left + playerWidth > window.innerWidth - 16) {
+                    left = window.innerWidth - playerWidth - 16;
+                }
+                if (left < 16) {
+                    left = 16;
+                }
+                if (top + playerHeight > window.innerHeight - 16) {
+                    top = rect.top - playerHeight - 8;
+                }
+                
+                floatingPlayer.style.left = left + 'px';
+                floatingPlayer.style.top = top + 'px';
+                savedPosition = { left: left, top: top };
+            } else if (savedPosition.left !== null && savedPosition.top !== null) {
+                // 恢复保存的位置
+                floatingPlayer.style.left = savedPosition.left + 'px';
+                floatingPlayer.style.top = savedPosition.top + 'px';
+            }
+            
+            // 首次打开时加载 iframe
+            if (!isPlayerOpen && playerIframe.src === 'about:blank') {
+                playerIframe.src = PLAYER_URL;
+            }
+            
+            floatingPlayer.classList.add('show');
+            isPlayerOpen = true;
+            isMinimized = false;
+        }
+        
+        function hideFloatingPlayer(keepPosition = true) {
+            if (!floatingPlayer) return;
+            // 如果是最小化状态，不清除位置
+            if (!isMinimized) {
+                floatingPlayer.classList.remove('show');
+                isPlayerOpen = false;
+            }
+        }
+        
+        // 最小化：动画向上飞出
+        function minimizePlayer() {
+            if (!floatingPlayer || !isPlayerOpen) return;
+            isMinimized = true;
+            floatingPlayer.classList.add('minimizing');
+            // 动画结束后移除 show 类
+            setTimeout(() => {
+                if (isMinimized) {
+                    floatingPlayer.classList.remove('show');
+                    floatingPlayer.classList.remove('minimizing');
+                    isPlayerOpen = false;
+                }
+            }, 350);
+        }
+        
+        // 恢复最小化（重新打开）
+        function restoreFromMinimize(triggerElement) {
+            if (!isMinimized) return;
+            const navItem = document.getElementById('playerNavItem');
+            showFloatingPlayer(navItem || triggerElement, true);
+        }
+        
+        // 最大化：在新标签页打开播放器，并关闭当前悬浮窗口
+        function maximizePlayer() {
+            // 新标签页打开播放器
+            window.open(PLAYER_URL, '_blank');
+            // 关闭当前悬浮窗口
+            closePlayer();
+        }
+        
+        // 关闭：彻底销毁 iframe，关闭窗口
+        function closePlayer() {
+            if (!floatingPlayer) return;
+            floatingPlayer.classList.remove('show');
+            isPlayerOpen = false;
+            isMinimized = false;
+            // 彻底清除 iframe 内容，释放资源
+            if (playerIframe) {
+                playerIframe.src = 'about:blank';
+            }
+            savedPosition = { left: null, top: null };
+        }
+        
+           // ========== 拖拽功能（局部遮罩层，只覆盖播放器内容区） ==========
+        // 创建播放器内容区的遮罩层（仅在拖拽时覆盖iframe，防止鼠标事件穿透）
+        let playerOverlay = null;
+
+        function createPlayerOverlay() {
+            if (playerOverlay) return playerOverlay;
+            
+            // 获取播放器内容区
+            const playerContent = floatingPlayer.querySelector('.player-content');
+            if (!playerContent) return null;
+            
+            playerOverlay = document.createElement('div');
+            playerOverlay.id = 'playerDragOverlay';
+            playerOverlay.style.position = 'absolute';
+            playerOverlay.style.top = '0';
+            playerOverlay.style.left = '0';
+            playerOverlay.style.width = '100%';
+            playerOverlay.style.height = '100%';
+            playerOverlay.style.backgroundColor = 'transparent';
+            playerOverlay.style.cursor = 'grabbing';
+            playerOverlay.style.pointerEvents = 'auto';
+            playerOverlay.style.zIndex = '10';
+            
+            playerContent.style.position = 'relative';
+            playerContent.appendChild(playerOverlay);
+            return playerOverlay;
+        }
+
+        function removePlayerOverlay() {
+            if (playerOverlay && playerOverlay.parentNode) {
+                playerOverlay.parentNode.removeChild(playerOverlay);
+                playerOverlay = null;
+            }
+        }
+
+        function startDrag(e) {
+            if (!isPlayerOpen || isMinimized) return;
+            // 确保点击的是标题栏（或标题栏内的元素）
+            if (!playerTitlebar.contains(e.target)) return;
+            // 如果点击的是窗口按钮，不启动拖拽
+            if (e.target.classList && (e.target.classList.contains('win-btn') || e.target.closest('.win-btn'))) return;
+
+            e.preventDefault();
+            isDragging = true;
+            floatingPlayer.classList.add('dragging');
+
+            const rect = floatingPlayer.getBoundingClientRect();
+            dragOffsetX = e.clientX - rect.left;
+            dragOffsetY = e.clientY - rect.top;
+
+            // 只在播放器内容区添加遮罩层，防止拖拽时鼠标进入iframe触发事件
+            createPlayerOverlay();
+
+            // 使用 mousemove 和 mouseup 绑定到 document，确保鼠标移出窗口也能继续拖拽
+            document.addEventListener('mousemove', onDrag);
+            document.addEventListener('mouseup', stopDrag);
+
+            // 防止拖拽时选中文本
+            document.body.style.userSelect = 'none';
+        }
+
+        function onDrag(e) {
+            if (!isDragging) return;
+
+            let newLeft = e.clientX - dragOffsetX;
+            let newTop = e.clientY - dragOffsetY;
+
+            // 边界限制（不出屏幕，留一点边距更舒服）
+            newLeft = Math.max(4, Math.min(newLeft, window.innerWidth - floatingPlayer.offsetWidth - 4));
+            newTop = Math.max(4, Math.min(newTop, window.innerHeight - floatingPlayer.offsetHeight - 4));
+
+            floatingPlayer.style.left = newLeft + 'px';
+            floatingPlayer.style.top = newTop + 'px';
+
+            // 实时更新保存的位置
+            savedPosition = { left: newLeft, top: newTop };
+        }
+
+        function stopDrag() {
+            if (!isDragging) return;
+            isDragging = false;
+            floatingPlayer.classList.remove('dragging');
+            document.removeEventListener('mousemove', onDrag);
+            document.removeEventListener('mouseup', stopDrag);
+            document.body.style.userSelect = '';
+            // 移除播放器内容区遮罩层
+            removePlayerOverlay();
+        }
+        
+        // ========== 绑定事件 ==========
+        const playerToggleBtn = document.getElementById('playerToggleBtn');
+        const playerToggleBtnMobile = document.getElementById('playerToggleBtnMobile');
+        
+        // 打开/恢复播放器
+        function openOrRestorePlayer(e) {
+            e.preventDefault();
+            if (isMinimized) {
+                restoreFromMinimize(playerToggleBtn);
+            } else if (isPlayerOpen) {
+                // 如果已打开但被隐藏（比如之前关闭了），重新显示
+                if (!floatingPlayer.classList.contains('show')) {
+                    const navItem = document.getElementById('playerNavItem');
+                    showFloatingPlayer(navItem || playerToggleBtn, true);
+                }
+            } else {
+                const navItem = document.getElementById('playerNavItem');
+                showFloatingPlayer(navItem || playerToggleBtn);
+            }
+        }
+        
+        if (playerToggleBtn) {
+            playerToggleBtn.addEventListener('click', openOrRestorePlayer);
+        }
+        
+        if (playerToggleBtnMobile) {
+            playerToggleBtnMobile.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (isMinimized) {
+                    restoreFromMinimize(playerToggleBtnMobile);
+                } else if (isPlayerOpen) {
+                    if (!floatingPlayer.classList.contains('show')) {
+                        const navItem = document.getElementById('playerNavItem');
+                        showFloatingPlayer(navItem || playerToggleBtnMobile, true);
+                    }
+                } else {
+                    const navItem = document.getElementById('playerNavItem');
+                    showFloatingPlayer(navItem || playerToggleBtnMobile);
+                }
+                // 关闭移动端下拉菜单
+                const moreDropdown = document.getElementById('moreDropdown');
+                if (moreDropdown) moreDropdown.classList.remove('show');
+            });
+        }
+        
+        // 窗口按钮事件
+        if (winMinimizeBtn) {
+            winMinimizeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                minimizePlayer();
+            });
+        }
+        
+        if (winMaximizeBtn) {
+            winMaximizeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                maximizePlayer();
+            });
+        }
+        
+        if (winCloseBtn) {
+            winCloseBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closePlayer();
+            });
+        }
+        
+        // 标题栏拖拽
+        if (playerTitlebar) {
+            playerTitlebar.addEventListener('mousedown', startDrag);
+        }
+        
+        // 移除“点击外部关闭”的机制，改为只有关闭按钮或最大化/最小化影响窗口
+        // 窗口滚动时不自动关闭（用户可自行拖拽）
+        
         // 平滑滚动
         document.querySelectorAll('.nav-links a, .btn, .link-card, .more-dropdown a').forEach(link => {
             if(link.getAttribute('href') && link.getAttribute('href').startsWith('#')) {
@@ -1930,7 +2340,7 @@
         ];
         let currentIndex = 0;
         const faviconLink = document.getElementById('dynamic-favicon');
-        
+
         if (faviconLink) {
             setInterval(() => {
                 currentIndex = (currentIndex + 1) % iconUrls.length;
