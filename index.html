@@ -98,7 +98,7 @@
 
         .nav-links {
             display: flex;
-            gap: clamp(8px, 2vw, 28px);
+            gap: clamp(4px, 1.5vw, 28px);
             flex-wrap: nowrap;
             align-items: center;
         }
@@ -106,17 +106,19 @@
         .nav-item-wrapper {
             position: relative;
             display: inline-block;
+            flex-shrink: 0;
         }
 
         .nav-item-wrapper a {
             text-decoration: none;
             font-weight: 600;
-            font-size: clamp(0.8rem, 2.5vw, 1rem);
+            font-size: clamp(0.65rem, 2vw, 1rem);
             color: #2C3E50;
             transition: all 0.2s ease;
             border-bottom: 2px solid transparent;
             padding-bottom: 4px;
             display: inline-block;
+            white-space: nowrap;
         }
 
         .nav-item-wrapper a:hover {
@@ -132,7 +134,7 @@
             transform: translateX(-50%) translateY(5px);
             background: #2C3E50;
             color: white;
-            font-size: 0.7rem;
+            font-size: 0.6rem;
             font-weight: 400;
             padding: 4px 10px;
             white-space: nowrap;
@@ -160,7 +162,7 @@
             padding-bottom: 4px;
         }
         .nav-icon-img {
-            height: 1.6em;
+            height: 1.4em;
             width: auto;
             object-fit: contain;
             transition: all 0.2s ease;
@@ -176,6 +178,85 @@
         /* 为论坛图标单独调整 tooltip 位置 */
         .forum-icon-link + .nav-tooltip {
             bottom: -28px;
+        }
+        /* 展开更多下拉菜单样式 - 带动画 */
+        .more-dropdown {
+            position: absolute;
+            top: 70px;
+            right: clamp(16px, 4vw, 32px);
+            background: #FFFFFF;
+            border: 1px solid #E9EDF2;
+            box-shadow: var(--shadow-lg);
+            z-index: 101;
+            flex-direction: column;
+            min-width: 160px;
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: opacity 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1), visibility 0.25s;
+        }
+        .more-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .dropdown-item {
+            padding: 8px 20px;
+            margin: 0;
+            transition: all 0.2s ease;
+        }
+        .dropdown-item a {
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #2C3E50;
+            display: block;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 0px;
+        }
+        .dropdown-item:hover {
+            background: #F0F9FF;
+        }
+        .dropdown-item:hover a {
+            color: #0097FE;
+            border-bottom-color: #0097FE;
+            transform: translateY(-1px);
+        }
+        /* 移动端隐藏原始的可折叠项，在下拉菜单中显示 */
+        @media (max-width: 700px) {
+            .nav-item-wrapper[data-collapsible="true"] {
+                display: none;
+            }
+            .more-dropdown {
+                display: flex !important;
+            }
+        }
+        /* 桌面端隐藏下拉菜单 */
+        @media (min-width: 701px) {
+            .more-dropdown {
+                display: none !important;
+            }
+        }
+
+        /* 极端小屏幕（< 500px）进一步缩小 */
+        @media (max-width: 500px) {
+            .nav-links {
+                gap: clamp(2px, 1vw, 8px);
+            }
+            .nav-item-wrapper a {
+                font-size: clamp(0.55rem, 1.8vw, 0.75rem);
+            }
+            .nav-icon-img {
+                height: 1.2em;
+            }
+            .nav-tooltip {
+                font-size: 0.55rem;
+                padding: 2px 6px;
+                bottom: -24px;
+            }
         }
 
         .main-container {
@@ -414,6 +495,47 @@
             margin: 0;
             padding: 0;
             filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
+        }
+        /* 标题右侧按钮样式 - 半透明背景，向右滑动动画 */
+        .section-more-btn {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #0097FE;
+            text-decoration: none;
+            padding: 6px 16px;
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            white-space: nowrap;
+            background: rgba(0, 151, 254, 0.12);
+            border: 1px solid rgba(0, 151, 254, 0.25);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(2px);
+        }
+        .section-more-btn::after {
+            content: '>';
+            display: inline-block;
+            margin-left: 6px;
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .section-more-btn:hover {
+            color: #0097FE;
+            background: rgba(0, 151, 254, 0.2);
+            border-color: rgba(0, 151, 254, 0.4);
+            transform: translateX(6px);
+            box-shadow: -2px 0 8px rgba(0, 151, 254, 0.08);
+        }
+        .section-more-btn:hover::after {
+            transform: translateX(4px);
+        }
+        .section-more-btn:active {
+            transform: translateX(2px);
+            transition: all 0.05s;
+        }
+        @media (max-width: 550px) {
+            .section-more-btn {
+                font-size: 0.7rem;
+                padding: 4px 12px;
+            }
         }
 
         /* 视频卡片容器紧贴标题，无任何额外间距 */
@@ -1042,36 +1164,43 @@
             <span>電籽的灵质空间</span>
         </div>
     </div>
-    <div class="nav-links">
-        <div class="nav-item-wrapper">
+    <div class="nav-links" id="navLinks">
+        <div class="nav-item-wrapper nav-item-forum">
             <a href="https://miku66ccff.freeflarum.com" class="forum-icon-link" target="_blank" rel="noopener">
                 <img src="https://miku66ccff.freeflarum.com/assets/logo-cyvx1jbh.png" alt="Miku66ccff论坛" class="nav-icon-img">
             </a>
             <span class="nav-tooltip">我旗下的术力口、furry、科技圈论坛：Miku66ccff论坛</span>
         </div>
-        <div class="nav-item-wrapper">
+        <div class="nav-item-wrapper nav-item-wallpaper" data-collapsible="true">
             <a href="#">電籽壁纸库</a>
             <span class="nav-tooltip">我制作的壁纸~</span>
         </div>
-        <div class="nav-item-wrapper">
+        <div class="nav-item-wrapper nav-item-bili">
             <a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener">B站空间</a>
             <span class="nav-tooltip">关注我的最新动态 >w<</span>
         </div>
-        <div class="nav-item-wrapper">
+        <div class="nav-item-wrapper nav-item-github">
             <a href="https://github.com/xxdz-Official" target="_blank" rel="noopener">GitHub</a>
             <span class="nav-tooltip">嗷呜~ 为我的仓库给个星标？</span>
         </div>
-        <div class="nav-item-wrapper">
+        <div class="nav-item-wrapper nav-item-friend">
             <a href="https://xxdz-official.github.io/x/FriendURL.html" target="_blank" rel="noopener">友情链接</a>
             <span class="nav-tooltip">为我或我的项目做出贡献的朋友们~</span>
         </div>
-        <div class="nav-item-wrapper">
+        <div class="nav-item-wrapper nav-item-player" data-collapsible="true">
             <a href="#">术术播放器</a>
             <span class="nav-tooltip">这是个内嵌的术力口音乐播放器？！</span>
         </div>
-        <div class="nav-item-wrapper">
+        <div class="nav-item-wrapper nav-item-more" id="moreBtn">
             <a href="#">展开更多 ▼</a>
-            <span class="nav-tooltip">即将揭晓</span>
+        </div>
+    </div>
+    <div id="moreDropdown" class="more-dropdown">
+        <div class="dropdown-item" data-collapsible="true">
+            <a href="#">電籽壁纸库</a>
+        </div>
+        <div class="dropdown-item" data-collapsible="true">
+            <a href="#">术术播放器</a>
         </div>
     </div>
 </header>
@@ -1137,8 +1266,11 @@
 
                 <!-- 右侧：代表作模块 (2x2) -->
                 <div class="video-col">
-                    <div class="section-title">
-                        <img src="https://i0.hdslb.com/bfs/new_dyn/811ac828683105f75c1d1203452892753461569935575626.png" alt="代表作"> 代表作
+                    <div class="section-title" style="justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <img src="https://i0.hdslb.com/bfs/new_dyn/811ac828683105f75c1d1203452892753461569935575626.png" alt="代表作"> 代表作
+                        </div>
+                        <a href="masterpiece.html" class="section-more-btn" target="_blank" rel="noopener">精选视频库</a>
                     </div>
                     <div id="masterpiecesContainer" class="masterpieces-grid">
                         <!-- 动态生成代表作卡片 -->
@@ -1148,8 +1280,11 @@
 
             <!-- 原创项目 -->
             <div>
-                <div class="section-title">
-                    <img src="https://i0.hdslb.com/bfs/new_dyn/c7157b2992c78870fc3f7f1a0b78184f3461569935575626.png" alt="原创项目"> 原创项目
+                <div class="section-title" style="justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <img src="https://i0.hdslb.com/bfs/new_dyn/c7157b2992c78870fc3f7f1a0b78184f3461569935575626.png" alt="原创项目"> 原创项目
+                    </div>
+                    <a href="project.html" class="section-more-btn" target="_blank" rel="noopener">全部原创项目</a>
                 </div>
                 <div class="projects-grid">
                     <a href="https://xxdz-official.github.io/xxdz-Itoc/OwO.html" target="_blank" rel="noopener" class="project-card" style="text-decoration: none; color: inherit; display: block; transition: all 0.2s;">
@@ -1175,8 +1310,11 @@
 
             <!-- 近期动态（从B站动态加载） -->
             <div style="margin-top: 16px;">
-                <div class="section-title">
-                    <img src="http://i0.hdslb.com/bfs/new_dyn/ecbecdc67a2632900c76406359bd317f3461569935575626.png" alt="近期动态"> 近期动态
+                <div class="section-title" style="justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <img src="http://i0.hdslb.com/bfs/new_dyn/ecbecdc67a2632900c76406359bd317f3461569935575626.png" alt="近期动态"> 近期动态
+                    </div>
+                    <a href="https://space.bilibili.com/3461569935575626/dynamic" class="section-more-btn" target="_blank" rel="noopener">全部动态</a>
                 </div>
                 <div class="info-card" style="padding: 24px; background:#FFFFFF;">
                     <div id="dynamicsContainer">
@@ -1317,12 +1455,12 @@
             return card;
         }
 
-        // 横排按钮数据（易修改）- 紧凑布局
+        // 横排按钮数据
         const quickLinks = [
             {
                 icon: "http://i0.hdslb.com/bfs/new_dyn/5d15a4418c514a373a9cf4a1e7da8a503461569935575626.png",
                 label: "電籽の投稿",
-                url: "https://space.bilibili.com/3461569935575626"
+                url: "https://space.bilibili.com/3461569935575626/upload/video"
             },
             {
                 icon: "https://i0.hdslb.com/bfs/new_dyn/21b50e8b0e82b5c4053509ea638d28223461569935575626.png",
@@ -1378,7 +1516,7 @@
 
         // ==================== JSON 数据加载 ====================
         const BIN_ID = '69e5fdda36566621a8d1212a';
-        const MASTER_KEY = '$2a$10$usS36BdO17gWRxIMd56gjOwrDWBlfrGdsPW1AFFhcp1TBUrbqFg4G';
+        const ACCESS_KEY = '$2a$10$jIZU9qtvIqpiJ.SYYF7eHedfCoM6aF5HaSqAFdbVGWkj25IIsK8Zu';
         const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
         const fansNumberSpan = document.querySelector('#fansDisplay .fans-number');
@@ -1485,7 +1623,7 @@
             return cleanUrl;
         }
 
-        // 显示图片预览（打开：缩小→正常，关闭：正常→放大）
+        // 显示图片预览（打开：缩小>正常，关闭：正常>放大）
         let previewOverlay = null;
         let isClosing = false;
         let currentImageSrc = '';
@@ -1494,7 +1632,7 @@
             if (isClosing) return;
             isClosing = true;
             const previewImg = previewOverlay.querySelector('.image-preview-img');
-            // 关闭动画：正常 → 放大（scale 1.2） + 渐隐
+            // 关闭动画：正常 > 放大（scale 1.2） + 渐隐
             previewImg.style.transition = 'transform 0.35s cubic-bezier(0.55, 0, 0.75, 0.5), opacity 0.3s ease';
             previewImg.style.transform = 'scale(1.2)';
             previewImg.style.opacity = '0';
@@ -1557,7 +1695,7 @@
                 // 设置打开动画的过渡
                 previewImg.style.transition = 'transform 0.35s cubic-bezier(0.34, 1.2, 0.64, 1), opacity 0.3s ease';
                 previewOverlay.classList.add('active');
-                // 执行打开动画：缩小(0.5) → 正常(1)
+                // 执行打开动画：缩小(0.5) > 正常(1)
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
                         previewImg.style.transform = 'scale(1)';
@@ -1709,7 +1847,7 @@
             try {
                 const response = await fetch(API_URL, {
                     headers: {
-                        'X-Master-Key': MASTER_KEY,
+                        'X-Access-Key': ACCESS_KEY,
                         'Content-Type': 'application/json'
                     }
                 });
@@ -1741,8 +1879,33 @@
         fetchAndUpdate();
         setInterval(fetchAndUpdate, 10 * 60 * 1000);
 
+        // 展开更多下拉菜单逻辑：鼠标悬浮展开
+        const moreBtn = document.getElementById('moreBtn');
+        const moreDropdown = document.getElementById('moreDropdown');
+        if (moreBtn && moreDropdown) {
+            let hideTimeout;
+            moreBtn.addEventListener('mouseenter', () => {
+                clearTimeout(hideTimeout);
+                moreDropdown.classList.add('show');
+            });
+            moreBtn.addEventListener('mouseleave', () => {
+                hideTimeout = setTimeout(() => {
+                    moreDropdown.classList.remove('show');
+                }, 200);
+            });
+            moreDropdown.addEventListener('mouseenter', () => {
+                clearTimeout(hideTimeout);
+                moreDropdown.classList.add('show');
+            });
+            moreDropdown.addEventListener('mouseleave', () => {
+                hideTimeout = setTimeout(() => {
+                    moreDropdown.classList.remove('show');
+                }, 200);
+            });
+        }
+
         // 平滑滚动
-        document.querySelectorAll('.nav-links a, .btn, .link-card').forEach(link => {
+        document.querySelectorAll('.nav-links a, .btn, .link-card, .more-dropdown a').forEach(link => {
             if(link.getAttribute('href') && link.getAttribute('href').startsWith('#')) {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
