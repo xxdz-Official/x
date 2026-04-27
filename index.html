@@ -140,13 +140,13 @@
             color: transparent;
             white-space: nowrap;
         }
-        
+
         .site-title span {
             display: inline-block;
             font-size: 1.4rem;
             transition: font-size 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
-        
+
         .site-title img {
             transition: height 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
@@ -182,12 +182,12 @@
             color: transparent;
             white-space: nowrap;
         }
-        
+
         .site-title span {
             display: inline-block;
             transition: font-size 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
-        
+
         .site-title img {
             transition: height 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
@@ -265,7 +265,7 @@
             transform: translateY(5px);
             transition: opacity 0.2s ease, transform 0.2s ease;
         }
-        
+
         .btn-tooltip.show {
             opacity: 1;
             transform: translateY(0);
@@ -1495,16 +1495,44 @@
             <div class="bio">
                 我叫電籽，一只爱好电脑·术曲滴小狼 ‖ XXDZ工作室创始人<br>
             </div>
-            <div id="fansDisplay" class="fans-box">
-                <div class="fans-label">⭐ 粉丝数</div>
-                <div class="fans-number">--</div>
-            </div>
-            <div class="link-buttons">
-                <a href="https://space.bilibili.com/3461569935575626" target="_blank" class="btn btn-bilibili">
+                <div id="fansDisplay" class="fans-box">
+                    <div class="metrics-container" style="display: flex; gap: 20px; align-items: center; flex-wrap: nowrap;">
+                        <!-- 粉丝数卡片 嗯对，有好几位粉丝（）-->
+                        <div class="metric-item fans-metric" style="flex: 1 1 auto; min-width: 0; transition: flex 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);">
+                            <div class="fans-label"><i class="fas fa-star"></i> 粉丝数</div>
+                            <div class="fans-number" style="display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap;">
+                                <span id="fansNumberValue" style="font-size: 1.4rem;">我有好几位粉丝呢</span>
+                                <span id="fansLoadingHint" style="font-size: 0.7rem; font-weight: 400; color: #8C9AB0;">(具体数加载中ing)</span>
+                            </div>
+                        </div>
+                        <!-- 播放量卡片（初始宽度为0）哇这个动画超级丝滑 -->
+                        <div id="viewsMetricItem" class="metric-item views-metric" style="flex: 0 0 0; overflow: hidden; white-space: nowrap; transition: flex 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);">
+                            <div class="fans-label"><i class="fas fa-eye"></i> 播放量</div>
+                            <div class="fans-number" style="font-size: 1.4rem;">
+                                <span id="viewsNumberValue">0</span>
+                            </div>
+                        </div>
+                        <!-- 获赞量卡片（初始宽度为0）同唉 -->
+                        <div id="likesMetricItem" class="metric-item likes-metric" style="flex: 0 0 0; overflow: hidden; white-space: nowrap; transition: flex 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);">
+                            <div class="fans-label"><i class="fas fa-thumbs-up"></i> 获赞量</div>
+                            <div class="fans-number" style="font-size: 1.4rem;">
+                                <span id="likesNumberValue">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="link-buttons" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <a href="https://space.bilibili.com/3461569935575626" target="_blank" class="btn btn-bilibili" style="display: flex; justify-content: center;">
                     <img src="https://i0.hdslb.com/bfs/new_dyn/9c7b2afa0295a7ef26264239813aa6ce3461569935575626.png" alt="B站" style="width: 22px; height: 22px; object-fit: contain;"> 哔哩哔哩
                 </a>
-                <a href="https://github.com/xxdz-Official" target="_blank" class="btn btn-github">
+                <a href="https://github.com/xxdz-Official" target="_blank" class="btn btn-github" style="display: flex; justify-content: center;">
                     <img src="https://i0.hdslb.com/bfs/new_dyn/df10d51a44d5c31888ccd0dc73ee56243461569935575626.png" alt="GitHub" style="width: 22px; height: 22px; object-fit: contain;"> GitHub
+                </a>
+                <a href="https://my.furwall.net/author/16578" target="_blank" class="btn" style="background: #FF7700; border-color: #FF7700; color: white; display: flex; justify-content: center;">
+                    <img src="http://i0.hdslb.com/bfs/new_dyn/1edd8de2dd755b642ff86bae1aa5269f3461569935575626.png" alt="绒毛墙" style="width: 22px; height: 22px; object-fit: contain;"> 绒毛墙
+                </a>
+                <a href="https://www.douyin.com/user/MS4wLjABAAAA3pkI0Aq7bECIAjm0nRcQH9ZBewUWa6QLOw_9PhL6jvoVpMgR6uJBeVGn6lbVEpSu" target="_blank" class="btn" style="background: #0B0B16; border-color: #0B0B16; color: white; display: flex; justify-content: center;">
+                    <img src="http://i0.hdslb.com/bfs/new_dyn/dc068c102344630c4db5e288871f9a803461569935575626.png" alt="抖音" style="width: 22px; height: 22px; object-fit: contain;"> 抖音
                 </a>
             </div>
         </div>
@@ -1680,9 +1708,9 @@
         function createVideoCard(item) {
             const bvid = extractBV(item.url);
             if (!bvid) return null;
-            
+
             const iframeSrc = `//player.bilibili.com/player.html?bvid=${bvid}&page=1&high_quality=1&autoplay=0`;
-            
+
             // 使用更高效的 innerHTML 构建卡片（减少 DOM 操作次数）
             const card = document.createElement('a');
             card.className = 'video-card';
@@ -1691,7 +1719,7 @@
             card.rel = 'noopener';
             card.setAttribute('data-bvid', bvid);
             card.setAttribute('data-iframe-src', iframeSrc);
-            
+
             card.innerHTML = `
                 <div class="video-cover-wrapper">
                     <img class="video-cover-img" src="${escapeHtml(item.cover)}" alt="视频封面" onerror="this.onerror=null; this.src='';">
@@ -1701,14 +1729,14 @@
                 </div>
                 <div class="video-title">${escapeHtml(item.title)}</div>
             `;
-            
+
             // 获取内部元素引用
             const coverImg = card.querySelector('.video-cover-img');
             const iframeWrapper = card.querySelector('.video-iframe-wrapper');
             const iframe = card.querySelector('iframe');
-            
+
             let hoverTimer = null, leaveTimer = null, isIframeVisible = false;
-            
+
             // 悬浮逻辑
             const showIframe = () => {
                 if (!isIframeVisible && coverImg && iframeWrapper) {
@@ -1719,7 +1747,7 @@
                     isIframeVisible = true;
                 }
             };
-            
+
             const hideIframe = () => {
                 if (isIframeVisible && coverImg && iframeWrapper && iframe) {
                     iframe.src = '';
@@ -1731,19 +1759,19 @@
                     isIframeVisible = false;
                 }
             };
-            
+
             card.addEventListener('mouseenter', () => {
                 clearTimeout(leaveTimer);
                 clearTimeout(hoverTimer);
                 hoverTimer = setTimeout(showIframe, 1000);
             });
-            
+
             card.addEventListener('mouseleave', () => {
                 clearTimeout(hoverTimer);
                 clearTimeout(leaveTimer);
                 leaveTimer = setTimeout(hideIframe, 200);
             });
-            
+
             return card;
         }
 
@@ -1812,7 +1840,7 @@
         const ACCESS_KEY = '$2a$10$jIZU9qtvIqpiJ.SYYF7eHedfCoM6aF5HaSqAFdbVGWkj25IIsK8Zu';
         const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
-        const fansNumberSpan = document.querySelector('#fansDisplay .fans-number');
+        const fansNumberSpan = document.getElementById('fansNumberValue');
         const noticeContentDiv = document.getElementById('noticeContent');
         const noticeUpdateSpan = document.getElementById('noticeUpdateTime');
         const latestVideoContainer = document.getElementById('latestVideoContainer');
@@ -1935,7 +1963,7 @@
             if (isClosing) return;
             const original = getOriginalImageUrl(src);
             if (currentSrc === original && previewCache?.classList.contains('active')) return;
-            
+
             if (!previewCache) {
                 previewCache = document.createElement('div');
                 previewCache.className = 'image-preview-overlay';
@@ -1945,15 +1973,15 @@
                 closeBtn.onclick = (e) => { e.stopPropagation(); closePreview(); };
                 previewCache.onclick = (e) => { if (e.target === previewCache) closePreview(); };
             }
-            
+
             const previewImg = previewCache.querySelector('.image-preview-img');
             previewImg.src = '';
             previewImg.style.cssText = 'transition:none; transform:scale(0.5); opacity:0;';
             void previewImg.offsetHeight; // 强制重绘
-            
+
             previewImg.src = original;
             currentSrc = original;
-            
+
             const onLoad = () => {
                 previewImg.removeEventListener('load', onLoad);
                 previewImg.style.transition = 'transform 0.35s cubic-bezier(0.34,1.2,0.64,1), opacity 0.3s';
@@ -1971,7 +1999,7 @@
             if (!noticeText) return '<div class="error-text">⚠️ 未获取到公告内容嗷</div>';
             let html = '<div class="notice-content" style="white-space: pre-line; font-style: normal;">';
             let text = noticeText;
-            
+
             // 先处理邮箱（放在最前面，防止被域名正则误匹配！！！！）
             text = text.replace(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g, function(match) {
                 if (match === 'xxdz_7785@163.com') {
@@ -1979,57 +2007,133 @@
                 }
                 return `<a href="mailto:${match}">${match}</a>`;
             });
-            
+
             // 处理 URL
             text = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
-            
+
             // 处理域名（但排除已经被邮箱或链接包裹の部分）
             text = text.replace(/(?<![@\w])(\b[a-zA-Z0-9][a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\/[^\s]*)?\b)(?![^<]*<\/a>)/g, function(match) {
                 if (match.startsWith('http') || match.startsWith('https')) return match;
                 return `<a href="https://${match}" target="_blank" rel="noopener">${match}</a>`;
             });
-            
+
             text = text.replace(/\n/g, '<br>');
             html += text;
             html += '</div>';
             return html;
         }
 
-        function updateFans(fans) {
-            if (!fansNumberSpan) return;
-            const targetValue = parseInt(fans);
-            if (isNaN(targetValue)) {
-                fansNumberSpan.textContent = fans || '?';
-                return;
-            }
-
-            // 获取当前显示的数字，如果当前是 '?' 或无效，从 0 开始喵
-            let currentValue = parseInt(fansNumberSpan.textContent);
-            if (isNaN(currentValue)) currentValue = 0;
-
-            // 如果目标值和当前值相同，不执行动画喵
-            if (currentValue === targetValue) return;
-
-            const duration = 1000; // 总时长 1 秒
-            const startTime = performance.now();
-            const startValue = currentValue;
-            const endValue = targetValue;
-            const diff = endValue - startValue;
-
-            function animate(currentTime) {
-                const elapsed = currentTime - startTime;
-                let progress = Math.min(1, elapsed / duration);
-                // 线性插值
-                const current = Math.floor(startValue + diff * progress);
-                fansNumberSpan.textContent = current;
-                if (progress < 1) {
-                    requestAnimationFrame(animate);
+        // 辅助函数：数值递增动画（支持带单位的数字，如“128.7万”）
+        function animateNumber(element, targetStr, duration = 1000, unitSuffix = '') {
+            if (!element) return Promise.resolve();
+            // 解析目标和单位
+            let targetNumber, unit = '';
+            if (typeof targetStr === 'string') {
+                let match = targetStr.match(/^([\d.]+)(.*)$/);
+                if (match) {
+                    targetNumber = parseFloat(match[1]);
+                    unit = match[2] || '';
                 } else {
-                    fansNumberSpan.textContent = endValue;
+                    targetNumber = parseFloat(targetStr);
+                    unit = '';
+                }
+            } else {
+                targetNumber = parseFloat(targetStr);
+            }
+            if (isNaN(targetNumber)) {
+                element.textContent = targetStr;
+                return Promise.resolve();
+            }
+            const startNumber = 0;
+            const startTime = performance.now();
+            function step(now) {
+                let elapsed = now - startTime;
+                let progress = Math.min(1, elapsed / duration);
+                let current = (startNumber + (targetNumber - startNumber) * progress).toFixed(1);
+                // 去掉末尾多余的 .0
+                if (current.endsWith('.0')) current = current.slice(0, -2);
+                element.textContent = current + unit;
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                } else {
+                    element.textContent = targetStr; // 保证最终显示完全一致
                 }
             }
+            return new Promise((resolve) => {
+                requestAnimationFrame(step);
+                setTimeout(resolve, duration);
+            });
+        }
 
-            requestAnimationFrame(animate);
+        // 粉丝数专用动画（整数，不带单位）
+        function animateFansNumber(element, targetValue, duration = 1000) {
+            if (!element) return Promise.resolve();
+            const targetNum = parseInt(targetValue);
+            if (isNaN(targetNum)) {
+                element.textContent = targetValue || '?';
+                return Promise.resolve();
+            }
+            let currentValue = parseInt(element.textContent);
+            if (isNaN(currentValue)) currentValue = 0;
+            if (currentValue === targetNum) return Promise.resolve();
+            const startValue = currentValue;
+            const startTime = performance.now();
+            const diff = targetNum - startValue;
+            return new Promise((resolve) => {
+                function step(now) {
+                    let elapsed = now - startTime;
+                    let progress = Math.min(1, elapsed / duration);
+                    let cur = Math.floor(startValue + diff * progress);
+                    element.textContent = cur;
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    } else {
+                        element.textContent = targetNum;
+                        resolve();
+                    }
+                }
+                requestAnimationFrame(step);
+            });
+        }
+
+        // 新的指标更新入口（按顺序执行：粉丝 → 播放量 → 获赞量，伴随宽度动画）
+        async function updateMetricsWithSequence(fans, views, likes) {
+            const fansSpan = document.getElementById('fansNumberValue');
+            const viewsSpan = document.getElementById('viewsNumberValue');
+            const likesSpan = document.getElementById('likesNumberValue');
+            const viewsItem = document.getElementById('viewsMetricItem');
+            const likesItem = document.getElementById('likesMetricItem');
+            const loadingHint = document.getElementById('fansLoadingHint');
+            if (loadingHint) loadingHint.style.display = 'none';
+
+            if (!fansSpan) return;
+
+            // 1. 粉丝动画
+            await animateFansNumber(fansSpan, fans, 1000);
+
+            // 2. 播放量：先展开宽度（flex从0变为1），等待过渡完成，再执行数字动画
+            if (viewsItem && views) {
+                viewsItem.style.flex = '1 1 auto';
+                // 等待 CSS 过渡完成 (0.4s)
+                await new Promise(r => setTimeout(r, 420));
+                await animateNumber(viewsSpan, views, 800);
+            }
+
+            // 3. 获赞量：展开宽度，过渡，动画
+            if (likesItem && likes) {
+                likesItem.style.flex = '1 1 auto';
+                await new Promise(r => setTimeout(r, 420));
+                await animateNumber(likesSpan, likes, 800);
+            }
+        }
+
+        // 保留原 updateFans 的外观兼容（但内部转调用新序列，避免其他地方报错）
+        function updateFans(fans) {
+            // 为了兼容性，只更新纯数字展示，不做动画（新逻辑会整体调用）
+            const fansSpan = document.getElementById('fansNumberValue');
+            if (fansSpan) {
+                fansSpan.textContent = fans;
+            }
         }
 
         function updateNotice(notice, fetchTime) {
@@ -2123,7 +2227,8 @@
                 const result = await response.json();
                 const data = result.record || result;
                 if (data) {
-                    updateFans(data.fans || '?');
+                    // 使用新的顺序动画方法（粉丝 → 播放量 → 获赞量）
+                    updateMetricsWithSequence(data.fans || '?', data.views || '0', data.likes || '0');
                     updateNotice(data.notice || null, data.fetch_time);
                     updateVideo(data.latest_video || null);
                     renderDynamics(data.dynamics || null);
@@ -2570,15 +2675,15 @@
         (function() {
             // 为所有带 data-tooltip-text 属性的按钮创建独立的提示框
             const buttons = document.querySelectorAll('[data-tooltip-text]');
-            
+
             buttons.forEach(button => {
                 const tooltip = document.createElement('div');
                 tooltip.className = 'btn-tooltip';
                 tooltip.textContent = button.getAttribute('data-tooltip-text');
                 document.body.appendChild(tooltip);
-                
+
                 let hideTimer = null;
-                
+
                 function showTooltip() {
                     if (hideTimer) clearTimeout(hideTimer);
                     const rect = button.getBoundingClientRect();
@@ -2596,14 +2701,14 @@
                     void tooltip.offsetHeight;
                     tooltip.classList.add('show');
                 }
-                
+
                 function hideTooltip() {
                     if (hideTimer) clearTimeout(hideTimer);
                     hideTimer = setTimeout(() => {
                         tooltip.classList.remove('show');
                     }, 100);
                 }
-                
+
                 button.addEventListener('mouseenter', showTooltip);
                 button.addEventListener('mouseleave', hideTooltip);
             });
@@ -2613,7 +2718,7 @@
         (function() {
             const moreBtn = document.getElementById('moreBtn');
             if (!moreBtn) return;
-            
+
             // 创建展开更多的下拉菜单容器
             const dropdown = document.createElement('div');
             dropdown.className = 'custom-dropdown';
@@ -2624,11 +2729,11 @@
                 <div class="dropdown-item-custom"><a href="https://github.com/xxdz-Official" target="_blank" rel="noopener">GitHub</a></div>
             `;
             document.body.appendChild(dropdown);
-            
+
             let hideTimer = null;
             let isHoveringButton = false;
             let isHoveringDropdown = false;
-            
+
             // 根据屏幕宽度来决定是否隐藏 desktop-hide 项
             function updateDesktopHide() {
                 const isDesktop = window.innerWidth >= 701;
@@ -2641,7 +2746,7 @@
                     }
                 });
             }
-            
+
             // 计算下菜单位置
             function getExtraOffset() {
                 const topBar = document.getElementById('mainTopBar');
@@ -2650,7 +2755,7 @@
                 }
                 return 0;
             }
-            
+
             function updateDropdownPosition() {
                 const rect = moreBtn.getBoundingClientRect();
                 const dropdownWidth = dropdown.offsetWidth;
@@ -2660,7 +2765,7 @@
                 dropdown.style.left = left + 'px';
                 dropdown.style.top = top + 'px';
             }
-            
+
             function showDropdown() {
                 if (hideTimer) clearTimeout(hideTimer);
                 updateDropdownPosition();
@@ -2668,7 +2773,7 @@
                 void dropdown.offsetHeight;
                 dropdown.classList.add('show');
             }
-            
+
             function hideDropdown() {
                 if (hideTimer) clearTimeout(hideTimer);
                 hideTimer = setTimeout(() => {
@@ -2677,17 +2782,17 @@
                     }
                 }, 150);
             }
-            
+
             function updateDropdownPositionOnModeChange() {
                 if (dropdown.classList.contains('show')) {
                     updateDropdownPosition();
                 }
             }
-            
+
             // 初始化
             updateDesktopHide();
             updateDropdownPosition();
-            
+
             // 事件监听
             window.addEventListener('resize', () => {
                 updateDesktopHide();
@@ -2695,7 +2800,7 @@
                     updateDropdownPosition();
                 }
             });
-            
+
             moreBtn.addEventListener('mouseenter', () => {
                 isHoveringButton = true;
                 showDropdown();
@@ -2704,7 +2809,7 @@
                 isHoveringButton = false;
                 hideDropdown();
             });
-            
+
             dropdown.addEventListener('mouseenter', () => {
                 isHoveringDropdown = true;
                 if (hideTimer) clearTimeout(hideTimer);
@@ -2714,7 +2819,7 @@
                 isHoveringDropdown = false;
                 hideDropdown();
             });
-            
+
             // 监听顶部栏 mode 变化
             const observer = new MutationObserver(updateDropdownPositionOnModeChange);
             const topBar = document.getElementById('mainTopBar');
@@ -2749,7 +2854,7 @@
     (function() {
         const backToTopBtn = document.getElementById('backToTopBtn');
         if (!backToTopBtn) return;
-        
+
         const icon = backToTopBtn.querySelector('i');
         let ticking = false;
         const SHOW_THRESHOLD = 200;
@@ -2787,7 +2892,7 @@
             this.style.transform = 'translateY(-2px)';
             this.style.boxShadow = '0 8px 20px rgba(0, 151, 254, 0.35)';
         });
-        
+
         backToTopBtn.addEventListener('mouseleave', function() {
             if (icon) {
                 icon.style.transform = 'translateY(0) scale(1)';
@@ -2819,7 +2924,7 @@
                     if (icon) icon.style.transform = 'translateY(-3px) scale(1.1)';
                 }
             }, 150);
-            
+
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
