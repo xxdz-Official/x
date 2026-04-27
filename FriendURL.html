@@ -14,13 +14,6 @@
             --shadow-lg: 6px 6px 18px rgba(0, 0, 0, 0.15);
             --shadow-hover: 6px 8px 20px rgba(0, 151, 254, 0.3);
             --shadow-hover-strong: 8px 12px 24px rgba(0, 151, 254, 0.35);
-            --shadow-topbar: 4px 4px 12px rgba(0, 0, 0, 0.12);
-            --primary-color: #0097FE;
-            --primary-dark: #0077CC;
-            --text-dark: #1F2A3E;
-            --text-muted: #4A5C79;
-            --border-light: #E9EDF2;
-            --bg-light: #F5F7FC;
         }
 
         * {
@@ -30,15 +23,14 @@
         }
 
         body {
-            background-color: var(--bg-light);
+            background-color: #F5F7FC;
             font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            color: var(--text-dark);
+            color: #1F2A3E;
             line-height: 1.4;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* 背景图片层 */
         .bg-layer {
             position: fixed;
             top: 0;
@@ -69,21 +61,79 @@
             border-radius: 0px !important;
         }
 
-        /* 顶栏 - 直角磁贴 */
         .top-bar {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background-color: #FFFFFF;
-            border-bottom: 3px solid var(--primary-color);
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 3px solid rgba(0, 151, 254, 0.5);
             padding: 0 clamp(16px, 4vw, 32px);
             height: 70px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             z-index: 100;
-            box-shadow: var(--shadow-topbar);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        @media (min-width: 701px) {
+            .top-bar.island-mode {
+                top: 12px;
+                left: 12px;
+                width: calc(100% - 24px);
+                height: 56px;
+                padding: 0 28px;
+                background: rgba(255, 255, 255, 0.65);
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                border-bottom: 1px solid rgba(0, 151, 254, 0.35);
+                box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.35), 0 8px 18px rgba(0, 0, 0, 0.2);
+                clip-path: polygon(
+                    16px 0,
+                    calc(100% - 16px) 0,
+                    100% 16px,
+                    100% 100%,
+                    0 100%,
+                    0 16px
+                );
+                transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            }
+            .top-bar.island-mode::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                pointer-events: none;
+                clip-path: polygon(
+                    16px 0,
+                    calc(100% - 16px) 0,
+                    100% 16px,
+                    100% 100%,
+                    0 100%,
+                    0 16px
+                );
+                border: 1px solid rgba(0, 151, 254, 0.35);
+                border-top: none;
+                box-sizing: border-box;
+            }
+            .top-bar.island-mode .site-title img {
+                height: 2.8rem;
+            }
+            .top-bar.island-mode .nav-item-wrapper a {
+                font-size: clamp(0.6rem, 1.8vw, 0.88rem);
+            }
+            .top-bar.island-mode .nav-icon-img {
+                height: 1.3em;
+            }
+            body.island-active .main-container {
+                margin-top: 90px;
+            }
         }
 
         .logo-area {
@@ -97,11 +147,28 @@
             font-size: clamp(1rem, 3.5vw, 1.65rem);
             font-weight: 700;
             letter-spacing: -0.3px;
-            background: linear-gradient(135deg, var(--primary-color) 0%, #005FAA 100%);
+            background: linear-gradient(135deg, #0097FE 0%, #005FAA 100%);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
             white-space: nowrap;
+        }
+        
+        .site-title a {
+            background: linear-gradient(135deg, #0097FE 0%, #005FAA 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-decoration: none;
+        }
+
+        .site-title span {
+            display: inline-block;
+            transition: font-size 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .site-title img {
+            transition: height 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
 
         .nav-links {
@@ -130,35 +197,9 @@
         }
 
         .nav-item-wrapper a:hover {
-            color: var(--primary-color);
-            border-bottom-color: var(--primary-color);
+            color: #0097FE;
+            border-bottom-color: #0097FE;
             transform: translateY(-1px);
-        }
-
-        .nav-tooltip {
-            position: absolute;
-            bottom: -28px;
-            left: 50%;
-            transform: translateX(-50%) translateY(5px);
-            background: #2C3E50;
-            color: white;
-            font-size: 0.6rem;
-            font-weight: 400;
-            padding: 4px 10px;
-            white-space: nowrap;
-            border-radius: 0px;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            pointer-events: none;
-            z-index: 200;
-            box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
-        }
-
-        .nav-item-wrapper:hover .nav-tooltip {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(0);
         }
 
         .forum-icon-link {
@@ -170,7 +211,6 @@
             border-bottom: 2px solid transparent;
             padding-bottom: 4px;
         }
-
         .nav-icon-img {
             height: 1.4em;
             width: auto;
@@ -178,100 +218,108 @@
             transition: all 0.2s ease;
             vertical-align: middle;
         }
-
         .forum-icon-link:hover {
-            border-bottom-color: var(--primary-color);
+            border-bottom-color: #0097FE;
             transform: translateY(-1px);
         }
-
         .forum-icon-link:hover .nav-icon-img {
             transform: scale(1.02);
         }
 
-        .forum-icon-link + .nav-tooltip {
-            bottom: -28px;
-        }
-
-        .more-dropdown {
-            position: absolute;
-            top: 70px;
-            right: clamp(16px, 4vw, 32px);
-            background: #FFFFFF;
-            border: 1px solid #E9EDF2;
-            box-shadow: var(--shadow-lg);
-            z-index: 101;
-            flex-direction: column;
-            min-width: 160px;
-            padding: 8px 0;
+        .btn-tooltip {
+            position: fixed;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 0px;
+            white-space: nowrap;
+            z-index: 10001;
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+            border-left: 2px solid #0097FE;
+            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
             opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: opacity 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1), visibility 0.25s;
+            transform: translateY(5px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
         }
 
-        .more-dropdown.show {
+        .btn-tooltip.show {
             opacity: 1;
-            visibility: visible;
             transform: translateY(0);
         }
 
-        .dropdown-item {
-            padding: 8px 20px;
-            margin: 0;
-            transition: all 0.2s ease;
+        .custom-dropdown {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 151, 254, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            z-index: 10001;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 12px 20px;
+            opacity: 0;
+            transform: translateY(5px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            pointer-events: none;
         }
-
-        .dropdown-item a {
+        .custom-dropdown.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .dropdown-item-custom {
+            padding: 0;
+            margin: 0;
+            background: transparent;
+            border: none;
+        }
+        .dropdown-item-custom a {
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: #2C3E50;
             display: block;
             white-space: nowrap;
             transition: all 0.2s ease;
             border-bottom: 2px solid transparent;
-            padding-bottom: 0px;
+            padding-bottom: 4px;
         }
-
-        .dropdown-item:hover {
-            background: #F0F9FF;
-        }
-
-        .dropdown-item:hover a {
-            color: var(--primary-color);
-            border-bottom-color: var(--primary-color);
+        .dropdown-item-custom a:hover {
+            color: #0097FE;
+            border-bottom-color: #0097FE;
             transform: translateY(-1px);
         }
 
-        @media (max-width: 700px) {
-            .nav-item-wrapper[data-collapsible="true"] {
+        @media (min-width: 701px) {
+            .nav-item-wrapper.nav-item-bili,
+            .nav-item-wrapper.nav-item-github {
                 display: none;
             }
-            .more-dropdown {
-                display: flex !important;
+        }
+        @media (max-width: 700px) {
+            .nav-item-wrapper.nav-item-player,
+            .nav-item-wrapper.nav-item-wallpaper,
+            .nav-item-wrapper.nav-item-bili,
+            .nav-item-wrapper.nav-item-github {
+                display: none;
             }
         }
-
-        @media (min-width: 701px) {
-            .more-dropdown {
-                display: none !important;
+        @media (max-width: 700px) {
+            .nav-item-wrapper.nav-item-forum .nav-icon-img {
+                height: 1.8em;
             }
-        }
-
-        @media (max-width: 500px) {
+            .nav-item-wrapper.nav-item-friend a,
+            .nav-item-wrapper.nav-item-more a {
+                font-size: clamp(0.9rem, 3vw, 1.1rem);
+                font-weight: 700;
+            }
             .nav-links {
-                gap: clamp(2px, 1vw, 8px);
-            }
-            .nav-item-wrapper a {
-                font-size: clamp(0.55rem, 1.8vw, 0.75rem);
-            }
-            .nav-icon-img {
-                height: 1.2em;
-            }
-            .nav-tooltip {
-                font-size: 0.55rem;
-                padding: 2px 6px;
-                bottom: -24px;
+                gap: clamp(12px, 3vw, 20px);
             }
         }
 
@@ -283,7 +331,6 @@
             margin-right: auto;
         }
 
-        /* 主卡片 - 直角风格 */
         .friend-card {
             background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(8px);
@@ -306,7 +353,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            border-left: 6px solid var(--primary-color);
+            border-left: 6px solid #0097FE;
             padding-left: 18px;
         }
 
@@ -363,7 +410,7 @@
         }
 
         .friend-card-item:hover {
-            border-color: var(--primary-color);
+            border-color: #0097FE;
             transform: translateY(-5px) translateX(-1px);
             box-shadow: var(--shadow-hover);
         }
@@ -386,7 +433,7 @@
             font-size: 0.95rem;
             font-weight: 700;
             margin-bottom: 6px;
-            color: var(--text-dark);
+            color: #1F2A3E;
             text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
         }
 
@@ -394,8 +441,8 @@
             font-size: 0.65rem;
             background: rgba(0, 151, 254, 0.15);
             padding: 2px 8px;
-            border-left: 3px solid var(--primary-color);
-            color: var(--primary-color);
+            border-left: 3px solid #0097FE;
+            color: #0097FE;
             font-weight: 500;
             margin-bottom: 6px;
             display: inline-block;
@@ -404,7 +451,7 @@
 
         .friend-desc {
             font-size: 0.65rem;
-            color: var(--text-muted);
+            color: #4A5C79;
             margin-bottom: 12px;
             line-height: 1.3;
             text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
@@ -421,15 +468,15 @@
             padding: 6px 14px;
             font-size: 0.7rem;
             font-weight: 500;
-            color: var(--primary-color);
+            color: #0097FE;
             text-decoration: none;
             transition: all 0.2s;
             width: fit-content;
         }
 
         .friend-link-btn:hover {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
+            background: #0097FE;
+            border-color: #0097FE;
             color: white;
             transform: translateX(3px);
         }
@@ -481,11 +528,138 @@
             z-index: 99;
             letter-spacing: 0.3px;
             transition: opacity 0.2s;
+            cursor: pointer;
         }
 
         .footer-corner:hover {
-            color: var(--primary-color);
-            border-color: var(--primary-color);
+            color: #0097FE;
+            border-color: #0097FE;
+        }
+
+        .floating-player {
+            position: fixed;
+            width: 540px;
+            height: 360px;
+            background: #1a1f2e;
+            border: 1px solid #39C5BB;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s, transform 0.2s ease;
+            transform: translateY(-8px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .floating-player.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .player-titlebar {
+            background: #2c3348;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8px 0 8px;
+            cursor: grab;
+            user-select: none;
+            border-bottom: 1px solid #39C5BB;
+        }
+        .title-left-group {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex: 1;
+        }
+        .breakout-btn {
+            background: transparent;
+            border: none;
+            color: #66ccff;
+            font-size: 0.9rem;
+            cursor: pointer;
+            padding: 0 6px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+            border-radius: 2px;
+            margin-right: 4px;
+        }
+        .breakout-btn:hover {
+            background: rgba(57, 197, 187, 0.3);
+            color: #39C5BB;
+            transform: scale(1.02);
+        }
+        .player-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #eef5ff;
+        }
+        .player-title i {
+            font-size: 0.85rem;
+            color: #66ccff;
+        }
+        .player-window-buttons {
+            display: flex;
+            gap: 6px;
+        }
+        .win-btn {
+            width: 28px;
+            height: 24px;
+            background: transparent;
+            border: none;
+            color: #eef5ff;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+        }
+        .win-btn:hover {
+            background: #4a5568;
+        }
+        .win-btn.close:hover {
+            background: #e81123;
+            color: white;
+        }
+        .player-content {
+            flex: 1;
+            background: #0a0e1a;
+            position: relative;
+        }
+        .player-content iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #0a0e1a;
+        }
+        .floating-player.minimizing {
+            transition: transform 0.35s cubic-bezier(0.55, 0, 0.75, 0.5), opacity 0.3s ease;
+            transform: translateY(-120vh) !important;
+            opacity: 0;
+        }
+        .floating-player.dragging {
+            transition: none;
+        }
+        @media (max-width: 600px) {
+            .floating-player {
+                width: calc(100vw - 24px);
+                height: calc((100vw - 24px) * 360 / 540);
+                min-height: 280px;
+                left: 12px !important;
+            }
+            .win-btn {
+                width: 32px;
+            }
         }
 
         @media (max-width: 850px) {
@@ -508,6 +682,12 @@
             .friend-logo {
                 width: 60px;
                 height: 60px;
+            }
+            .footer-corner {
+                bottom: 16px;
+                right: 16px;
+                font-size: 0.7rem;
+                background: rgba(255,255,240,0.95);
             }
         }
 
@@ -580,50 +760,38 @@
 <body>
 <div class="bg-layer"></div>
 
-<header class="top-bar">
-        <div class="logo-area">
-            <a href="https://xxdz-official.github.io/x" target="_self" class="site-title" style="display: flex; align-items: center; gap: 6px; text-decoration: none;">
+<header class="top-bar" id="mainTopBar">
+    <div class="logo-area">
+        <div class="site-title" style="display: flex; align-items: center; gap: 6px;">
+            <a href="https://xxdz-official.github.io/x" target="_self" style="display: flex; align-items: center; gap: 6px; text-decoration: none;">
                 <img src="https://xxdz-official.github.io/x/img/logo.png" alt="logo" style="height: 3.6rem; width: auto; vertical-align: middle;">
                 <span>電籽的灵质空间</span>
             </a>
         </div>
+    </div>
     <div class="nav-links" id="navLinks">
         <div class="nav-item-wrapper nav-item-forum">
-            <a href="https://miku66ccff.freeflarum.com" class="forum-icon-link" target="_blank" rel="noopener">
+            <a href="https://miku66ccff.freeflarum.com" class="forum-icon-link" target="_blank" rel="noopener" data-tooltip-text="我旗下的术力口、furry、科技圈论坛：Miku66ccff论坛">
                 <img src="https://miku66ccff.freeflarum.com/assets/logo-cyvx1jbh.png" alt="Miku66ccff论坛" class="nav-icon-img">
             </a>
-            <span class="nav-tooltip">我旗下的术力口、furry、科技圈论坛：Miku66ccff论坛</span>
         </div>
-        <div class="nav-item-wrapper nav-item-wallpaper" data-collapsible="true">
-            <a href="#">電籽壁纸库</a>
-            <span class="nav-tooltip">我制作的壁纸~</span>
+        <div class="nav-item-wrapper nav-item-wallpaper">
+            <a href="#" data-tooltip-text="我制作的壁纸~">電籽壁纸库</a>
         </div>
-        <div class="nav-item-wrapper nav-item-bili">
-            <a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener">B站空间</a>
-            <span class="nav-tooltip">关注我的最新动态 >w<</span>
+        <div class="nav-item-wrapper nav-item-bili" data-collapsible="true">
+            <a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener" data-tooltip-text="关注我的最新动态 >w<">B站空间</a>
         </div>
-        <div class="nav-item-wrapper nav-item-github">
-            <a href="https://github.com/xxdz-Official" target="_blank" rel="noopener">GitHub</a>
-            <span class="nav-tooltip">嗷呜~ 为我的仓库给个星标？</span>
+        <div class="nav-item-wrapper nav-item-github" data-collapsible="true">
+            <a href="https://github.com/xxdz-Official" target="_blank" rel="noopener" data-tooltip-text="嗷呜~ 为我的仓库给个星标？">GitHub</a>
         </div>
         <div class="nav-item-wrapper nav-item-friend">
-            <a href="FriendURL.html" target="_blank" rel="noopener">友情链接</a>
-            <span class="nav-tooltip">为我或我的项目做出贡献的朋友们~</span>
+            <a href="FriendURL.html" target="_blank" rel="noopener" data-tooltip-text="为我或我的项目做出贡献的朋友们~">友情链接</a>
         </div>
-        <div class="nav-item-wrapper nav-item-player" data-collapsible="true">
-            <a href="#">术术播放器</a>
-            <span class="nav-tooltip">这是个内嵌的术力口音乐播放器？！</span>
+        <div class="nav-item-wrapper nav-item-player" id="playerNavItem">
+            <a href="#" id="playerToggleBtn" data-tooltip-text="这是个内嵌的术力口音乐播放器？！">术术播放器</a>
         </div>
         <div class="nav-item-wrapper nav-item-more" id="moreBtn">
             <a href="#">展开更多 ▼</a>
-        </div>
-    </div>
-    <div id="moreDropdown" class="more-dropdown">
-        <div class="dropdown-item" data-collapsible="true">
-            <a href="#">電籽壁纸库</a>
-        </div>
-        <div class="dropdown-item" data-collapsible="true">
-            <a href="#">术术播放器</a>
         </div>
     </div>
 </header>
@@ -693,8 +861,30 @@
     </div>
 </main>
 
-<div class="footer-corner">
-    小小电子xxdz | 友情链接
+<div class="footer-corner" id="backToTopBtn" style="cursor: pointer; opacity: 0; visibility: hidden; transform: translateY(15px); transition: opacity 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1), visibility 0.25s;">
+    <i class="fas fa-arrow-up" style="font-size: 1.2rem; transition: transform 0.2s cubic-bezier(0.34, 1.2, 0.64, 1);"></i>
+</div>
+
+<div id="floatingPlayer" class="floating-player">
+    <div class="player-titlebar" id="playerTitlebar">
+        <div class="title-left-group">
+            <button class="breakout-btn" id="breakoutBtn" title="冲破图层！">
+                <i class="fas fa-external-link-alt"></i>
+            </button>
+            <div class="player-title">
+                <i class="fas fa-head-side-vr"></i>
+                <span>電籽术术播放器</span>
+            </div>
+        </div>
+        <div class="player-window-buttons">
+            <button class="win-btn minimize" id="winMinimizeBtn" title="最小化">_</button>
+            <button class="win-btn maximize" id="winMaximizeBtn" title="在新标签页打开">🗖</button>
+            <button class="win-btn close" id="winCloseBtn" title="关闭">🗙</button>
+        </div>
+    </div>
+    <div class="player-content">
+        <iframe id="playerIframe" src="about:blank" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
 </div>
 
 <script>
@@ -710,31 +900,6 @@
             }
         });
 
-        // 展开更多下拉菜单逻辑
-        const moreBtn = document.getElementById('moreBtn');
-        const moreDropdown = document.getElementById('moreDropdown');
-        if (moreBtn && moreDropdown) {
-            let hideTimeout;
-            moreBtn.addEventListener('mouseenter', () => {
-                clearTimeout(hideTimeout);
-                moreDropdown.classList.add('show');
-            });
-            moreBtn.addEventListener('mouseleave', () => {
-                hideTimeout = setTimeout(() => {
-                    moreDropdown.classList.remove('show');
-                }, 200);
-            });
-            moreDropdown.addEventListener('mouseenter', () => {
-                clearTimeout(hideTimeout);
-                moreDropdown.classList.add('show');
-            });
-            moreDropdown.addEventListener('mouseleave', () => {
-                hideTimeout = setTimeout(() => {
-                    moreDropdown.classList.remove('show');
-                }, 200);
-            });
-        }
-
         // 动态标签页图标切换
         const iconUrls = [
             'https://xxdz-official.github.io/x/img/ico_1.ico',
@@ -749,6 +914,391 @@
                 faviconLink.href = iconUrls[currentIndex];
             }, 1000);
         }
+
+        // 提示框
+        (function() {
+            const buttons = document.querySelectorAll('[data-tooltip-text]');
+            buttons.forEach(button => {
+                const tooltip = document.createElement('div');
+                tooltip.className = 'btn-tooltip';
+                tooltip.textContent = button.getAttribute('data-tooltip-text');
+                document.body.appendChild(tooltip);
+                let hideTimer = null;
+                function showTooltip() {
+                    if (hideTimer) clearTimeout(hideTimer);
+                    const rect = button.getBoundingClientRect();
+                    let left = rect.left;
+                    const tooltipWidth = tooltip.offsetWidth;
+                    const rightEdge = window.innerWidth - 30;
+                    if (left + tooltipWidth > rightEdge) {
+                        left = rightEdge - tooltipWidth;
+                    }
+                    if (left < 10) left = 10;
+                    tooltip.style.left = left + 'px';
+                    tooltip.style.top = (rect.bottom + 8) + 'px';
+                    tooltip.classList.remove('show');
+                    void tooltip.offsetHeight;
+                    tooltip.classList.add('show');
+                }
+                function hideTooltip() {
+                    if (hideTimer) clearTimeout(hideTimer);
+                    hideTimer = setTimeout(() => {
+                        tooltip.classList.remove('show');
+                    }, 100);
+                }
+                button.addEventListener('mouseenter', showTooltip);
+                button.addEventListener('mouseleave', hideTooltip);
+            });
+        })();
+
+        // 下拉菜单
+        (function() {
+            const moreBtn = document.getElementById('moreBtn');
+            if (!moreBtn) return;
+            const dropdown = document.createElement('div');
+            dropdown.className = 'custom-dropdown';
+            dropdown.innerHTML = `
+                <div class="dropdown-item-custom desktop-hide"><a href="#">電籽壁纸库</a></div>
+                <div class="dropdown-item-custom desktop-hide"><a href="#" id="playerToggleBtnMobile">术术播放器</a></div>
+                <div class="dropdown-item-custom"><a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener">B站空间</a></div>
+                <div class="dropdown-item-custom"><a href="https://github.com/xxdz-Official" target="_blank" rel="noopener">GitHub</a></div>
+            `;
+            document.body.appendChild(dropdown);
+            let hideTimer = null;
+            let isHoveringButton = false;
+            let isHoveringDropdown = false;
+            function updateDesktopHide() {
+                const isDesktop = window.innerWidth >= 701;
+                const items = dropdown.querySelectorAll('.desktop-hide');
+                items.forEach(item => {
+                    if (isDesktop) {
+                        item.style.display = 'none';
+                    } else {
+                        item.style.display = '';
+                    }
+                });
+            }
+            function updateDropdownPosition() {
+                const rect = moreBtn.getBoundingClientRect();
+                const dropdownWidth = dropdown.offsetWidth;
+                let left = window.innerWidth - dropdownWidth - 28;
+                if (left < 8) left = 8;
+                let top = rect.bottom + 20;
+                dropdown.style.left = left + 'px';
+                dropdown.style.top = top + 'px';
+            }
+            function showDropdown() {
+                if (hideTimer) clearTimeout(hideTimer);
+                updateDropdownPosition();
+                dropdown.classList.remove('show');
+                void dropdown.offsetHeight;
+                dropdown.classList.add('show');
+            }
+            function hideDropdown() {
+                if (hideTimer) clearTimeout(hideTimer);
+                hideTimer = setTimeout(() => {
+                    if (!isHoveringButton && !isHoveringDropdown) {
+                        dropdown.classList.remove('show');
+                    }
+                }, 150);
+            }
+            updateDesktopHide();
+            updateDropdownPosition();
+            window.addEventListener('resize', () => {
+                updateDesktopHide();
+                if (dropdown.classList.contains('show')) updateDropdownPosition();
+            });
+            moreBtn.addEventListener('mouseenter', () => {
+                isHoveringButton = true;
+                showDropdown();
+            });
+            moreBtn.addEventListener('mouseleave', () => {
+                isHoveringButton = false;
+                hideDropdown();
+            });
+            dropdown.addEventListener('mouseenter', () => {
+                isHoveringDropdown = true;
+                if (hideTimer) clearTimeout(hideTimer);
+                dropdown.classList.add('show');
+            });
+            dropdown.addEventListener('mouseleave', () => {
+                isHoveringDropdown = false;
+                hideDropdown();
+            });
+            const observer = new MutationObserver(() => {
+                if (dropdown.classList.contains('show')) updateDropdownPosition();
+            });
+            const topBar = document.getElementById('mainTopBar');
+            if (topBar) {
+                observer.observe(topBar, { attributes: true, attributeFilter: ['class'] });
+            }
+            window.addEventListener('scroll', () => {
+                if (dropdown.classList.contains('show')) updateDropdownPosition();
+            });
+        })();
+
+        // 悬浮播放器
+        (function() {
+            const floatingPlayer = document.getElementById('floatingPlayer');
+            const playerIframe = document.getElementById('playerIframe');
+            const playerTitlebar = document.getElementById('playerTitlebar');
+            const winMinimizeBtn = document.getElementById('winMinimizeBtn');
+            const winMaximizeBtn = document.getElementById('winMaximizeBtn');
+            const winCloseBtn = document.getElementById('winCloseBtn');
+            const PLAYER_URL = 'https://xxdz-official.github.io/x/Vocaloidplayer.html';
+            let isPlayerOpen = false;
+            let isMinimized = false;
+            let savedPosition = { left: null, top: null };
+            let isDragging = false;
+            let dragOffsetX = 0, dragOffsetY = 0;
+            let playerOverlay = null;
+
+            function createPlayerOverlay() {
+                if (playerOverlay) return playerOverlay;
+                const playerContent = floatingPlayer.querySelector('.player-content');
+                if (!playerContent) return null;
+                playerOverlay = document.createElement('div');
+                playerOverlay.id = 'playerDragOverlay';
+                playerOverlay.style.cssText = 'position:absolute; top:0; left:0; width:100%; height:100%; background:transparent; cursor:grabbing; pointer-events:auto; z-index:10;';
+                playerContent.style.position = 'relative';
+                playerContent.appendChild(playerOverlay);
+                return playerOverlay;
+            }
+            function removePlayerOverlay() {
+                if (playerOverlay && playerOverlay.parentNode) {
+                    playerOverlay.parentNode.removeChild(playerOverlay);
+                    playerOverlay = null;
+                }
+            }
+            function showFloatingPlayer(triggerElement, useSavedPosition = false) {
+                if (!floatingPlayer) return;
+                floatingPlayer.classList.remove('minimizing');
+                if (!useSavedPosition && triggerElement) {
+                    const rect = triggerElement.getBoundingClientRect();
+                    let left = rect.left + (rect.width / 2) - 270;
+                    let top = rect.bottom + 8;
+                    if (left + 540 > window.innerWidth - 16) left = window.innerWidth - 556;
+                    if (left < 16) left = 16;
+                    if (top + 360 > window.innerHeight - 16) top = rect.top - 368;
+                    floatingPlayer.style.left = left + 'px';
+                    floatingPlayer.style.top = top + 'px';
+                    savedPosition = { left: left, top: top };
+                } else if (savedPosition.left !== null && savedPosition.top !== null) {
+                    floatingPlayer.style.left = savedPosition.left + 'px';
+                    floatingPlayer.style.top = savedPosition.top + 'px';
+                }
+                if (!isPlayerOpen && playerIframe.src === 'about:blank') {
+                    playerIframe.src = PLAYER_URL;
+                }
+                floatingPlayer.classList.add('show');
+                isPlayerOpen = true;
+                isMinimized = false;
+            }
+            function closePlayer() {
+                if (!floatingPlayer) return;
+                floatingPlayer.classList.remove('show');
+                isPlayerOpen = false;
+                isMinimized = false;
+                if (playerIframe) playerIframe.src = 'about:blank';
+                savedPosition = { left: null, top: null };
+            }
+            function minimizePlayer() {
+                if (!floatingPlayer || !isPlayerOpen) return;
+                isMinimized = true;
+                floatingPlayer.classList.add('minimizing');
+                setTimeout(() => {
+                    if (isMinimized) {
+                        floatingPlayer.classList.remove('show', 'minimizing');
+                        isPlayerOpen = false;
+                    }
+                }, 350);
+            }
+            function restoreFromMinimize(triggerElement) {
+                if (!isMinimized) return;
+                const navItem = document.getElementById('playerNavItem');
+                showFloatingPlayer(navItem || triggerElement, true);
+            }
+            function maximizePlayer() {
+                window.open(PLAYER_URL, '_blank');
+                closePlayer();
+            }
+            function startDrag(e) {
+                if (!isPlayerOpen || isMinimized) return;
+                if (!playerTitlebar.contains(e.target)) return;
+                if (e.target.classList && (e.target.classList.contains('win-btn') || e.target.closest('.win-btn'))) return;
+                e.preventDefault();
+                isDragging = true;
+                floatingPlayer.classList.add('dragging');
+                const rect = floatingPlayer.getBoundingClientRect();
+                dragOffsetX = e.clientX - rect.left;
+                dragOffsetY = e.clientY - rect.top;
+                createPlayerOverlay();
+                document.addEventListener('mousemove', onDrag);
+                document.addEventListener('mouseup', stopDrag);
+                document.body.style.userSelect = 'none';
+            }
+            function onDrag(e) {
+                if (!isDragging) return;
+                let newLeft = e.clientX - dragOffsetX;
+                let newTop = e.clientY - dragOffsetY;
+                newLeft = Math.max(4, Math.min(newLeft, window.innerWidth - floatingPlayer.offsetWidth - 4));
+                newTop = Math.max(4, Math.min(newTop, window.innerHeight - floatingPlayer.offsetHeight - 4));
+                floatingPlayer.style.left = newLeft + 'px';
+                floatingPlayer.style.top = newTop + 'px';
+                savedPosition = { left: newLeft, top: newTop };
+            }
+            function stopDrag() {
+                if (!isDragging) return;
+                isDragging = false;
+                floatingPlayer.classList.remove('dragging');
+                document.removeEventListener('mousemove', onDrag);
+                document.removeEventListener('mouseup', stopDrag);
+                document.body.style.userSelect = '';
+                removePlayerOverlay();
+            }
+            const playerToggleBtn = document.getElementById('playerToggleBtn');
+            const playerToggleBtnMobile = document.getElementById('playerToggleBtnMobile');
+            function openOrRestorePlayer(e) {
+                e.preventDefault();
+                if (isMinimized) {
+                    restoreFromMinimize(playerToggleBtn);
+                } else if (isPlayerOpen) {
+                    if (!floatingPlayer.classList.contains('show')) {
+                        const navItem = document.getElementById('playerNavItem');
+                        showFloatingPlayer(navItem || playerToggleBtn, true);
+                    }
+                } else {
+                    const navItem = document.getElementById('playerNavItem');
+                    showFloatingPlayer(navItem || playerToggleBtn);
+                }
+            }
+            if (playerToggleBtn) playerToggleBtn.addEventListener('click', openOrRestorePlayer);
+            if (playerToggleBtnMobile) {
+                playerToggleBtnMobile.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (isMinimized) restoreFromMinimize(playerToggleBtnMobile);
+                    else if (isPlayerOpen) {
+                        if (!floatingPlayer.classList.contains('show')) {
+                            const navItem = document.getElementById('playerNavItem');
+                            showFloatingPlayer(navItem || playerToggleBtnMobile, true);
+                        }
+                    } else {
+                        const navItem = document.getElementById('playerNavItem');
+                        showFloatingPlayer(navItem || playerToggleBtnMobile);
+                    }
+                    const moreDropdown = document.getElementById('moreDropdown');
+                    if (moreDropdown) moreDropdown.classList.remove('show');
+                });
+            }
+            if (winMinimizeBtn) winMinimizeBtn.addEventListener('click', (e) => { e.stopPropagation(); minimizePlayer(); });
+            if (winMaximizeBtn) winMaximizeBtn.addEventListener('click', (e) => { e.stopPropagation(); maximizePlayer(); });
+            if (winCloseBtn) winCloseBtn.addEventListener('click', (e) => { e.stopPropagation(); closePlayer(); });
+            if (playerTitlebar) playerTitlebar.addEventListener('mousedown', startDrag);
+        })();
+
+        // 灵动岛滚动切换
+        (function() {
+            const topBar = document.getElementById('mainTopBar');
+            if (!topBar) return;
+            let ticking = false;
+            let isDesktop = window.innerWidth >= 701;
+            function updateIslandMode() {
+                if (!isDesktop) return;
+                if (window.scrollY > 30) {
+                    topBar.classList.remove('island-mode');
+                    document.body.classList.remove('island-active');
+                } else {
+                    topBar.classList.add('island-mode');
+                    document.body.classList.add('island-active');
+                }
+            }
+            function handleResize() {
+                isDesktop = window.innerWidth >= 701;
+                if (isDesktop) {
+                    if (window.scrollY <= 30) {
+                        topBar.classList.add('island-mode');
+                        document.body.classList.add('island-active');
+                    } else {
+                        topBar.classList.remove('island-mode');
+                        document.body.classList.remove('island-active');
+                    }
+                } else {
+                    topBar.classList.remove('island-mode');
+                    document.body.classList.remove('island-active');
+                }
+                updateIslandMode();
+            }
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    requestAnimationFrame(() => { updateIslandMode(); ticking = false; });
+                    ticking = true;
+                }
+            });
+            window.addEventListener('resize', handleResize);
+            handleResize();
+        })();
+
+        // 返回顶部按钮
+        (function() {
+            const backToTopBtn = document.getElementById('backToTopBtn');
+            if (!backToTopBtn) return;
+            const icon = backToTopBtn.querySelector('i');
+            let ticking = false;
+            const SHOW_THRESHOLD = 200;
+            function updateButtonVisibility() {
+                if (window.scrollY > SHOW_THRESHOLD) {
+                    backToTopBtn.style.opacity = '1';
+                    backToTopBtn.style.visibility = 'visible';
+                    backToTopBtn.style.transform = 'translateY(0)';
+                } else {
+                    backToTopBtn.style.opacity = '0';
+                    backToTopBtn.style.visibility = 'hidden';
+                    backToTopBtn.style.transform = 'translateY(15px)';
+                }
+            }
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    requestAnimationFrame(() => { updateButtonVisibility(); ticking = false; });
+                    ticking = true;
+                }
+            });
+            backToTopBtn.addEventListener('mouseenter', function() {
+                if (icon) icon.style.transform = 'translateY(-3px) scale(1.1)';
+                this.style.background = 'rgba(0, 151, 254, 0.95)';
+                this.style.borderColor = '#0097FE';
+                this.style.color = 'white';
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 8px 20px rgba(0, 151, 254, 0.35)';
+            });
+            backToTopBtn.addEventListener('mouseleave', function() {
+                if (icon) icon.style.transform = 'translateY(0) scale(1)';
+                this.style.background = 'rgba(255, 255, 255, 0.85)';
+                this.style.borderColor = '#E2E8F0';
+                this.style.color = '#7A8BA3';
+                if (window.scrollY > SHOW_THRESHOLD) {
+                    this.style.transform = 'translateY(0)';
+                } else {
+                    this.style.transform = 'translateY(15px)';
+                }
+                this.style.boxShadow = 'none';
+            });
+            backToTopBtn.addEventListener('click', function() {
+                this.style.transform = 'translateY(-6px) scale(0.95)';
+                setTimeout(() => {
+                    if (window.scrollY <= SHOW_THRESHOLD) {
+                        this.style.transform = 'translateY(15px)';
+                    } else {
+                        this.style.transform = 'translateY(0)';
+                    }
+                    if (backToTopBtn.matches(':hover')) {
+                        backToTopBtn.style.transform = 'translateY(-2px)';
+                        if (icon) icon.style.transform = 'translateY(-3px) scale(1.1)';
+                    }
+                }, 150);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            updateButtonVisibility();
+        })();
 
         console.log("%c友情链接页面已加载，欢迎朋友们！🐾", "color: #0097FE; font-size: 14px; font-weight: bold;");
     })();
