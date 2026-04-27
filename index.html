@@ -14,7 +14,6 @@
             --shadow-lg: 6px 6px 18px rgba(0, 0, 0, 0.15);
             --shadow-hover: 6px 8px 20px rgba(0, 151, 254, 0.3);
             --shadow-hover-strong: 8px 12px 24px rgba(0, 151, 254, 0.35);
-            --shadow-topbar: 4px 4px 12px rgba(0, 0, 0, 0.12);
         }
 
         * {
@@ -31,7 +30,7 @@
             overflow-x: hidden;
             position: relative;
         }
-        /* 独立的背景图片层 - 填充模式，动画缩小+渐显 */
+        /* 独立的背景图片层。。。 填充模式，动画缩小+渐显喵！ */
         .bg-layer {
             position: fixed;
             top: 0;
@@ -61,21 +60,109 @@
             border-radius: 0px !important;
         }
 
-        /* 顶栏 - 直角磁贴 */
+        /* 顶栏 - 原创灵动岛风格喵！（桌面模式滚动前） */
         .top-bar {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background-color: #FFFFFF;
-            border-bottom: 3px solid #0097FE;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 3px solid rgba(0, 151, 254, 0.5);
             padding: 0 clamp(16px, 4vw, 32px);
             height: 70px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             z-index: 100;
-            box-shadow: var(--shadow-topbar);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        /* ========== 桌面模式灵动岛样式（滚动前）是斜切角风格 ========== */
+        @media (min-width: 701px) {
+            .top-bar.island-mode {
+                top: 12px;
+                left: 12px;
+                width: calc(100% - 24px);
+                height: 56px;
+                padding: 0 28px;
+                background: rgba(255, 255, 255, 0.65);
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                border-bottom: 1px solid rgba(0, 151, 254, 0.35);
+                box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.35), 0 8px 18px rgba(0, 0, 0, 0.2);
+                /* 斜切角效果：仅左上和右上斜切，底部直角，无圆角 */
+                clip-path: polygon(
+                    16px 0,
+                    calc(100% - 16px) 0,
+                    100% 16px,
+                    100% 100%,
+                    0 100%,
+                    0 16px
+                );
+                transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            }
+            /* 为灵动岛添加斜切边的描边效果！ */
+            .top-bar.island-mode::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                pointer-events: none;
+                clip-path: polygon(
+                    16px 0,
+                    calc(100% - 16px) 0,
+                    100% 16px,
+                    100% 100%,
+                    0 100%,
+                    0 16px
+                );
+                border: 1px solid rgba(0, 151, 254, 0.35);
+                border-top: none;
+                box-sizing: border-box;
+            }
+
+            .top-bar.island-mode .site-title img {
+                height: 2.8rem;
+            }
+
+        .site-title {
+            font-size: clamp(1rem, 3.5vw, 1.65rem);
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            background: linear-gradient(135deg, #0097FE 0%, #005FAA 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            white-space: nowrap;
+        }
+        
+        .site-title span {
+            display: inline-block;
+            font-size: 1.4rem;
+            transition: font-size 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        
+        .site-title img {
+            transition: height 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+            .top-bar.island-mode .nav-item-wrapper a {
+                font-size: clamp(0.6rem, 1.8vw, 0.88rem);
+            }
+
+            .top-bar.island-mode .nav-icon-img {
+                height: 1.3em;
+            }
+
+            /* 灵动岛模式下 main-container 需要额外留出顶部空间 */
+            body.island-active .main-container {
+                margin-top: 90px;
+            }
         }
 
         .logo-area {
@@ -94,6 +181,15 @@
             -webkit-background-clip: text;
             color: transparent;
             white-space: nowrap;
+        }
+        
+        .site-title span {
+            display: inline-block;
+            transition: font-size 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        
+        .site-title img {
+            transition: height 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
 
         .nav-links {
@@ -127,31 +223,6 @@
             transform: translateY(-1px);
         }
 
-        .nav-tooltip {
-            position: absolute;
-            bottom: -28px;
-            left: 50%;
-            transform: translateX(-50%) translateY(5px);
-            background: #2C3E50;
-            color: white;
-            font-size: 0.6rem;
-            font-weight: 400;
-            padding: 4px 10px;
-            white-space: nowrap;
-            border-radius: 0px;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            pointer-events: none;
-            z-index: 200;
-            box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
-        }
-
-        .nav-item-wrapper:hover .nav-tooltip {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(0);
-        }
         .forum-icon-link {
             display: inline-flex;
             align-items: center;
@@ -175,44 +246,64 @@
         .forum-icon-link:hover .nav-icon-img {
             transform: scale(1.02);
         }
-        /* 为论坛图标单独调整 tooltip 位置 */
-        .forum-icon-link + .nav-tooltip {
-            bottom: -28px;
+
+        /* 每个按钮独立的提示框样式 */
+        .btn-tooltip {
+            position: fixed;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 0px;
+            white-space: nowrap;
+            z-index: 10001;
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+            border-left: 2px solid #0097FE;
+            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(5px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
         }
-        /* 展开更多下拉菜单样式 - 带动画，横向排列，顶部栏风格 */
-        .more-dropdown {
-            position: absolute;
-            top: 70px;
-            right: clamp(16px, 4vw, 32px);
-            background: #FFFFFF;
-            border: 1px solid #E9EDF2;
-            box-shadow: var(--shadow-lg);
-            z-index: 101;
+        
+        .btn-tooltip.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* 独立下拉菜单样式（与提示框一致的动画和层级） */
+        .custom-dropdown {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 151, 254, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            z-index: 10001;
+            display: flex;
             flex-direction: row;
             flex-wrap: wrap;
             gap: 12px;
             padding: 12px 20px;
             opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: opacity 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1), visibility 0.25s;
+            transform: translateY(5px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            pointer-events: none;
         }
-        .more-dropdown.show {
+        .custom-dropdown.show {
             opacity: 1;
-            visibility: visible;
             transform: translateY(0);
+            pointer-events: auto;
         }
-        .dropdown-item {
+        .dropdown-item-custom {
             padding: 0;
             margin: 0;
-            transition: all 0.2s ease;
             background: transparent;
             border: none;
         }
-        .dropdown-item a {
+        .dropdown-item-custom a {
             text-decoration: none;
             font-weight: 600;
-            font-size: clamp(0.65rem, 2vw, 0.9rem);
+            font-size: 0.9rem;
             color: #2C3E50;
             display: block;
             white-space: nowrap;
@@ -220,10 +311,7 @@
             border-bottom: 2px solid transparent;
             padding-bottom: 4px;
         }
-        .dropdown-item:hover {
-            background: transparent;
-        }
-        .dropdown-item:hover a {
+        .dropdown-item-custom a:hover {
             color: #0097FE;
             border-bottom-color: #0097FE;
             transform: translateY(-1px);
@@ -275,7 +363,7 @@
             }
         }
 
-        /* 极端小屏幕（< 500px）进一步缩小 */
+        /* 极端小屏幕？！（< 500px） */
         @media (max-width: 500px) {
             .nav-links {
                 gap: clamp(2px, 1vw, 8px);
@@ -293,7 +381,7 @@
             }
         }
 
-        /* 移动模式下放大剩余按钮（论坛图标、友情链接、展开更多） */
+        /* 移动模式下放大剩余按钮！（论坛图标、友情链接、展开更多啥的） */
         @media (max-width: 700px) {
             .nav-item-wrapper.nav-item-forum .nav-icon-img {
                 height: 1.8em;
@@ -545,7 +633,7 @@
             padding: 0;
             filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
         }
-        /* 标题右侧按钮样式 - 半透明背景，向右滑动动画 */
+        /* 标题右侧按钮样式：半透明背景，向右滑动动画~ */
         .section-more-btn {
             font-size: 0.85rem;
             font-weight: 500;
@@ -587,7 +675,7 @@
             }
         }
 
-        /* 视频卡片容器紧贴标题，无任何额外间距 */
+        /* 视频卡片容器紧贴标题，无任何额外间距~！ */
         #latestVideoContainer,
         #masterpiecesContainer {
             margin-top: 0px;
@@ -839,7 +927,7 @@
             margin-top: 0px;
         }
 
-        /* 响应式断点 */
+        /* 响应式断点喵 */
         @media (max-width: 1000px) {
             .projects-grid {
                 grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -959,7 +1047,7 @@
         .notice-content a:hover {
             border-bottom-style: solid;
         }
-        /* 动态样式 - 大屏幕图片右侧且高度等比例填充 */
+        /* 动态样式喵*/
         .dynamic-item {
             margin-bottom: 24px;
             padding-bottom: 20px;
@@ -1076,17 +1164,17 @@
             transform: scale(1.05);
             border-color: #0097FE;
         }
-        /* 图片容器垂直居中，不强制拉伸 */
+        /* 图片容器垂直居中，不强制拉伸喵 */
         .dynamic-images {
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
-        /* 单张图片时垂直居中显示 */
+        /* 单张图片时垂直居中显示喵 */
         .dynamic-images:has(.dynamic-img:only-child) {
             justify-content: center;
         }
-        /* 多张图片时水平排列并垂直居中 */
+        /* 多张图片时水平排列并垂直居中喵 */
         .dynamic-images:has(.dynamic-img:nth-child(2)),
         .dynamic-images:has(.dynamic-img:nth-child(3)),
         .dynamic-images:has(.dynamic-img:nth-child(4)) {
@@ -1121,7 +1209,7 @@
                 max-height: 80px;
             }
         }
-        /* 小屏幕时恢复块级布局，图片回到下方，宽度固定 */
+        /* 小屏幕时恢复块级布局，图片回到下方了，宽度固定 */
         @media (max-width: 850px) {
             .dynamic-item {
                 flex-direction: column;
@@ -1132,7 +1220,7 @@
                 margin-top: 8px;
                 justify-content: flex-start;
             }
-            /* 图片容器左对齐，不居中 */
+            /* 图片容器左对齐，别居中 */
             .dynamic-images:has(.dynamic-img:only-child) {
                 justify-content: flex-start;
             }
@@ -1143,7 +1231,7 @@
                 max-width: 80px;
             }
         }
-        /* 图片预览遮罩 - 动感动画 */
+        /* 图片预览遮罩 */
         .image-preview-overlay {
             position: fixed;
             top: 0;
@@ -1202,7 +1290,7 @@
             font-weight: bold;
         }
 
-        /* ========== 悬浮播放器样式 - Windows窗口风格 ========== */
+        /* ========== Windows窗口风格の悬浮播放器样式 ========== */
         .floating-player {
             position: fixed;
             width: 540px;
@@ -1224,7 +1312,7 @@
             visibility: visible;
             transform: translateY(0);
         }
-        /* 窗口标题栏 - 增加冲破图层按钮区域 */
+        /* 窗口标题栏 */
         .player-titlebar {
             background: #2c3348;
             height: 32px;
@@ -1237,7 +1325,7 @@
             border-bottom: 1px solid #39C5BB;
         }
 
-        /* 冲破图层按钮样式 */
+        /* 冲破图层按钮样式喵 */
         .breakout-btn {
             background: transparent;
             border: none;
@@ -1323,7 +1411,7 @@
             background: #e81123;
             color: white;
         }
-        /* 播放器内容区 */
+        /* 播放器的内容区 */
         .player-content {
             flex: 1;
             background: #0a0e1a;
@@ -1335,13 +1423,13 @@
             border: none;
             background: #0a0e1a;
         }
-        /* 最小化动画类 */
+        /* 最小化的动画类 */
         .floating-player.minimizing {
             transition: transform 0.35s cubic-bezier(0.55, 0, 0.75, 0.5), opacity 0.3s ease;
             transform: translateY(-120vh) !important;
             opacity: 0;
         }
-        /* 拖拽时的过渡优化 */
+        /* 拖拽时的过渡优化嗷 */
         .floating-player.dragging {
             transition: none;
         }
@@ -1361,7 +1449,7 @@
 <body>
 <div class="bg-layer"></div>
 
-<header class="top-bar">
+<header class="top-bar" id="mainTopBar">
     <div class="logo-area">
         <div class="site-title" style="display: flex; align-items: center; gap: 6px;">
             <img src="https://xxdz-official.github.io/x/img/logo.png" alt="logo" style="height: 3.6rem; width: auto; vertical-align: middle;">
@@ -1370,49 +1458,30 @@
     </div>
     <div class="nav-links" id="navLinks">
         <div class="nav-item-wrapper nav-item-forum">
-            <a href="https://miku66ccff.freeflarum.com" class="forum-icon-link" target="_blank" rel="noopener">
+            <a href="https://miku66ccff.freeflarum.com" class="forum-icon-link" target="_blank" rel="noopener" data-tooltip-text="我旗下的术力口、furry、科技圈论坛：Miku66ccff论坛">
                 <img src="https://miku66ccff.freeflarum.com/assets/logo-cyvx1jbh.png" alt="Miku66ccff论坛" class="nav-icon-img">
             </a>
-            <span class="nav-tooltip">我旗下的术力口、furry、科技圈论坛：Miku66ccff论坛</span>
         </div>
         <div class="nav-item-wrapper nav-item-wallpaper">
-            <a href="#">電籽壁纸库</a>
-            <span class="nav-tooltip">我制作的壁纸~</span>
+            <a href="#" data-tooltip-text="我制作的壁纸~">電籽壁纸库</a>
         </div>
         <div class="nav-item-wrapper nav-item-bili" data-collapsible="true">
-            <a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener">B站空间</a>
-            <span class="nav-tooltip">关注我的最新动态 >w<</span>
+            <a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener" data-tooltip-text="关注我的最新动态 >w<">B站空间</a>
         </div>
         <div class="nav-item-wrapper nav-item-github" data-collapsible="true">
-            <a href="https://github.com/xxdz-Official" target="_blank" rel="noopener">GitHub</a>
-            <span class="nav-tooltip">嗷呜~ 为我的仓库给个星标？</span>
+            <a href="https://github.com/xxdz-Official" target="_blank" rel="noopener" data-tooltip-text="嗷呜~ 为我的仓库给个星标？">GitHub</a>
         </div>
         <div class="nav-item-wrapper nav-item-friend">
-            <a href="https://xxdz-official.github.io/x/FriendURL.html" target="_blank" rel="noopener">友情链接</a>
-            <span class="nav-tooltip">为我或我的项目做出贡献的朋友们~</span>
+            <a href="https://xxdz-official.github.io/x/FriendURL.html" target="_blank" rel="noopener" data-tooltip-text="为我或我的项目做出贡献的朋友们~">友情链接</a>
         </div>
         <div class="nav-item-wrapper nav-item-player" id="playerNavItem">
-            <a href="#" id="playerToggleBtn">术术播放器</a>
-            <span class="nav-tooltip">这是个内嵌的术力口音乐播放器？！</span>
+            <a href="#" id="playerToggleBtn" data-tooltip-text="这是个内嵌的术力口音乐播放器？！">术术播放器</a>
         </div>
         <div class="nav-item-wrapper nav-item-more" id="moreBtn">
             <a href="#">展开更多 ▼</a>
         </div>
     </div>
-    <div id="moreDropdown" class="more-dropdown">
-        <div class="dropdown-item desktop-hide" id="dropdownWallpaperItem">
-            <a href="#">電籽壁纸库</a>
-        </div>
-        <div class="dropdown-item desktop-hide" id="dropdownPlayerItem">
-            <a href="#" id="playerToggleBtnMobile">术术播放器</a>
-        </div>
-        <div class="dropdown-item">
-            <a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener">B站空间</a>
-        </div>
-        <div class="dropdown-item">
-            <a href="https://github.com/xxdz-Official" target="_blank" rel="noopener">GitHub</a>
-        </div>
-    </div>
+
 </header>
 
 <main class="main-container">
@@ -1449,9 +1518,9 @@
 
     <div class="right-side">
         <div class="right-section">
-             <!-- 最新视频 + 代表作 并排显示（已提升到顶部） -->
+             <!-- 并排显示的 最新视频 + 代表作 -->
             <div class="video-row">
-                <!-- 左侧：B站最新视频 + 横排按钮 -->
+                <!-- 左侧是B站最新视频 + 横排按钮 -->
                 <div class="video-col">
                     <div class="section-title">
                         <img src="http://i0.hdslb.com/bfs/new_dyn/4150106a188c7a96db1b1b1d391ae6f13461569935575626.png" alt="最新视频"> B站最新视频
@@ -1537,15 +1606,15 @@
     </div>
 </main>
 
-<div class="footer-corner">
-    小小电子xxdz | 主站
+<div class="footer-corner" id="backToTopBtn" style="cursor: pointer; opacity: 0; visibility: hidden; transform: translateY(15px); transition: opacity 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1), visibility 0.25s;">
+    <i class="fas fa-arrow-up" style="font-size: 1.2rem; transition: transform 0.2s cubic-bezier(0.34, 1.2, 0.64, 1);"></i>
 </div>
 
 <!-- 悬浮播放器容器 - Windows窗口风格 -->
 <div id="floatingPlayer" class="floating-player">
         <div class="player-titlebar" id="playerTitlebar">
         <div class="title-left-group">
-            <button class="breakout-btn" id="breakoutBtn" title="冲破图层 - 弹出独立窗口播放（无缝迁移播放状态）">
+            <button class="breakout-btn" id="breakoutBtn" title="冲破图层！">
                 <i class="fas fa-external-link-alt"></i>
             </button>
             <div class="player-title">
@@ -1566,7 +1635,7 @@
 
 <script>
     (function() {
-        // ==================== 代表作数据（易修改） ====================
+        // ==================== 代表作数据（易修改，因为就我这冷门度，八百年也有不了新火的视频。。。） ====================
         const masterpieces = [
             {
                 title: "啊！这个'微信'居然是个病毒?【危信】",
@@ -1611,84 +1680,74 @@
         function createVideoCard(item) {
             const bvid = extractBV(item.url);
             if (!bvid) return null;
+            
             const iframeSrc = `//player.bilibili.com/player.html?bvid=${bvid}&page=1&high_quality=1&autoplay=0`;
+            
+            // 使用更高效的 innerHTML 构建卡片（减少 DOM 操作次数）
             const card = document.createElement('a');
+            card.className = 'video-card';
             card.href = item.url;
-            card.target = "_blank";
-            card.rel = "noopener";
-            card.className = "video-card";
+            card.target = '_blank';
+            card.rel = 'noopener';
             card.setAttribute('data-bvid', bvid);
             card.setAttribute('data-iframe-src', iframeSrc);
-
-            const wrapper = document.createElement('div');
-            wrapper.className = "video-cover-wrapper";
-
-            const coverImg = document.createElement('img');
-            coverImg.className = "video-cover-img";
-            coverImg.src = item.cover;
-            coverImg.alt = "视频封面";
-            coverImg.onerror = function() { this.onerror=null; this.src=''; };
-
-            const iframeWrapper = document.createElement('div');
-            iframeWrapper.className = "video-iframe-wrapper";
-            const iframe = document.createElement('iframe');
-            iframe.src = iframeSrc;
-            iframe.scrolling = "no";
-            iframe.frameborder = "0";
-            iframe.allowFullscreen = true;
-            iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-popups allow-forms");
-            iframeWrapper.appendChild(iframe);
-
-            wrapper.appendChild(coverImg);
-            wrapper.appendChild(iframeWrapper);
-            card.appendChild(wrapper);
-
-            const titleDiv = document.createElement('div');
-            titleDiv.className = "video-title";
-            titleDiv.textContent = item.title;
-            card.appendChild(titleDiv);
-
+            
+            card.innerHTML = `
+                <div class="video-cover-wrapper">
+                    <img class="video-cover-img" src="${escapeHtml(item.cover)}" alt="视频封面" onerror="this.onerror=null; this.src='';">
+                    <div class="video-iframe-wrapper">
+                        <iframe src="${iframeSrc}" scrolling="no" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+                    </div>
+                </div>
+                <div class="video-title">${escapeHtml(item.title)}</div>
+            `;
+            
+            // 获取内部元素引用
+            const coverImg = card.querySelector('.video-cover-img');
+            const iframeWrapper = card.querySelector('.video-iframe-wrapper');
+            const iframe = card.querySelector('iframe');
+            
+            let hoverTimer = null, leaveTimer = null, isIframeVisible = false;
+            
             // 悬浮逻辑
-            let hoverTimer = null;
-            let leaveTimer = null;
-            let isIframeVisible = false;
-
+            const showIframe = () => {
+                if (!isIframeVisible && coverImg && iframeWrapper) {
+                    coverImg.style.opacity = '0';
+                    coverImg.style.visibility = 'hidden';
+                    iframeWrapper.style.opacity = '1';
+                    iframeWrapper.style.visibility = 'visible';
+                    isIframeVisible = true;
+                }
+            };
+            
+            const hideIframe = () => {
+                if (isIframeVisible && coverImg && iframeWrapper && iframe) {
+                    iframe.src = '';
+                    setTimeout(() => { iframe.src = iframeSrc; }, 50);
+                    coverImg.style.opacity = '1';
+                    coverImg.style.visibility = 'visible';
+                    iframeWrapper.style.opacity = '0';
+                    iframeWrapper.style.visibility = 'hidden';
+                    isIframeVisible = false;
+                }
+            };
+            
             card.addEventListener('mouseenter', () => {
-                if (leaveTimer) clearTimeout(leaveTimer);
-                if (hoverTimer) clearTimeout(hoverTimer);
-                hoverTimer = setTimeout(() => {
-                    if (!isIframeVisible) {
-                        coverImg.style.opacity = '0';
-                        coverImg.style.visibility = 'hidden';
-                        iframeWrapper.style.opacity = '1';
-                        iframeWrapper.style.visibility = 'visible';
-                        isIframeVisible = true;
-                    }
-                }, 1000);
+                clearTimeout(leaveTimer);
+                clearTimeout(hoverTimer);
+                hoverTimer = setTimeout(showIframe, 1000);
             });
-
+            
             card.addEventListener('mouseleave', () => {
-                if (hoverTimer) clearTimeout(hoverTimer);
-                if (leaveTimer) clearTimeout(leaveTimer);
-                leaveTimer = setTimeout(() => {
-                    if (isIframeVisible) {
-                        if (iframe && iframe.src) {
-                            iframe.src = '';
-                            setTimeout(() => { iframe.src = iframeSrc; }, 50);
-                        }
-                        coverImg.style.opacity = '1';
-                        coverImg.style.visibility = 'visible';
-                        iframeWrapper.style.opacity = '0';
-                        iframeWrapper.style.visibility = 'hidden';
-                        isIframeVisible = false;
-                    }
-                }, 200);
+                clearTimeout(hoverTimer);
+                clearTimeout(leaveTimer);
+                leaveTimer = setTimeout(hideIframe, 200);
             });
-
+            
             return card;
         }
 
-        // 横排按钮数据
+        // 横排按钮数据——————~
         const quickLinks = [
             {
                 icon: "http://i0.hdslb.com/bfs/new_dyn/5d15a4418c514a373a9cf4a1e7da8a503461569935575626.png",
@@ -1747,7 +1806,8 @@
             });
         }
 
-        // ==================== JSON 数据加载 ====================
+        //   JSON 数据加载！
+        //  不使用主密钥，使用我创建的只读密钥，这样就不怕恶意攻击啦哈哈
         const BIN_ID = '69e5fdda36566621a8d1212a';
         const ACCESS_KEY = '$2a$10$jIZU9qtvIqpiJ.SYYF7eHedfCoM6aF5HaSqAFdbVGWkj25IIsK8Zu';
         const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
@@ -1763,27 +1823,34 @@
             { content: "暂无最新动态", time: "", url: "", images: [] }
         ];
 
-        // 渲染动态列表（支持图片预览、点击文字跳转，大屏幕图片右侧）
+        // 渲染动态列表喵（支持图片预览、点击文字跳转，大屏幕图片右侧）
         function renderDynamics(dynamics) {
             if (!dynamicsContainer) return;
             if (!dynamics || dynamics.length === 0) {
                 dynamicsContainer.innerHTML = '<div class="error-text">暂无动态内容</div>';
                 return;
             }
-            let html = '';
-            for (let item of dynamics) {
+
+            const baseUrl = 'https://space.bilibili.com/3461569935575626/dynamic';
+            const htmlParts = [];
+
+            for (let i = 0; i < dynamics.length; i++) {
+                const item = dynamics[i];
                 const contentHtml = escapeHtml(item.content).replace(/\n/g, '<br>');
                 const timeHtml = item.time ? `<span>${escapeHtml(item.time)}</span>` : '';
+                const clickableUrl = item.url || '#';
+
                 let imagesHtml = '';
                 if (item.images && item.images.length > 0) {
                     imagesHtml = '<div class="dynamic-images">';
-                    for (let img of item.images) {
+                    for (let j = 0; j < item.images.length; j++) {
+                        const img = item.images[j];
                         imagesHtml += `<img class="dynamic-img" src="${escapeHtml(img)}" data-fullsrc="${escapeHtml(img)}" alt="动态图片" onerror="this.style.display='none'">`;
                     }
                     imagesHtml += '</div>';
                 }
-                const clickableUrl = item.url ? item.url : '#';
-                html += `
+
+                htmlParts.push(`
                     <div class="dynamic-item" data-url="${escapeHtml(clickableUrl)}">
                         <div class="dynamic-text">
                             <div class="dynamic-content">${contentHtml}</div>
@@ -1798,162 +1865,130 @@
                         </div>
                         ${imagesHtml}
                     </div>
-                `;
+                `);
             }
+
             // 添加底部按钮
-            html += `
+            htmlParts.push(`
                 <div class="dynamic-footer">
-                    <a href="https://space.bilibili.com/3461569935575626/dynamic" target="_blank" rel="noopener" class="dynamic-more-btn">
+                    <a href="${baseUrl}" target="_blank" rel="noopener" class="dynamic-more-btn">
                         前往B站查看電籽更多的、全部的动态 q(≧▽≦q)
                     </a>
                 </div>
-            `;
-            dynamicsContainer.innerHTML = html;
+            `);
+
+            dynamicsContainer.innerHTML = htmlParts.join('');
             dynamicsContainer.classList.add('dynamic-fade');
 
-            // 绑定点击事件：点击图片放大预览，点击其他区域跳转
-            const items = document.querySelectorAll('.dynamic-item');
-            items.forEach(item => {
-                const url = item.getAttribute('data-url');
-                // 点击整个卡片（除了图片和互动按钮）跳转
-                item.addEventListener('click', (e) => {
-                    if (e.target.classList && e.target.classList.contains('dynamic-img')) {
-                        return;
-                    }
-                    if (e.target.closest && e.target.closest('.dynamic-action')) {
-                        return;
-                    }
-                    if (url && url !== '#') {
-                        window.open(url, '_blank');
-                    }
-                });
-                const imgs = item.querySelectorAll('.dynamic-img');
-                imgs.forEach(img => {
-                    img.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const src = img.getAttribute('data-fullsrc');
-                        if (src) showImagePreview(src);
-                    });
-                });
-                // 绑定互动按钮点击事件（跳转详情页）
-                const actions = item.querySelectorAll('.dynamic-action');
-                actions.forEach(action => {
-                    action.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        if (url && url !== '#') {
-                            window.open(url, '_blank');
-                        }
-                    });
-                });
+            // 绑定点击事件
+            dynamicsContainer.addEventListener('click', (e) => {
+                const dynamicItem = e.target.closest('.dynamic-item');
+                if (!dynamicItem) return;
+
+                const url = dynamicItem.getAttribute('data-url');
+
+                // 点击图片：预览放大！而且是原图，去掉了结尾的缩略图后缀
+                if (e.target.classList && e.target.classList.contains('dynamic-img')) {
+                    const src = e.target.getAttribute('data-fullsrc');
+                    if (src) showPreview(src);
+                    return;
+                }
+
+                // 点击互动按钮：跳转详情页喵
+                if (e.target.closest('.dynamic-action')) {
+                    if (url && url !== '#') window.open(url, '_blank');
+                    return;
+                }
+
+                // 点击其他区域：跳转详情页
+                if (url && url !== '#') window.open(url, '_blank');
             });
         }
 
         // 去除图片URL中的尺寸后缀（如 @264w_264h_1e_1c.webp），获取原图
         function getOriginalImageUrl(url) {
             if (!url) return url;
-            // 移除 @xxxw_xxxh_xxx 或 @xxxw_xxxh_1e_1c.webp 等后缀
-            let cleanUrl = url.replace(/@\d+w_\d+h[^?]*/g, '');
-            return cleanUrl;
+            // 移除 @xxxw_xxxh_xxx 或 @xxxw_xxxh_1e_1c.webp 等后缀，优化正则性能
+            return url.replace(/@\d+w_\d+h(?:[^?]*)?/g, '');
         }
 
-        // 显示图片预览（打开：缩小>正常，关闭：正常>放大）
-        let previewOverlay = null;
-        let isClosing = false;
-        let currentImageSrc = '';
+        // 图片预览（精简版，性能优化）
+        let previewCache = null, isClosing = false, currentSrc = '';
 
-        function closeImagePreview() {
-            if (isClosing) return;
+        function closePreview() {
+            if (isClosing || !previewCache) return;
             isClosing = true;
-            const previewImg = previewOverlay.querySelector('.image-preview-img');
-            // 关闭动画：正常 > 放大（scale 1.2） + 渐隐
-            previewImg.style.transition = 'transform 0.35s cubic-bezier(0.55, 0, 0.75, 0.5), opacity 0.3s ease';
-            previewImg.style.transform = 'scale(1.2)';
-            previewImg.style.opacity = '0';
-            previewOverlay.classList.remove('active');
+            const img = previewCache.querySelector('.image-preview-img');
+            img.style.transition = 'transform 0.35s cubic-bezier(0.55,0,0.75,0.5), opacity 0.3s';
+            img.style.transform = 'scale(1.2)';
+            img.style.opacity = '0';
+            previewCache.classList.remove('active');
             setTimeout(() => {
-                previewImg.style.transform = '';
-                previewImg.style.opacity = '';
-                previewImg.style.transition = '';
+                img.style.cssText = '';
+                img.src = '';
+                currentSrc = '';
                 isClosing = false;
-                // 关闭后清空图片 src，避免残留
-                previewImg.src = '';
-                currentImageSrc = '';
             }, 400);
         }
 
-        function showImagePreview(src) {
-            if (!previewOverlay) {
-                previewOverlay = document.createElement('div');
-                previewOverlay.className = 'image-preview-overlay';
-                previewOverlay.innerHTML = `
-                    <button class="image-preview-close">&times;</button>
-                    <img class="image-preview-img" src="" alt="预览">
-                `;
-                document.body.appendChild(previewOverlay);
-                const closeBtn = previewOverlay.querySelector('.image-preview-close');
-                closeBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    closeImagePreview();
-                });
-                previewOverlay.addEventListener('click', (e) => {
-                    if (e.target === previewOverlay) {
-                        closeImagePreview();
-                    }
-                });
-            }
-
-            const originalSrc = getOriginalImageUrl(src);
-            // 如果正在关闭或同一个图片正在显示，不重复打开
+        function showPreview(src) {
             if (isClosing) return;
-            if (currentImageSrc === originalSrc && previewOverlay.classList.contains('active')) return;
-
-            const previewImg = previewOverlay.querySelector('.image-preview-img');
-
-            // 关键修复：先清空旧图片，避免残留
-            previewImg.src = '';
-            previewImg.style.transition = 'none';
-            previewImg.style.transform = 'scale(0.5)';
-            previewImg.style.opacity = '0';
-
-            // 强制重绘，清除旧状态
-            void previewImg.offsetHeight;
-
-            // 加载新图片
-            previewImg.src = originalSrc;
-            currentImageSrc = originalSrc;
-
-            // 等待图片加载完成后再执行打开动画，避免动画过程中图片未显示
-            const onImageLoad = () => {
-                previewImg.removeEventListener('load', onImageLoad);
-                // 设置打开动画的过渡
-                previewImg.style.transition = 'transform 0.35s cubic-bezier(0.34, 1.2, 0.64, 1), opacity 0.3s ease';
-                previewOverlay.classList.add('active');
-                // 执行打开动画：缩小(0.5) > 正常(1)
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        previewImg.style.transform = 'scale(1)';
-                        previewImg.style.opacity = '1';
-                    });
-                });
-            };
-
-            previewImg.addEventListener('load', onImageLoad);
-            // 如果图片已缓存，load 事件可能已触发，兜底处理
-            if (previewImg.complete) {
-                onImageLoad();
+            const original = getOriginalImageUrl(src);
+            if (currentSrc === original && previewCache?.classList.contains('active')) return;
+            
+            if (!previewCache) {
+                previewCache = document.createElement('div');
+                previewCache.className = 'image-preview-overlay';
+                previewCache.innerHTML = `<button class="image-preview-close">&times;</button><img class="image-preview-img" alt="预览">`;
+                document.body.appendChild(previewCache);
+                const closeBtn = previewCache.querySelector('.image-preview-close');
+                closeBtn.onclick = (e) => { e.stopPropagation(); closePreview(); };
+                previewCache.onclick = (e) => { if (e.target === previewCache) closePreview(); };
             }
+            
+            const previewImg = previewCache.querySelector('.image-preview-img');
+            previewImg.src = '';
+            previewImg.style.cssText = 'transition:none; transform:scale(0.5); opacity:0;';
+            void previewImg.offsetHeight; // 强制重绘
+            
+            previewImg.src = original;
+            currentSrc = original;
+            
+            const onLoad = () => {
+                previewImg.removeEventListener('load', onLoad);
+                previewImg.style.transition = 'transform 0.35s cubic-bezier(0.34,1.2,0.64,1), opacity 0.3s';
+                previewCache.classList.add('active');
+                requestAnimationFrame(() => requestAnimationFrame(() => {
+                    previewImg.style.transform = 'scale(1)';
+                    previewImg.style.opacity = '1';
+                }));
+            };
+            previewImg.addEventListener('load', onLoad);
+            if (previewImg.complete) onLoad();
         }
 
         function parseNoticeToHtml(noticeText) {
-            if (!noticeText) return '<div class="error-text">⚠️ 未获取到公告内容</div>';
+            if (!noticeText) return '<div class="error-text">⚠️ 未获取到公告内容嗷</div>';
             let html = '<div class="notice-content" style="white-space: pre-line; font-style: normal;">';
             let text = noticeText;
+            
+            // 先处理邮箱（放在最前面，防止被域名正则误匹配！！！！）
+            text = text.replace(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g, function(match) {
+                if (match === 'xxdz_7785@163.com') {
+                    return `<strong style="color: #0097FE;">${match}</strong>`;
+                }
+                return `<a href="mailto:${match}">${match}</a>`;
+            });
+            
+            // 处理 URL
             text = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
-            text = text.replace(/(?<!!)(?<!href=")(?<!">)(\b[a-zA-Z0-9][a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\/[^\s]*)?\b)/g, function(match) {
+            
+            // 处理域名（但排除已经被邮箱或链接包裹の部分）
+            text = text.replace(/(?<![@\w])(\b[a-zA-Z0-9][a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\/[^\s]*)?\b)(?![^<]*<\/a>)/g, function(match) {
                 if (match.startsWith('http') || match.startsWith('https')) return match;
                 return `<a href="https://${match}" target="_blank" rel="noopener">${match}</a>`;
             });
-            text = text.replace(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g, '<a href="mailto:$1">$1</a>');
+            
             text = text.replace(/\n/g, '<br>');
             html += text;
             html += '</div>';
@@ -1968,11 +2003,11 @@
                 return;
             }
 
-            // 获取当前显示的数字，如果当前是 '?' 或无效，从 0 开始
+            // 获取当前显示的数字，如果当前是 '?' 或无效，从 0 开始喵
             let currentValue = parseInt(fansNumberSpan.textContent);
             if (isNaN(currentValue)) currentValue = 0;
 
-            // 如果目标值和当前值相同，不执行动画
+            // 如果目标值和当前值相同，不执行动画喵
             if (currentValue === targetValue) return;
 
             const duration = 1000; // 总时长 1 秒
@@ -1984,7 +2019,7 @@
             function animate(currentTime) {
                 const elapsed = currentTime - startTime;
                 let progress = Math.min(1, elapsed / duration);
-                // 线性插值（匀速动画）
+                // 线性插值
                 const current = Math.floor(startValue + diff * progress);
                 fansNumberSpan.textContent = current;
                 if (progress < 1) {
@@ -2008,12 +2043,12 @@
 
         function updateVideo(videoData) {
             if (!videoData || !videoData.video_url) {
-                latestVideoContainer.innerHTML = `<div class="error-text">⚠️ 未获取到最新视频</div>`;
+                latestVideoContainer.innerHTML = `<div class="error-text">⚠️ 未获取到最新视频喵</div>`;
                 return;
             }
             const bvid = extractBV(videoData.video_url);
             if (!bvid) {
-                latestVideoContainer.innerHTML = `<div class="error-text">⚠️ 无法解析视频 BV 号</div>`;
+                latestVideoContainer.innerHTML = `<div class="error-text">⚠️ 无法解析视频 BV 号喵</div>`;
                 return;
             }
             const title = videoData.title || "最新视频";
@@ -2093,10 +2128,10 @@
                     updateVideo(data.latest_video || null);
                     renderDynamics(data.dynamics || null);
                 } else {
-                    throw new Error('数据格式异常');
+                    throw new Error('数据格式异常喵');
                 }
             } catch (error) {
-                console.error('[灵质空间] 加载失败:', error);
+                console.error('[xxdz灵质空间] 加载失败喵:', error);
                 updateFans('?');
                 updateNotice(null, null);
                 updateVideo(null);
@@ -2104,38 +2139,15 @@
             }
         }
 
-        // 初始化代表作和横排按钮（不需要网络请求）
+        // 初始化代表作和横排按钮
         renderMasterpieces();
         renderQuickLinks();
 
-        // 加载动态数据
+        // 加载动态数据喵
         fetchAndUpdate();
         setInterval(fetchAndUpdate, 10 * 60 * 1000);
 
-        // 展开更多下拉菜单逻辑：鼠标悬浮展开
-        const moreBtn = document.getElementById('moreBtn');
-        const moreDropdown = document.getElementById('moreDropdown');
-        if (moreBtn && moreDropdown) {
-            let hideTimeout;
-            moreBtn.addEventListener('mouseenter', () => {
-                clearTimeout(hideTimeout);
-                moreDropdown.classList.add('show');
-            });
-            moreBtn.addEventListener('mouseleave', () => {
-                hideTimeout = setTimeout(() => {
-                    moreDropdown.classList.remove('show');
-                }, 200);
-            });
-            moreDropdown.addEventListener('mouseenter', () => {
-                clearTimeout(hideTimeout);
-                moreDropdown.classList.add('show');
-            });
-            moreDropdown.addEventListener('mouseleave', () => {
-                hideTimeout = setTimeout(() => {
-                    moreDropdown.classList.remove('show');
-                }, 200);
-            });
-        }
+
 
         // ========== 悬浮播放器逻辑 - Windows窗口风格 ==========
         const floatingPlayer = document.getElementById('floatingPlayer');
@@ -2145,31 +2157,31 @@
         const winMaximizeBtn = document.getElementById('winMaximizeBtn');
         const winCloseBtn = document.getElementById('winCloseBtn');
         const PLAYER_URL = 'https://xxdz-official.github.io/x/Vocaloidplayer.html';
-        
+
         let isPlayerOpen = false;
         let isMinimized = false;
-        let savedPosition = { left: null, top: null };  // 保存最小化前的位置
-        
+        let savedPosition = { left: null, top: null };  // 保存最小化前的位置喵
+
         // 拖拽相关变量
         let isDragging = false;
         let dragOffsetX = 0, dragOffsetY = 0;
-        
+
         // 显示悬浮播放器（恢复最小化时使用之前的位置）
         function showFloatingPlayer(triggerElement, useSavedPosition = false) {
             if (!floatingPlayer) return;
-            
-            // 清除最小化类
+
+            // 清除最小化类喵
             floatingPlayer.classList.remove('minimizing');
-            
+
             if (!useSavedPosition && triggerElement) {
-                // 根据触发按钮计算位置
+                // 根据触发按钮计算位置喵
                 const rect = triggerElement.getBoundingClientRect();
                 const playerWidth = 540;
                 const playerHeight = 360;
-                
+
                 let left = rect.left + (rect.width / 2) - (playerWidth / 2);
                 let top = rect.bottom + 8;
-                
+
                 if (left + playerWidth > window.innerWidth - 16) {
                     left = window.innerWidth - playerWidth - 16;
                 }
@@ -2179,7 +2191,7 @@
                 if (top + playerHeight > window.innerHeight - 16) {
                     top = rect.top - playerHeight - 8;
                 }
-                
+
                 floatingPlayer.style.left = left + 'px';
                 floatingPlayer.style.top = top + 'px';
                 savedPosition = { left: left, top: top };
@@ -2188,17 +2200,17 @@
                 floatingPlayer.style.left = savedPosition.left + 'px';
                 floatingPlayer.style.top = savedPosition.top + 'px';
             }
-            
+
             // 首次打开时加载 iframe
             if (!isPlayerOpen && playerIframe.src === 'about:blank') {
                 playerIframe.src = PLAYER_URL;
             }
-            
+
             floatingPlayer.classList.add('show');
             isPlayerOpen = true;
             isMinimized = false;
         }
-        
+
         function hideFloatingPlayer(keepPosition = true) {
             if (!floatingPlayer) return;
             // 如果是最小化状态，不清除位置
@@ -2207,8 +2219,8 @@
                 isPlayerOpen = false;
             }
         }
-        
-        // 最小化：动画向上飞出
+
+        // 最小化：动画向上起飞！其实顶部栏相当于任务栏？！
         function minimizePlayer() {
             if (!floatingPlayer || !isPlayerOpen) return;
             isMinimized = true;
@@ -2222,46 +2234,46 @@
                 }
             }, 350);
         }
-        
-        // 恢复最小化（重新打开）
+
+        // 恢复最小化（重新打开喵）
         function restoreFromMinimize(triggerElement) {
             if (!isMinimized) return;
             const navItem = document.getElementById('playerNavItem');
             showFloatingPlayer(navItem || triggerElement, true);
         }
-        
+
         // 最大化：在新标签页打开播放器，并关闭当前悬浮窗口
         function maximizePlayer() {
-            // 新标签页打开播放器
+            // 新标签页打开播放器喵
             window.open(PLAYER_URL, '_blank');
-            // 关闭当前悬浮窗口
+            // 关闭当前悬浮窗口喵
             closePlayer();
         }
-        
-        // 关闭：彻底销毁 iframe，关闭窗口
+
+        // 关闭：彻底销毁 iframe，关闭窗口喵
         function closePlayer() {
             if (!floatingPlayer) return;
             floatingPlayer.classList.remove('show');
             isPlayerOpen = false;
             isMinimized = false;
-            // 彻底清除 iframe 内容，释放资源
+            // 彻底清除 iframe 内容，释放资源喵
             if (playerIframe) {
                 playerIframe.src = 'about:blank';
             }
             savedPosition = { left: null, top: null };
         }
-        
+
            // ========== 拖拽功能（局部遮罩层，只覆盖播放器内容区） ==========
         // 创建播放器内容区的遮罩层（仅在拖拽时覆盖iframe，防止鼠标事件穿透）
         let playerOverlay = null;
 
         function createPlayerOverlay() {
             if (playerOverlay) return playerOverlay;
-            
+
             // 获取播放器内容区
             const playerContent = floatingPlayer.querySelector('.player-content');
             if (!playerContent) return null;
-            
+
             playerOverlay = document.createElement('div');
             playerOverlay.id = 'playerDragOverlay';
             playerOverlay.style.position = 'absolute';
@@ -2273,7 +2285,7 @@
             playerOverlay.style.cursor = 'grabbing';
             playerOverlay.style.pointerEvents = 'auto';
             playerOverlay.style.zIndex = '10';
-            
+
             playerContent.style.position = 'relative';
             playerContent.appendChild(playerOverlay);
             return playerOverlay;
@@ -2288,7 +2300,7 @@
 
         function startDrag(e) {
             if (!isPlayerOpen || isMinimized) return;
-            // 确保点击的是标题栏（或标题栏内的元素）
+            // 确保点击的是标题栏嗷（或标题栏内的元素）
             if (!playerTitlebar.contains(e.target)) return;
             // 如果点击的是窗口按钮，不启动拖拽
             if (e.target.classList && (e.target.classList.contains('win-btn') || e.target.closest('.win-btn'))) return;
@@ -2308,7 +2320,7 @@
             document.addEventListener('mousemove', onDrag);
             document.addEventListener('mouseup', stopDrag);
 
-            // 防止拖拽时选中文本
+            // 防止拖拽时选中文本！
             document.body.style.userSelect = 'none';
         }
 
@@ -2339,18 +2351,18 @@
             // 移除播放器内容区遮罩层
             removePlayerOverlay();
         }
-        
+
         // ========== 绑定事件 ==========
         const playerToggleBtn = document.getElementById('playerToggleBtn');
         const playerToggleBtnMobile = document.getElementById('playerToggleBtnMobile');
-        
+
         // 打开/恢复播放器
         function openOrRestorePlayer(e) {
             e.preventDefault();
             if (isMinimized) {
                 restoreFromMinimize(playerToggleBtn);
             } else if (isPlayerOpen) {
-                // 如果已打开但被隐藏（比如之前关闭了），重新显示
+                // 如果已打开但被隐藏（就比如之前关闭了），重新显示
                 if (!floatingPlayer.classList.contains('show')) {
                     const navItem = document.getElementById('playerNavItem');
                     showFloatingPlayer(navItem || playerToggleBtn, true);
@@ -2360,11 +2372,11 @@
                 showFloatingPlayer(navItem || playerToggleBtn);
             }
         }
-        
+
         if (playerToggleBtn) {
             playerToggleBtn.addEventListener('click', openOrRestorePlayer);
         }
-        
+
         if (playerToggleBtnMobile) {
             playerToggleBtnMobile.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -2384,7 +2396,7 @@
                 if (moreDropdown) moreDropdown.classList.remove('show');
             });
         }
-        
+
         // 窗口按钮事件
         if (winMinimizeBtn) {
             winMinimizeBtn.addEventListener('click', (e) => {
@@ -2392,31 +2404,31 @@
                 minimizePlayer();
             });
         }
-        
+
         if (winMaximizeBtn) {
             winMaximizeBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 maximizePlayer();
             });
         }
-        
+
         if (winCloseBtn) {
             winCloseBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 closePlayer();
             });
-        
-        // ========== 冲破图层按钮：弹出独立浏览器窗口（无缝迁移，不重新加载） ==========
+
+        // ========== 冲破图层按钮：弹出独立電籽浏览器窗口 ==========
         const breakoutBtn = document.getElementById('breakoutBtn');
         let popupWindow = null;
         let popupHeartbeatInterval = null;
-        
+
         // 检测弹窗是否还在
         function isPopupAlive() {
             return popupWindow && !popupWindow.closed;
         }
-        
-        // 弹窗关闭时的清理
+
+        // 弹窗关闭时的清理下
         function onPopupClosed() {
             if (popupHeartbeatInterval) {
                 clearInterval(popupHeartbeatInterval);
@@ -2424,75 +2436,53 @@
             }
             popupWindow = null;
         }
-        
-        // 打开独立窗口 - 无缝迁移：先将当前iframe的src保存，新窗口打开后通过postMessage传递当前播放时间
+
+        // 打开个独立電籽术术播放器窗口，这个功能挺不错的
         function breakoutToPopup() {
-            // 如果已经有一个打开的弹窗且未关闭，直接聚焦
             if (isPopupAlive()) {
                 try {
                     popupWindow.focus();
                 } catch(e) {}
                 return;
             }
-            
-            // 清理之前的残留
+
             if (popupHeartbeatInterval) {
                 clearInterval(popupHeartbeatInterval);
                 popupHeartbeatInterval = null;
             }
-            
-            // 获取当前悬浮播放器iframe的实际地址（如果已经加载过）
+
             let targetUrl = PLAYER_URL;
             if (playerIframe && playerIframe.src && playerIframe.src !== 'about:blank') {
                 targetUrl = playerIframe.src;
             }
-            
-            // 计算弹窗尺寸
+
             const popupWidth = 860;
             const popupHeight = 560;
             const left = (window.screen.width - popupWidth) / 2;
             const top = (window.screen.height - popupHeight) / 2;
             const features = `width=${popupWidth},height=${popupHeight},left=${left},top=${top},resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,status=no`;
-            
-            // 打开新窗口
+
             popupWindow = window.open(targetUrl, 'DianziPlayerPopup', features);
-            
+
             if (popupWindow) {
-                // 心跳检测弹窗是否关闭
                 popupHeartbeatInterval = setInterval(() => {
                     if (!isPopupAlive()) {
                         onPopupClosed();
                     }
                 }, 1000);
-                
-                // 等待新窗口加载完成后，尝试通过postMessage传递当前播放状态（无缝迁移）
-                // 由于跨域限制，只有同源下才能通信。播放器页面需添加接收消息的代码
-                // 这里先关闭悬浮窗释放资源
+
                 if (isPlayerOpen) {
                     closePlayer();
                 }
-                
+
                 try {
                     popupWindow.focus();
                 } catch(e) {}
-                
-                // 尝试通过postMessage传递当前播放器的状态（如果播放器页面支持）
-                // 向新窗口发送消息，指示它从当前时间开始播放
-                setTimeout(() => {
-                    if (isPopupAlive()) {
-                        // 尝试发送消息，播放器页面需要监听message事件来接收
-                        // 消息格式: { type: 'syncPlayback', currentTime: xxx }
-                        // 如果播放器页面不支持，则忽略，新窗口会正常加载但不续播
-                        try {
-                            popupWindow.postMessage({ type: 'dianziPlayerSync', action: 'ready' }, '*');
-                        } catch(e) {}
-                    }
-                }, 500);
             } else {
-                alert("浏览器可能阻止了弹窗，请允许弹出窗口后重试。");
+                alert("浏览器可能阻止了我的小窗口，请允许弹出窗口后重试qwq");
             }
         }
-        
+
         if (breakoutBtn) {
             breakoutBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -2500,33 +2490,244 @@
             });
         }
         }
-        
+
         // 标题栏拖拽
         if (playerTitlebar) {
             playerTitlebar.addEventListener('mousedown', startDrag);
         }
-        
+
         // 只有关闭按钮或最大化/最小化影响窗口
         // 窗口滚动时不自动关闭（用户可自行拖拽）
-        
-        // 平滑滚动
-        document.querySelectorAll('.nav-links a, .btn, .link-card, .more-dropdown a').forEach(link => {
-            if(link.getAttribute('href') && link.getAttribute('href').startsWith('#')) {
+        // ========== 灵动岛滚动切换（桌面模式）==========
+        (function() {
+            const topBar = document.getElementById('mainTopBar');
+            if (!topBar) return;
+
+            let ticking = false;
+            let isDesktop = window.innerWidth >= 701;
+
+            function updateIslandMode() {
+                if (!isDesktop) return;
+                const scrollY = window.scrollY;
+                // 滚动超过 30px 时移除灵动岛模式，否则添加
+                if (scrollY > 30) {
+                    topBar.classList.remove('island-mode');
+                    document.body.classList.remove('island-active');
+                } else {
+                    topBar.classList.add('island-mode');
+                    document.body.classList.add('island-active');
+                }
+            }
+
+            function handleResize() {
+                isDesktop = window.innerWidth >= 701;
+                if (isDesktop) {
+                    // 桌面模式：初始加载时根据滚动位置决定
+                    if (window.scrollY <= 30) {
+                        topBar.classList.add('island-mode');
+                        document.body.classList.add('island-active');
+                    } else {
+                        topBar.classList.remove('island-mode');
+                        document.body.classList.remove('island-active');
+                    }
+                } else {
+                    // 移动端移除灵动岛样式，恢复原始外观
+                    topBar.classList.remove('island-mode');
+                    document.body.classList.remove('island-active');
+                }
+                updateIslandMode();
+            }
+
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    requestAnimationFrame(function() {
+                        updateIslandMode();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+
+            window.addEventListener('resize', handleResize);
+            handleResize(); // 初始化
+        })();
+        // 平滑の滚动 - 优化：只遍历存在锚点链接的元素，减少DOM查询开销
+        const smoothScrollLinks = document.querySelectorAll('.nav-links a, .btn, .link-card, .more-dropdown a');
+        for (let i = 0; i < smoothScrollLinks.length; i++) {
+            const link = smoothScrollLinks[i];
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('#')) {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
-                    const targetId = link.getAttribute('href').substring(1);
+                    const targetId = href.substring(1);
                     const targetEl = document.getElementById(targetId);
-                    if(targetEl) targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 });
             }
-        });
+        }
 
-        console.log("%c電籽の灵质空间已启动！！！！！！！嗷嗷嗷啊啊吖", "color: #0097FE; font-size: 15px; font-weight: bold;");
+        // ========== 每个按钮独立的提示框（互不干扰，各有完整动画） ==========
+        (function() {
+            // 为所有带 data-tooltip-text 属性的按钮创建独立的提示框
+            const buttons = document.querySelectorAll('[data-tooltip-text]');
+            
+            buttons.forEach(button => {
+                const tooltip = document.createElement('div');
+                tooltip.className = 'btn-tooltip';
+                tooltip.textContent = button.getAttribute('data-tooltip-text');
+                document.body.appendChild(tooltip);
+                
+                let hideTimer = null;
+                
+                function showTooltip() {
+                    if (hideTimer) clearTimeout(hideTimer);
+                    const rect = button.getBoundingClientRect();
+                    let left = rect.left;
+                    // 确保提示框不超出右边界，距离右边缘至少30px，这就挺美观了
+                    const tooltipWidth = tooltip.offsetWidth;
+                    const rightEdge = window.innerWidth - 30;
+                    if (left + tooltipWidth > rightEdge) {
+                        left = rightEdge - tooltipWidth;
+                    }
+                    if (left < 10) left = 10;
+                    tooltip.style.left = left + 'px';
+                    tooltip.style.top = (rect.bottom + 8) + 'px';
+                    tooltip.classList.remove('show');
+                    void tooltip.offsetHeight;
+                    tooltip.classList.add('show');
+                }
+                
+                function hideTooltip() {
+                    if (hideTimer) clearTimeout(hideTimer);
+                    hideTimer = setTimeout(() => {
+                        tooltip.classList.remove('show');
+                    }, 100);
+                }
+                
+                button.addEventListener('mouseenter', showTooltip);
+                button.addEventListener('mouseleave', hideTooltip);
+            });
+        })();
+
+        // ========== 展开更多的独立下拉菜单（与提示框原理一致！） ==========
+        (function() {
+            const moreBtn = document.getElementById('moreBtn');
+            if (!moreBtn) return;
+            
+            // 创建展开更多的下拉菜单容器
+            const dropdown = document.createElement('div');
+            dropdown.className = 'custom-dropdown';
+            dropdown.innerHTML = `
+                <div class="dropdown-item-custom desktop-hide"><a href="#">電籽壁纸库</a></div>
+                <div class="dropdown-item-custom desktop-hide"><a href="#" id="playerToggleBtnMobile">术术播放器</a></div>
+                <div class="dropdown-item-custom"><a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener">B站空间</a></div>
+                <div class="dropdown-item-custom"><a href="https://github.com/xxdz-Official" target="_blank" rel="noopener">GitHub</a></div>
+            `;
+            document.body.appendChild(dropdown);
+            
+            let hideTimer = null;
+            let isHoveringButton = false;
+            let isHoveringDropdown = false;
+            
+            // 根据屏幕宽度来决定是否隐藏 desktop-hide 项
+            function updateDesktopHide() {
+                const isDesktop = window.innerWidth >= 701;
+                const items = dropdown.querySelectorAll('.desktop-hide');
+                items.forEach(item => {
+                    if (isDesktop) {
+                        item.style.display = 'none';
+                    } else {
+                        item.style.display = '';
+                    }
+                });
+            }
+            
+            // 计算下菜单位置
+            function getExtraOffset() {
+                const topBar = document.getElementById('mainTopBar');
+                if (topBar && !topBar.classList.contains('island-mode')) {
+                    return 10;
+                }
+                return 0;
+            }
+            
+            function updateDropdownPosition() {
+                const rect = moreBtn.getBoundingClientRect();
+                const dropdownWidth = dropdown.offsetWidth;
+                let left = window.innerWidth - dropdownWidth - 28;
+                if (left < 8) left = 8;
+                let top = rect.bottom + 20 + getExtraOffset();
+                dropdown.style.left = left + 'px';
+                dropdown.style.top = top + 'px';
+            }
+            
+            function showDropdown() {
+                if (hideTimer) clearTimeout(hideTimer);
+                updateDropdownPosition();
+                dropdown.classList.remove('show');
+                void dropdown.offsetHeight;
+                dropdown.classList.add('show');
+            }
+            
+            function hideDropdown() {
+                if (hideTimer) clearTimeout(hideTimer);
+                hideTimer = setTimeout(() => {
+                    if (!isHoveringButton && !isHoveringDropdown) {
+                        dropdown.classList.remove('show');
+                    }
+                }, 150);
+            }
+            
+            function updateDropdownPositionOnModeChange() {
+                if (dropdown.classList.contains('show')) {
+                    updateDropdownPosition();
+                }
+            }
+            
+            // 初始化
+            updateDesktopHide();
+            updateDropdownPosition();
+            
+            // 事件监听
+            window.addEventListener('resize', () => {
+                updateDesktopHide();
+                if (dropdown.classList.contains('show')) {
+                    updateDropdownPosition();
+                }
+            });
+            
+            moreBtn.addEventListener('mouseenter', () => {
+                isHoveringButton = true;
+                showDropdown();
+            });
+            moreBtn.addEventListener('mouseleave', () => {
+                isHoveringButton = false;
+                hideDropdown();
+            });
+            
+            dropdown.addEventListener('mouseenter', () => {
+                isHoveringDropdown = true;
+                if (hideTimer) clearTimeout(hideTimer);
+                dropdown.classList.add('show');
+            });
+            dropdown.addEventListener('mouseleave', () => {
+                isHoveringDropdown = false;
+                hideDropdown();
+            });
+            
+            // 监听顶部栏 mode 变化
+            const observer = new MutationObserver(updateDropdownPositionOnModeChange);
+            const topBar = document.getElementById('mainTopBar');
+            if (topBar) {
+                observer.observe(topBar, { attributes: true, attributeFilter: ['class'] });
+            }
+            window.addEventListener('scroll', updateDropdownPositionOnModeChange);
+        })();
         // 背景动画由 CSS 独立完成，无需额外触发
     })();
 </script>
 <script>
-    // 动态标签页图标切换
+    // 动态标签页图标切换！几个電籽轮流
     (function() {
         const iconUrls = [
             'https://xxdz-official.github.io/x/img/ico_1.ico',
@@ -2542,6 +2743,91 @@
                 faviconLink.href = iconUrls[currentIndex];
             }, 1000);
         }
+    })();
+
+    // 返回電籽主站顶部的按钮功能
+    (function() {
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        if (!backToTopBtn) return;
+        
+        const icon = backToTopBtn.querySelector('i');
+        let ticking = false;
+        const SHOW_THRESHOLD = 200;
+
+        function updateButtonVisibility() {
+            const scrolled = window.scrollY;
+            if (scrolled > SHOW_THRESHOLD) {
+                backToTopBtn.style.opacity = '1';
+                backToTopBtn.style.visibility = 'visible';
+                backToTopBtn.style.transform = 'translateY(0)';
+            } else {
+                backToTopBtn.style.opacity = '0';
+                backToTopBtn.style.visibility = 'hidden';
+                backToTopBtn.style.transform = 'translateY(15px)';
+            }
+        }
+        window.addEventListener('scroll', function() {
+            if (!ticking) {
+                requestAnimationFrame(function() {
+                    updateButtonVisibility();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        // 鼠标悬浮的动画
+        backToTopBtn.addEventListener('mouseenter', function() {
+            if (icon) {
+                icon.style.transform = 'translateY(-3px) scale(1.1)';
+            }
+            this.style.background = 'rgba(0, 151, 254, 0.95)';
+            this.style.borderColor = '#0097FE';
+            this.style.color = 'white';
+            this.style.transform = 'translateY(-2px)';
+            this.style.boxShadow = '0 8px 20px rgba(0, 151, 254, 0.35)';
+        });
+        
+        backToTopBtn.addEventListener('mouseleave', function() {
+            if (icon) {
+                icon.style.transform = 'translateY(0) scale(1)';
+            }
+            this.style.background = 'rgba(255, 255, 255, 0.85)';
+            this.style.borderColor = '#E2E8F0';
+            this.style.color = '#7A8BA3';
+            // 恢复位置
+            if (window.scrollY > SHOW_THRESHOLD) {
+                this.style.transform = 'translateY(0)';
+            } else {
+                this.style.transform = 'translateY(15px)';
+            }
+            this.style.boxShadow = 'none';
+        });
+
+        // 点击返回顶部！
+        backToTopBtn.addEventListener('click', function() {
+            this.style.transform = 'translateY(-6px) scale(0.95)';
+            setTimeout(() => {
+                if (window.scrollY <= SHOW_THRESHOLD) {
+                    this.style.transform = 'translateY(15px)';
+                } else {
+                    this.style.transform = 'translateY(0)';
+                }
+                // 恢复悬浮时的样式（如果鼠标还在按钮上）
+                if (backToTopBtn.matches(':hover')) {
+                    backToTopBtn.style.transform = 'translateY(-2px)';
+                    if (icon) icon.style.transform = 'translateY(-3px) scale(1.1)';
+                }
+            }, 150);
+            
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // 初始化执行一次，这样就确保页面加载时状态正确
+        updateButtonVisibility();
     })();
 </script>
 </body>
