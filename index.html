@@ -453,6 +453,84 @@
             margin-bottom: 28px;
         }
 
+        /* 小尺寸桌面/平板模式（宽度在551px到1200px之间）让左侧名片更紧凑 */
+        @media (min-width: 551px) and (max-width: 1200px) {
+            .avatar-section {
+                padding: 18px 16px !important;
+            }
+            .avatar-img {
+                width: 80px !important;
+                height: 80px !important;
+                margin-bottom: 12px !important;
+            }
+            .greeting {
+                font-size: 1.3rem !important;
+                gap: 6px !important;
+            }
+            .greeting span {
+                font-size: 0.8rem !important;
+                padding: 2px 6px !important;
+            }
+            .bio {
+                font-size: 0.75rem !important;
+                margin: 8px 0 4px !important;
+            }
+            .kaomoji {
+                font-size: 1rem !important;
+                margin-top: 4px !important;
+            }
+            .fans-box {
+                margin-top: 10px !important;
+                margin-bottom: 4px !important;
+                padding: 6px 10px !important;
+            }
+            .fans-label {
+                font-size: 0.65rem !important;
+            }
+            .fans-number {
+                font-size: 1.2rem !important;
+            }
+            .metrics-container {
+                gap: 12px !important;
+            }
+            .link-buttons {
+                gap: 8px !important;
+                margin-top: 4px !important;
+            }
+            .btn {
+                padding: 5px 10px !important;
+                font-size: 0.7rem !important;
+            }
+            .btn img {
+                width: 16px !important;
+                height: 16px !important;
+            }
+        }
+
+        /* 中等偏小桌面（宽度551px-850px）进一步紧凑 */
+        @media (min-width: 551px) and (max-width: 850px) {
+            .avatar-section {
+                padding: 14px 12px !important;
+            }
+            .avatar-img {
+                width: 70px !important;
+                height: 70px !important;
+            }
+            .greeting {
+                font-size: 1.2rem !important;
+            }
+            .bio {
+                font-size: 0.7rem !important;
+            }
+            .fans-number {
+                font-size: 1rem !important;
+            }
+            .btn {
+                padding: 4px 8px !important;
+                font-size: 0.65rem !important;
+            }
+        }
+
         .info-card:hover {
             transform: translateY(-5px) translateX(-1px);
             box-shadow: var(--shadow-hover-strong);
@@ -583,12 +661,14 @@
             background: #FB7299;
             border-color: #FB7299;
             color: white;
+            transition: all 0.2s;
         }
 
         .btn-bilibili:hover {
-            background: #E05A80;
+            background: #FF88AA;
             transform: translateY(-2px);
-            border-color: #E05A80;
+            border-color: #FF88AA;
+            filter: brightness(1.05);
         }
 
         /* GitHub 按钮 - Git黑主题色 */
@@ -596,12 +676,28 @@
             background: #24292F;
             border-color: #24292F;
             color: white;
+            transition: all 0.2s;
         }
 
         .btn-github:hover {
-            background: #1B1F23;
+            background: #3A3F47;
             transform: translateY(-2px);
-            border-color: #1B1F23;
+            border-color: #3A3F47;
+            filter: brightness(1.2);
+        }
+
+        /* 绒毛墙按钮悬浮动画 */
+        .btn[style*="#FF7700"]:hover {
+            transform: translateY(-2px) !important;
+            filter: brightness(1.25) !important;
+        }
+
+        /* 抖音按钮悬浮动画 */
+        .btn[style*="#0B0B16"]:hover {
+            transform: translateY(-2px) !important;
+            filter: brightness(1.4) !important;
+            background: #1A1A2E !important;
+            border-color: #1A1A2E !important;
         }
 
         .section-title {
@@ -1444,9 +1540,31 @@
                 width: 32px;
             }
         }
+            /* 自定义光标层 - 全屏透明，不阻碍点击 */
+        .cursor-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 99999;
+        }
+        .cursor-layer img {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: auto;
+            height: auto;
+            pointer-events: none;
+            transform: translate(0, 0);
+        }
     </style>
 </head>
 <body>
+<div class="cursor-layer" id="cursorLayer">
+    <img src="https://xxdz-official.github.io/x/img/zhengchang_luoxiaohei.gif" alt="cursor" style="position: fixed; top: 0; left: 0; pointer-events: none;">
+</div>
 <div class="bg-layer"></div>
 
 <header class="top-bar" id="mainTopBar">
@@ -1528,11 +1646,11 @@
                 <a href="https://github.com/xxdz-Official" target="_blank" class="btn btn-github" style="display: flex; justify-content: center;">
                     <img src="https://i0.hdslb.com/bfs/new_dyn/df10d51a44d5c31888ccd0dc73ee56243461569935575626.png" alt="GitHub" style="width: 22px; height: 22px; object-fit: contain;"> GitHub
                 </a>
-                <a href="https://my.furwall.net/author/16578" target="_blank" class="btn" style="background: #FF7700; border-color: #FF7700; color: white; display: flex; justify-content: center;">
-                    <img src="http://i0.hdslb.com/bfs/new_dyn/1edd8de2dd755b642ff86bae1aa5269f3461569935575626.png" alt="绒毛墙" style="width: 22px; height: 22px; object-fit: contain;"> 绒毛墙
+                <a href="https://my.furwall.net/author/16578" target="_blank" class="btn" style="background: #FF7700; border-color: #FF7700; color: white; display: flex; justify-content: center; transition: all 0.2s; transform: translateY(0);">
+                    <img src="http://i0.hdslb.com/bfs/new_dyn/4d3924eff350adbd187b06e5c73ffc483461569935575626.png" alt="绒毛墙" style="width: 22px; height: 22px; object-fit: contain;"> 绒毛墙
                 </a>
-                <a href="https://www.douyin.com/user/MS4wLjABAAAA3pkI0Aq7bECIAjm0nRcQH9ZBewUWa6QLOw_9PhL6jvoVpMgR6uJBeVGn6lbVEpSu" target="_blank" class="btn" style="background: #0B0B16; border-color: #0B0B16; color: white; display: flex; justify-content: center;">
-                    <img src="http://i0.hdslb.com/bfs/new_dyn/dc068c102344630c4db5e288871f9a803461569935575626.png" alt="抖音" style="width: 22px; height: 22px; object-fit: contain;"> 抖音
+                <a href="https://www.douyin.com/user/MS4wLjABAAAA3pkI0Aq7bECIAjm0nRcQH9ZBewUWa6QLOw_9PhL6jvoVpMgR6uJBeVGn6lbVEpSu" target="_blank" class="btn" style="background: #0B0B16; border-color: #0B0B16; color: white; display: flex; justify-content: center; transition: all 0.2s; transform: translateY(0);">
+                    <img src="http://i0.hdslb.com/bfs/new_dyn/42084da4ab74527b07733bff36a92f1f3461569935575626.png" alt="抖音" style="width: 22px; height: 22px; object-fit: contain;"> 抖音
                 </a>
             </div>
         </div>
@@ -2829,6 +2947,135 @@
             window.addEventListener('scroll', updateDropdownPositionOnModeChange);
         })();
         // 背景动画由 CSS 独立完成，无需额外触发
+    })();
+</script>
+<script>
+    // 自定义光标跟随 - 罗小黑.gif，锚点0,0，带出场动画和方向旋转效果，首次进入页面时才从鼠标位置放大出场
+    (function() {
+        const cursorLayer = document.getElementById('cursorLayer');
+        if (!cursorLayer) return;
+        const cursorImg = cursorLayer.querySelector('img');
+        if (!cursorImg) return;
+
+        // 初始完全透明且缩小，等待首次鼠标移动
+        cursorImg.style.transformOrigin = '0px 0px';
+        cursorImg.style.transform = 'translate(0px, 0px) scale(0) rotate(0deg)';
+        cursorImg.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1), opacity 0.3s ease';
+        cursorImg.style.opacity = '0';
+
+        let mouseX = 0, mouseY = 0;
+        let imgX = 0, imgY = 0;
+        let lastX = 0, lastY = 0;
+        let currentRotate = 0;
+        let targetRotate = 0;
+        let rafId = null;
+        let hasMoved = false;
+        let isFirstMove = true;
+
+        // 鼠标移动时的处理
+        document.addEventListener('mousemove', function(e) {
+            const newX = e.clientX;
+            const newY = e.clientY;
+            
+            // 首次移动：光标出现在鼠标位置，从放大状态缩小出场
+            if (isFirstMove) {
+                isFirstMove = false;
+                hasMoved = true;
+                mouseX = newX;
+                mouseY = newY;
+                lastX = newX;
+                lastY = newY;
+                imgX = newX;
+                imgY = newY;
+                // 设置在鼠标位置，从scale(2)缩小到scale(1)
+                cursorImg.style.opacity = '1';
+                cursorImg.style.transform = 'translate(' + newX + 'px, ' + newY + 'px) scale(2) rotate(0deg)';
+                // 强制重绘后触发缩小动画
+                void cursorImg.offsetHeight;
+                cursorImg.style.transform = 'translate(' + newX + 'px, ' + newY + 'px) scale(1) rotate(0deg)';
+                targetRotate = 0;
+                currentRotate = 0;
+                return;
+            }
+            
+            // 计算移动方向
+            const dx = newX - lastX;
+            const dy = newY - lastY;
+
+            // 只要鼠标移动了就计算旋转方向
+            if (dx !== 0) {
+                let intensity = Math.min(6, Math.abs(dx) * 1.2);
+                if (dx < 0) {
+                    targetRotate = -intensity;
+                } else if (dx > 0) {
+                    targetRotate = intensity;
+                }
+                if (Math.abs(dy) > 1) {
+                    let vertInfluence = dy * 0.2;
+                    vertInfluence = Math.min(4, Math.max(-4, vertInfluence));
+                    targetRotate = targetRotate + vertInfluence;
+                    targetRotate = Math.min(10, Math.max(-10, targetRotate));
+                }
+            } else if (Math.abs(dy) > 1) {
+                let vertRotate = dy * 0.25;
+                targetRotate = Math.min(8, Math.max(-8, vertRotate));
+            } else {
+                targetRotate = targetRotate * 0.9;
+                if (Math.abs(targetRotate) < 0.2) targetRotate = 0;
+            }
+            
+            lastX = newX;
+            lastY = newY;
+            mouseX = newX;
+            mouseY = newY;
+
+            cursorImg.style.opacity = '1';
+
+            if (rafId === null) {
+                rafId = requestAnimationFrame(updateCursor);
+            }
+        });
+
+        // 鼠标离开页面时淡出隐藏
+        document.addEventListener('mouseleave', function() {
+            cursorImg.style.opacity = '0';
+        });
+
+        // 鼠标重新进入页面时淡入显示，重置出场动画（从鼠标位置放大再缩小）
+        document.addEventListener('mouseenter', function(e) {
+            cursorImg.style.opacity = '1';
+            hasMoved = true;
+            targetRotate = 0;
+            currentRotate = 0;
+            const enterX = e.clientX;
+            const enterY = e.clientY;
+            mouseX = enterX;
+            mouseY = enterY;
+            lastX = enterX;
+            lastY = enterY;
+            imgX = enterX;
+            imgY = enterY;
+            cursorImg.style.transform = 'translate(' + enterX + 'px, ' + enterY + 'px) scale(2) rotate(0deg)';
+            void cursorImg.offsetHeight;
+            cursorImg.style.transform = 'translate(' + enterX + 'px, ' + enterY + 'px) scale(1) rotate(0deg)';
+        });
+
+        function updateCursor() {
+            imgX = mouseX;
+            imgY = mouseY;
+            currentRotate = currentRotate * 0.6 + targetRotate * 0.4;
+            cursorImg.style.transform = 'translate(' + imgX + 'px, ' + imgY + 'px) scale(1) rotate(' + currentRotate.toFixed(2) + 'deg)';
+            rafId = null;
+        }
+
+        // 初始隐藏光标，等待首次移动
+        cursorImg.style.transform = 'translate(0px, 0px) scale(0) rotate(0deg)';
+        cursorImg.style.opacity = '0';
+
+        // 隐藏默认光标
+        const style = document.createElement('style');
+        style.textContent = '* { cursor: none !important; } html, body { cursor: none !important; } a, button, input, textarea, select, [onclick], .btn, .win-btn, .breakout-btn, .dynamic-more-btn, .section-more-btn, .quick-link-item, .video-card, .project-card, .dynamic-item, .dynamic-action, .forum-icon-link, .nav-item-wrapper a, .image-preview-close, .footer-corner { cursor: none !important; }';
+        document.head.appendChild(style);
     })();
 </script>
 <script>
