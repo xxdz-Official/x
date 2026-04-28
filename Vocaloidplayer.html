@@ -980,31 +980,8 @@
                 if (sidebar) {
                     sidebar.style.width = '200px';
                 }
-
-                // 隐藏自定义光标层（小屏幕尺寸时恢复默认光标）
-                const cursorLayer = document.getElementById('cursorLayer');
-                if (cursorLayer) {
-                    cursorLayer.style.display = 'none';
-                }
-                // 恢复默认光标样式
-                const styleTag = document.querySelector('style[data-cursor-hide]');
-                if (styleTag) {
-                    styleTag.remove();
-                }
-                // 强制恢复光标
-                const restoreStyle = document.createElement('style');
-                restoreStyle.textContent = '* { cursor: auto !important; }';
-                document.head.appendChild(restoreStyle);
-                setTimeout(() => restoreStyle.remove(), 100);
-
-                console.log('[术术播放器] 已隐藏自定义光标，恢复默认光标');
             } else {
                 console.log('[术术播放器] 保持标题栏显示');
-                // 确保自定义光标层显示
-                const cursorLayer = document.getElementById('cursorLayer');
-                if (cursorLayer) {
-                    cursorLayer.style.display = '';
-                }
             }
         } else {
             console.error('[术术播放器] 未找到 playerTitle 元素');
