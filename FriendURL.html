@@ -650,6 +650,26 @@
         .floating-player.dragging {
             transition: none;
         }
+
+        /* 自定义光标层 - 全屏透明，不阻碍点击 */
+        .cursor-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 99999;
+        }
+        .cursor-layer img {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: auto;
+            height: auto;
+            pointer-events: none;
+            transform: translate(0, 0);
+        }
         @media (max-width: 600px) {
             .floating-player {
                 width: calc(100vw - 24px);
@@ -758,6 +778,9 @@
     </style>
 </head>
 <body>
+<div class="cursor-layer" id="cursorLayer">
+    <img src="https://xxdz-official.github.io/x/img/zhengchang_luoxiaohei.gif" alt="cursor" style="position: fixed; top: 0; left: 0; pointer-events: none;" onload="console.log('[光标] 罗小黑.gif 图片加载成功')" onerror="console.error('[光标] 罗小黑.gif 加载失败，请检查 URL')">
+</div>
 <div class="bg-layer"></div>
 
 <header class="top-bar" id="mainTopBar">
@@ -882,8 +905,12 @@
             <button class="win-btn close" id="winCloseBtn" title="关闭">🗙</button>
         </div>
     </div>
-    <div class="player-content">
+    <div class="player-content" style="position: relative;">
         <iframe id="playerIframe" src="about:blank" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        <!-- 播放器上方的光标覆盖层 -->
+        <div class="cursor-layer-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; background: transparent; overflow: hidden;">
+            <img src="https://xxdz-official.github.io/x/img/zhengchang_luoxiaohei.gif" alt="cursor" style="position: absolute; top: 0; left: 0; width: auto; height: auto; transform-origin: 0px 0px; pointer-events: none; opacity: 0; transform: translate(0px, 0px) scale(0); transition: opacity 0.15s ease, transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);">
+        </div>
     </div>
 </div>
 
@@ -1093,6 +1120,21 @@
                 floatingPlayer.classList.add('show');
                 isPlayerOpen = true;
                 isMinimized = false;
+
+                // 重新初始化播放器内的光标覆盖层
+                setTimeout(() => {
+                    const playerContent = floatingPlayer.querySelector('.player-content');
+                    if (playerContent) {
+                        const existingOverlay = playerContent.querySelector('.cursor-layer-overlay');
+                        if (!existingOverlay) {
+                            const overlayDiv = document.createElement('div');
+                            overlayDiv.className = 'cursor-layer-overlay';
+                            overlayDiv.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; background: transparent; overflow: hidden;';
+                            overlayDiv.innerHTML = '<img src="https://xxdz-official.github.io/x/img/zhengchang_luoxiaohei.gif" alt="cursor" style="position: absolute; top: 0; left: 0; width: auto; height: auto; transform-origin: 0px 0px; pointer-events: none; opacity: 0; transform: translate(0px, 0px) scale(0); transition: opacity 0.15s ease, transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);">';
+                            playerContent.appendChild(overlayDiv);
+                        }
+                    }
+                }, 100);
             }
             function closePlayer() {
                 if (!floatingPlayer) return;
@@ -1298,6 +1340,134 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
             updateButtonVisibility();
+        })();
+
+        // ========== GIF鼠标光标跟随逻辑 ==========
+        (function() {
+            const cursorLayer = document.getElementById('cursorLayer');
+            if (!cursorLayer) return;
+            const cursorImg = cursorLayer.querySelector('img');
+            if (!cursorImg) return;
+
+            cursorLayer.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 2147483647;
+                visibility: visible;
+            `;
+
+            cursorImg.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: auto;
+                height: auto;
+                transform-origin: 0px 0px;
+                pointer-events: none;
+                will-change: transform;
+                opacity: 0;
+                transform: translate(-100px, -100px);
+                transition: opacity 0.1s ease, transform 0.12s linear;
+            `;
+
+            let mouseX = 0, mouseY = 0;
+            let rafId = null;
+            let visible = false;
+
+            const hideStyle = document.createElement('style');
+            hideStyle.textContent = `
+                *,
+                *::before,
+                *::after,
+                html, body, div, span, a, button, input, textarea, select,
+                iframe, iframe *,
+                .floating-player, .floating-player *,
+                .player-content, .player-content *,
+                .player-content::before, .player-content::after,
+                .hover-border, .hover-border::before, .hover-border::after {
+                    cursor: none !important;
+                }
+                .player-content {
+                    cursor: none !important;
+                }
+            `;
+            document.head.appendChild(hideStyle);
+
+            document.addEventListener('mousemove', function(e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+
+                if (!visible) {
+                    visible = true;
+                    cursorImg.style.opacity = '1';
+                }
+
+                if (rafId === null) {
+                    rafId = requestAnimationFrame(updateCursor);
+                }
+            });
+
+            function updateCursor() {
+                cursorImg.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+                rafId = null;
+            }
+
+            document.addEventListener('mouseleave', function() {
+                visible = false;
+                cursorImg.style.opacity = '0';
+            });
+
+            const iframe = document.getElementById('playerIframe');
+            if (iframe) {
+                iframe.addEventListener('load', function() {
+                    try {
+                        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                        if (iframeDoc) {
+                            const iframeStyle = iframeDoc.createElement('style');
+                            iframeStyle.textContent = '* { cursor: none !important; }';
+                            iframeDoc.head.appendChild(iframeStyle);
+                        }
+                    } catch(e) {}
+                });
+                if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+                    try {
+                        const iframeDoc = iframe.contentDocument;
+                        const iframeStyle = iframeDoc.createElement('style');
+                        iframeStyle.textContent = '* { cursor: none !important; }';
+                        iframeDoc.head.appendChild(iframeStyle);
+                    } catch(e) {}
+                }
+            }
+
+            const playerContent = document.querySelector('.player-content');
+            if (playerContent) {
+                playerContent.style.cursor = 'none';
+                const style2 = document.createElement('style');
+                style2.textContent = `
+                    .player-content, .player-content::before, .player-content::after,
+                    .player-content.hover-border, .player-content.hover-border::before, .player-content.hover-border::after {
+                        cursor: none !important;
+                    }
+                `;
+                document.head.appendChild(style2);
+
+                playerContent.addEventListener('mouseenter', () => {
+                    playerContent.classList.add('hover-border');
+                    cursorImg.style.opacity = '0';
+                });
+                playerContent.addEventListener('mouseleave', () => {
+                    playerContent.classList.remove('hover-border');
+                    if (visible) {
+                        cursorImg.style.opacity = '1';
+                    } else {
+                        cursorImg.style.opacity = '0';
+                    }
+                });
+            }
         })();
 
         console.log("%c友情链接页面已加载，欢迎朋友们！🐾", "color: #0097FE; font-size: 14px; font-weight: bold;");
