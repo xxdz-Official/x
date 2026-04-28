@@ -1001,66 +1001,107 @@
     }
     init();
     
-    // 自定义光标跟随 - 罗小黑.gif，锚点0,0，鼠标进入页面时从进入位置放大出场
+    // 自定义光标跟随 - 罗小黑.gif，初始隐藏，鼠标移动时在鼠标位置出现并跟随（带旋转效果）
     (function() {
         const cursorLayer = document.getElementById('cursorLayer');
         if (!cursorLayer) return;
         const cursorImg = cursorLayer.querySelector('img');
         if (!cursorImg) return;
 
+        // 确保光标层覆盖整个页面且在最上层
+        cursorLayer.style.position = 'fixed';
+        cursorLayer.style.top = '0';
+        cursorLayer.style.left = '0';
+        cursorLayer.style.width = '100%';
+        cursorLayer.style.height = '100%';
+        cursorLayer.style.pointerEvents = 'none';
+        cursorLayer.style.zIndex = '999999';
+        
+        cursorImg.style.position = 'fixed';
+        cursorImg.style.top = '0';
+        cursorImg.style.left = '0';
         cursorImg.style.transformOrigin = '0px 0px';
-        cursorImg.style.transform = 'translate(0px, 0px) scale(0)';
+        cursorImg.style.willChange = 'transform';
+        cursorImg.style.pointerEvents = 'none';
+        
+        // 初始隐藏（透明且缩小）
         cursorImg.style.opacity = '0';
-        cursorImg.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1), opacity 0.3s ease';
-
+        cursorImg.style.transform = 'translate(0px, 0px) scale(0)';
+        cursorImg.style.transition = 'opacity 0.15s ease';
+        
         let mouseX = 0, mouseY = 0;
+        let lastX = 0, lastY = 0;
+        let targetRotate = 0;
+        let currentRotate = 0;
         let rafId = null;
-        let hasMoved = false;
-
-        // 鼠标进入页面时，在进入位置出现并放大出场
-        document.addEventListener('mouseenter', function(e) {
-            const enterX = e.clientX;
-            const enterY = e.clientY;
-            mouseX = enterX;
-            mouseY = enterY;
-            hasMoved = true;
-            cursorImg.style.opacity = '1';
-            cursorImg.style.transform = 'translate(' + enterX + 'px, ' + enterY + 'px) scale(2)';
-            // 强制重绘后触发缩小动画
-            void cursorImg.offsetHeight;
-            cursorImg.style.transform = 'translate(' + enterX + 'px, ' + enterY + 'px) scale(1)';
-        });
-
+        let hasShown = false;
+        
+        // 鼠标移动时显示并跟随，同时计算旋转角度
         document.addEventListener('mousemove', function(e) {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-
-            if (!hasMoved) {
-                hasMoved = true;
-                cursorImg.style.opacity = '1';
-                cursorImg.style.transform = 'translate(' + mouseX + 'px, ' + mouseY + 'px) scale(1)';
+            const newX = e.clientX;
+            const newY = e.clientY;
+            const dx = newX - lastX;
+            const dy = newY - lastY;
+            
+            // 根据移动方向计算旋转角度（鼠标向右光标向右转，向左向左转）
+            if (dx !== 0) {
+                let intensity = Math.min(6, Math.abs(dx) * 1.2);
+                if (dx < 0) {
+                    targetRotate = -intensity;
+                } else {
+                    targetRotate = intensity;
+                }
+                if (Math.abs(dy) > 1) {
+                    let vertInfluence = dy * 0.2;
+                    vertInfluence = Math.min(4, Math.max(-4, vertInfluence));
+                    targetRotate = targetRotate + vertInfluence;
+                    targetRotate = Math.min(10, Math.max(-10, targetRotate));
+                }
+            } else if (Math.abs(dy) > 1) {
+                targetRotate = dy * 0.2;
+                targetRotate = Math.min(6, Math.max(-6, targetRotate));
+            } else {
+                targetRotate = targetRotate * 0.92;
+                if (Math.abs(targetRotate) < 0.2) targetRotate = 0;
             }
-
+            
+            lastX = newX;
+            lastY = newY;
+            mouseX = newX;
+            mouseY = newY;
+            
+            if (!hasShown) {
+                hasShown = true;
+                cursorImg.style.transition = 'opacity 0.15s ease, transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1)';
+                cursorImg.style.opacity = '1';
+                cursorImg.style.transform = 'translate(' + mouseX + 'px, ' + mouseY + 'px) scale(1) rotate(0deg)';
+            }
+            
             if (rafId === null) {
                 rafId = requestAnimationFrame(updateCursor);
             }
         });
-
-        function updateCursor() {
-            if (hasMoved) {
-                cursorImg.style.transform = 'translate(' + mouseX + 'px, ' + mouseY + 'px) scale(1)';
-            }
-            rafId = null;
-        }
-
-        // 鼠标离开页面时淡出隐藏
+        
+        // 鼠标离开页面时淡出
         document.addEventListener('mouseleave', function() {
             cursorImg.style.opacity = '0';
-            hasMoved = false;
+            hasShown = false;
         });
-
-        cursorImg.style.transform = 'translate(0px, 0px) scale(0)';
-        cursorImg.style.opacity = '0';
+        
+        function updateCursor() {
+            // 平滑过渡旋转角度
+            currentRotate = currentRotate * 0.65 + targetRotate * 0.35;
+            cursorImg.style.transform = 'translate(' + mouseX + 'px, ' + mouseY + 'px) scale(1) rotate(' + currentRotate.toFixed(2) + 'deg)';
+            rafId = null;
+        }
+        
+        // 隐藏默认光标（覆盖所有元素）
+        const style = document.createElement('style');
+        style.textContent = '* { cursor: none !important; } html, body, a, button, div, span, input, textarea, select, [onclick], .control-btn, .mode-btn, .track-item, .speed-option, .declaration-header, #downloadBtn, #speedLabel, .volume-slider::-webkit-slider-thumb { cursor: none !important; }';
+        document.head.appendChild(style);
+        
+        // 确保光标层始终可见
+        cursorLayer.style.visibility = 'visible';
     })();
 </script>
 </body>
