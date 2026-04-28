@@ -7,7 +7,7 @@
     <link rel="icon" href="https://i1.hdslb.com/bfs/face/87e609940c74ed2e7dcf6b2b19b3029f8e1566e1.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; cursor: none; }
         body {
             width: 100vw; height: 100vh;
             display: flex; justify-content: center; align-items: center;
@@ -15,6 +15,29 @@
             font-family: 'Segoe UI', 'Roboto', system-ui, 'Microsoft YaHei', sans-serif;
             overflow: hidden;
             margin: 0; padding: 0;
+            cursor: none;
+        }
+        /* 自定义光标层 */
+        .cursor-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 99999;
+        }
+        .cursor-layer img {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: auto;
+            height: auto;
+            pointer-events: none;
+            transform: translate(0, 0);
+        }
+        a, button, .control-btn, .mode-btn, .track-item, .speed-option, .declaration-header, #downloadBtn, #speedLabel, .volume-slider::-webkit-slider-thumb {
+            cursor: none;
         }
         /* 主容器自适应，最小支持 501x263 */
         .app {
@@ -356,6 +379,9 @@
     </style>
 </head>
 <body>
+<div class="cursor-layer" id="cursorLayer">
+    <img src="https://xxdz-official.github.io/x/img/zhengchang_luoxiaohei.gif" alt="cursor" style="position: fixed; top: 0; left: 0; pointer-events: none;">
+</div>
 <div class="bg-visualizer">
     <canvas id="bgMergedCanvas" class="bg-canvas"></canvas>
 </div>
@@ -420,6 +446,12 @@
                     如涉及版权问题或侵权，请联系我修改，谢谢！
                     <a href="https://message.bilibili.com/?spm_id_from=333.1387.0.0#/whisper/unfollow/mid3461569935575626" target="_blank" style="color: #66ccff; text-decoration: underline;">点击私信联系我</a>
                     </div>
+                </div>
+                <div style="margin-top: 8px; padding-top: 6px; border-top: 1px solid rgba(57, 197, 187, 0.2); display: flex; align-items: center; gap: 6px; font-size: 0.55rem; color: #b0c4ff;">
+                    
+                    <span>术术播放器作者：</span>
+                    <img src="https://i1.hdslb.com/bfs/face/87e609940c74ed2e7dcf6b2b19b3029f8e1566e1.jpg@240w_240h_1c_1s_!web-avatar-nav.avif" alt="電籽の头像" style="width: 20px; height: 20px; border-radius: 0px; border: 1px solid #66ccff;">
+                    <a href="https://space.bilibili.com/3461569935575626" target="_blank" style="color: #66ccff; text-decoration: none;">小小电子xxdz</a>
                 </div>
             </div>
         </div>
@@ -968,6 +1000,68 @@
         };
     }
     init();
+    
+    // 自定义光标跟随 - 罗小黑.gif，锚点0,0，鼠标进入页面时从进入位置放大出场
+    (function() {
+        const cursorLayer = document.getElementById('cursorLayer');
+        if (!cursorLayer) return;
+        const cursorImg = cursorLayer.querySelector('img');
+        if (!cursorImg) return;
+
+        cursorImg.style.transformOrigin = '0px 0px';
+        cursorImg.style.transform = 'translate(0px, 0px) scale(0)';
+        cursorImg.style.opacity = '0';
+        cursorImg.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1), opacity 0.3s ease';
+
+        let mouseX = 0, mouseY = 0;
+        let rafId = null;
+        let hasMoved = false;
+
+        // 鼠标进入页面时，在进入位置出现并放大出场
+        document.addEventListener('mouseenter', function(e) {
+            const enterX = e.clientX;
+            const enterY = e.clientY;
+            mouseX = enterX;
+            mouseY = enterY;
+            hasMoved = true;
+            cursorImg.style.opacity = '1';
+            cursorImg.style.transform = 'translate(' + enterX + 'px, ' + enterY + 'px) scale(2)';
+            // 强制重绘后触发缩小动画
+            void cursorImg.offsetHeight;
+            cursorImg.style.transform = 'translate(' + enterX + 'px, ' + enterY + 'px) scale(1)';
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            if (!hasMoved) {
+                hasMoved = true;
+                cursorImg.style.opacity = '1';
+                cursorImg.style.transform = 'translate(' + mouseX + 'px, ' + mouseY + 'px) scale(1)';
+            }
+            
+            if (rafId === null) {
+                rafId = requestAnimationFrame(updateCursor);
+            }
+        });
+
+        function updateCursor() {
+            if (hasMoved) {
+                cursorImg.style.transform = 'translate(' + mouseX + 'px, ' + mouseY + 'px) scale(1)';
+            }
+            rafId = null;
+        }
+
+        // 鼠标离开页面时淡出隐藏
+        document.addEventListener('mouseleave', function() {
+            cursorImg.style.opacity = '0';
+            hasMoved = false;
+        });
+
+        cursorImg.style.transform = 'translate(0px, 0px) scale(0)';
+        cursorImg.style.opacity = '0';
+    })();
 </script>
 </body>
 </html>
