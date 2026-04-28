@@ -448,7 +448,7 @@
                     </div>
                 </div>
                 <div style="margin-top: 8px; padding-top: 6px; border-top: 1px solid rgba(57, 197, 187, 0.2); display: flex; align-items: center; gap: 6px; font-size: 0.55rem; color: #b0c4ff;">
-                    
+
                     <span>术术播放器作者：</span>
                     <img src="https://i1.hdslb.com/bfs/face/87e609940c74ed2e7dcf6b2b19b3029f8e1566e1.jpg@240w_240h_1c_1s_!web-avatar-nav.avif" alt="電籽の头像" style="width: 20px; height: 20px; border-radius: 0px; border: 1px solid #66ccff;">
                     <a href="https://space.bilibili.com/3461569935575626" target="_blank" style="color: #66ccff; text-decoration: none;">小小电子xxdz</a>
@@ -980,8 +980,31 @@
                 if (sidebar) {
                     sidebar.style.width = '200px';
                 }
+
+                // 隐藏自定义光标层（小屏幕尺寸时恢复默认光标）
+                const cursorLayer = document.getElementById('cursorLayer');
+                if (cursorLayer) {
+                    cursorLayer.style.display = 'none';
+                }
+                // 恢复默认光标样式
+                const styleTag = document.querySelector('style[data-cursor-hide]');
+                if (styleTag) {
+                    styleTag.remove();
+                }
+                // 强制恢复光标
+                const restoreStyle = document.createElement('style');
+                restoreStyle.textContent = '* { cursor: auto !important; }';
+                document.head.appendChild(restoreStyle);
+                setTimeout(() => restoreStyle.remove(), 100);
+
+                console.log('[术术播放器] 已隐藏自定义光标，恢复默认光标');
             } else {
                 console.log('[术术播放器] 保持标题栏显示');
+                // 确保自定义光标层显示
+                const cursorLayer = document.getElementById('cursorLayer');
+                if (cursorLayer) {
+                    cursorLayer.style.display = '';
+                }
             }
         } else {
             console.error('[术术播放器] 未找到 playerTitle 元素');
@@ -1034,13 +1057,13 @@
         document.addEventListener('mousemove', function(e) {
             mouseX = e.clientX;
             mouseY = e.clientY;
-            
+
             if (!hasMoved) {
                 hasMoved = true;
                 cursorImg.style.opacity = '1';
                 cursorImg.style.transform = 'translate(' + mouseX + 'px, ' + mouseY + 'px) scale(1)';
             }
-            
+
             if (rafId === null) {
                 rafId = requestAnimationFrame(updateCursor);
             }
