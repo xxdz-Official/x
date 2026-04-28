@@ -1512,12 +1512,33 @@
             flex: 1;
             background: #0a0e1a;
             position: relative;
+            border: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            cursor: none !important;
+        }
+        .player-content.hover-border {
+            border-color: transparent;
+            box-shadow: none;
         }
         .player-content iframe {
             width: 100%;
             height: 100%;
             border: none;
             background: #0a0e1a;
+        }
+        /* 强制所有元素（包括描边和任何伪元素）隐藏默认光标，提升到最高优先级 */
+        .player-content,
+        .player-content *,
+        .player-content::before,
+        .player-content::after,
+        .player-content .hover-border,
+        .player-content .hover-border::before,
+        .player-content .hover-border::after,
+        .floating-player,
+        .floating-player *,
+        .floating-player::before,
+        .floating-player::after {
+            cursor: none !important;
         }
         /* 最小化的动画类 */
         .floating-player.minimizing {
@@ -1563,7 +1584,7 @@
 </head>
 <body>
 <div class="cursor-layer" id="cursorLayer">
-    <img src="https://xxdz-official.github.io/x/img/zhengchang_luoxiaohei.gif" alt="cursor" style="position: fixed; top: 0; left: 0; pointer-events: none;">
+    <img src="https://xxdz-official.github.io/x/img/zhengchang_luoxiaohei.gif" alt="cursor" style="position: fixed; top: 0; left: 0; pointer-events: none;" onload="console.log('[光标] 罗小黑.gif 图片加载成功')" onerror="console.error('[光标] 罗小黑.gif 加载失败，请检查 URL')">
 </div>
 <div class="bg-layer"></div>
 
@@ -1756,8 +1777,8 @@
     <i class="fas fa-arrow-up" style="font-size: 1.2rem; transition: transform 0.2s cubic-bezier(0.34, 1.2, 0.64, 1);"></i>
 </div>
 
-<!-- 悬浮播放器容器 - Windows窗口风格 -->
-<div id="floatingPlayer" class="floating-player">
+        <!-- 悬浮播放器容器 - Windows窗口风格 -->
+    <div id="floatingPlayer" class="floating-player">
         <div class="player-titlebar" id="playerTitlebar">
         <div class="title-left-group">
             <button class="breakout-btn" id="breakoutBtn" title="冲破图层！">
@@ -1774,8 +1795,16 @@
             <button class="win-btn close" id="winCloseBtn" title="关闭">🗙</button>
         </div>
     </div>
-    <div class="player-content">
+    <div class="player-content" style="position: relative;">
+        <!-- 播放器上方的光标覆盖层 -->
+        <div class="cursor-layer-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; background: transparent; overflow: hidden;">
+            <img src="https://xxdz-official.github.io/x/img/zhengchang_luoxiaohei.gif" alt="cursor" style="position: absolute; top: 0; left: 0; width: auto; height: auto; transform-origin: 0px 0px; pointer-events: none; opacity: 0; transform: translate(0px, 0px) scale(0); transition: opacity 0.15s ease, transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);">
+        </div>
         <iframe id="playerIframe" src="about:blank" loading="lazy" allow="autoplay; fullscreen" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        <!-- 播放器上方的光标覆盖层 -->
+        <div class="cursor-layer-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; background: transparent; overflow: hidden;">
+            <img src="https://xxdz-official.github.io/x/img/zhengchang_luoxiaohei.gif" alt="cursor" style="position: absolute; top: 0; left: 0; width: auto; height: auto; transform-origin: 0px 0px; pointer-events: none; opacity: 0; transform: translate(0px, 0px) scale(0); transition: opacity 0.15s ease, transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);">
+        </div>
     </div>
 </div>
 
@@ -2950,132 +2979,131 @@
     })();
 </script>
 <script>
-    // 自定义光标跟随 - 罗小黑.gif，锚点0,0，带出场动画和方向旋转效果，首次进入页面时才从鼠标位置放大出场
     (function() {
         const cursorLayer = document.getElementById('cursorLayer');
         if (!cursorLayer) return;
         const cursorImg = cursorLayer.querySelector('img');
         if (!cursorImg) return;
 
-        // 初始完全透明且缩小，等待首次鼠标移动
-        cursorImg.style.transformOrigin = '0px 0px';
-        cursorImg.style.transform = 'translate(0px, 0px) scale(0) rotate(0deg)';
-        cursorImg.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1), opacity 0.3s ease';
-        cursorImg.style.opacity = '0';
+        cursorLayer.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2147483647;
+            visibility: visible;
+        `;
+
+        cursorImg.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: auto;
+            height: auto;
+            transform-origin: 0px 0px;
+            pointer-events: none;
+            will-change: transform;
+            opacity: 0;
+            transform: translate(-100px, -100px);
+            transition: opacity 0.1s ease, transform 0.12s linear;
+        `;
 
         let mouseX = 0, mouseY = 0;
-        let imgX = 0, imgY = 0;
-        let lastX = 0, lastY = 0;
-        let currentRotate = 0;
-        let targetRotate = 0;
         let rafId = null;
-        let hasMoved = false;
-        let isFirstMove = true;
+        let visible = false;
 
-        // 鼠标移动时的处理
+        const hideStyle = document.createElement('style');
+        hideStyle.textContent = `
+            *,
+            *::before,
+            *::after,
+            html, body, div, span, a, button, input, textarea, select,
+            iframe, iframe *,
+            .floating-player, .floating-player *,
+            .player-content, .player-content *,
+            .player-content::before, .player-content::after,
+            .hover-border, .hover-border::before, .hover-border::after {
+                cursor: none !important;
+            }
+            .player-content {
+                cursor: none !important;
+            }
+        `;
+        document.head.appendChild(hideStyle);
+
         document.addEventListener('mousemove', function(e) {
-            const newX = e.clientX;
-            const newY = e.clientY;
-            
-            // 首次移动：光标出现在鼠标位置，从放大状态缩小出场
-            if (isFirstMove) {
-                isFirstMove = false;
-                hasMoved = true;
-                mouseX = newX;
-                mouseY = newY;
-                lastX = newX;
-                lastY = newY;
-                imgX = newX;
-                imgY = newY;
-                // 设置在鼠标位置，从scale(2)缩小到scale(1)
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            if (!visible) {
+                visible = true;
                 cursorImg.style.opacity = '1';
-                cursorImg.style.transform = 'translate(' + newX + 'px, ' + newY + 'px) scale(2) rotate(0deg)';
-                // 强制重绘后触发缩小动画
-                void cursorImg.offsetHeight;
-                cursorImg.style.transform = 'translate(' + newX + 'px, ' + newY + 'px) scale(1) rotate(0deg)';
-                targetRotate = 0;
-                currentRotate = 0;
-                return;
             }
-            
-            // 计算移动方向
-            const dx = newX - lastX;
-            const dy = newY - lastY;
-
-            // 只要鼠标移动了就计算旋转方向
-            if (dx !== 0) {
-                let intensity = Math.min(6, Math.abs(dx) * 1.2);
-                if (dx < 0) {
-                    targetRotate = -intensity;
-                } else if (dx > 0) {
-                    targetRotate = intensity;
-                }
-                if (Math.abs(dy) > 1) {
-                    let vertInfluence = dy * 0.2;
-                    vertInfluence = Math.min(4, Math.max(-4, vertInfluence));
-                    targetRotate = targetRotate + vertInfluence;
-                    targetRotate = Math.min(10, Math.max(-10, targetRotate));
-                }
-            } else if (Math.abs(dy) > 1) {
-                let vertRotate = dy * 0.25;
-                targetRotate = Math.min(8, Math.max(-8, vertRotate));
-            } else {
-                targetRotate = targetRotate * 0.9;
-                if (Math.abs(targetRotate) < 0.2) targetRotate = 0;
-            }
-            
-            lastX = newX;
-            lastY = newY;
-            mouseX = newX;
-            mouseY = newY;
-
-            cursorImg.style.opacity = '1';
 
             if (rafId === null) {
                 rafId = requestAnimationFrame(updateCursor);
             }
         });
 
-        // 鼠标离开页面时淡出隐藏
-        document.addEventListener('mouseleave', function() {
-            cursorImg.style.opacity = '0';
-        });
-
-        // 鼠标重新进入页面时淡入显示，重置出场动画（从鼠标位置放大再缩小）
-        document.addEventListener('mouseenter', function(e) {
-            cursorImg.style.opacity = '1';
-            hasMoved = true;
-            targetRotate = 0;
-            currentRotate = 0;
-            const enterX = e.clientX;
-            const enterY = e.clientY;
-            mouseX = enterX;
-            mouseY = enterY;
-            lastX = enterX;
-            lastY = enterY;
-            imgX = enterX;
-            imgY = enterY;
-            cursorImg.style.transform = 'translate(' + enterX + 'px, ' + enterY + 'px) scale(2) rotate(0deg)';
-            void cursorImg.offsetHeight;
-            cursorImg.style.transform = 'translate(' + enterX + 'px, ' + enterY + 'px) scale(1) rotate(0deg)';
-        });
-
         function updateCursor() {
-            imgX = mouseX;
-            imgY = mouseY;
-            currentRotate = currentRotate * 0.6 + targetRotate * 0.4;
-            cursorImg.style.transform = 'translate(' + imgX + 'px, ' + imgY + 'px) scale(1) rotate(' + currentRotate.toFixed(2) + 'deg)';
+            cursorImg.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
             rafId = null;
         }
 
-        // 初始隐藏光标，等待首次移动
-        cursorImg.style.transform = 'translate(0px, 0px) scale(0) rotate(0deg)';
-        cursorImg.style.opacity = '0';
+        document.addEventListener('mouseleave', function() {
+            visible = false;
+            cursorImg.style.opacity = '0';
+        });
 
-        // 隐藏默认光标
-        const style = document.createElement('style');
-        style.textContent = '* { cursor: none !important; } html, body { cursor: none !important; } a, button, input, textarea, select, [onclick], .btn, .win-btn, .breakout-btn, .dynamic-more-btn, .section-more-btn, .quick-link-item, .video-card, .project-card, .dynamic-item, .dynamic-action, .forum-icon-link, .nav-item-wrapper a, .image-preview-close, .footer-corner { cursor: none !important; }';
-        document.head.appendChild(style);
+        const iframe = document.getElementById('playerIframe');
+        if (iframe) {
+            iframe.addEventListener('load', function() {
+                try {
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    if (iframeDoc) {
+                        const iframeStyle = iframeDoc.createElement('style');
+                        iframeStyle.textContent = '* { cursor: none !important; }';
+                        iframeDoc.head.appendChild(iframeStyle);
+                    }
+                } catch(e) {}
+            });
+            if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+                try {
+                    const iframeDoc = iframe.contentDocument;
+                    const iframeStyle = iframeDoc.createElement('style');
+                    iframeStyle.textContent = '* { cursor: none !important; }';
+                    iframeDoc.head.appendChild(iframeStyle);
+                } catch(e) {}
+            }
+        }
+
+        const playerContent = document.querySelector('.player-content');
+        if (playerContent) {
+            playerContent.style.cursor = 'none';
+            const style2 = document.createElement('style');
+            style2.textContent = `
+                .player-content, .player-content::before, .player-content::after,
+                .player-content.hover-border, .player-content.hover-border::before, .player-content.hover-border::after {
+                    cursor: none !important;
+                }
+            `;
+            document.head.appendChild(style2);
+
+            playerContent.addEventListener('mouseenter', () => {
+                playerContent.classList.add('hover-border');
+                cursorImg.style.opacity = '0';
+            });
+            playerContent.addEventListener('mouseleave', () => {
+                playerContent.classList.remove('hover-border');
+                if (visible) {
+                    cursorImg.style.opacity = '1';
+                } else {
+                    cursorImg.style.opacity = '0';
+                }
+            });
+        }
     })();
 </script>
 <script>
