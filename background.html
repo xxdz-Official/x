@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>電籽壁纸库 | 電籽的灵质空间</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" id="dynamic-favicon" href="https://xxdz-official.github.io/x/img/ico_1.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --shadow-sm: 3px 3px 8px rgba(0, 0, 0, 0.1);
+            --shadow-md: 4px 4px 12px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 6px 6px 18px rgba(0, 0, 0, 0.15);
+            --shadow-hover: 6px 8px 20px rgba(0, 151, 254, 0.3);
+            --shadow-hover-strong: 8px 12px 24px rgba(0, 151, 254, 0.35);
+        }
+
+        body {
+            background-color: #F5F7FC;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            color: #1F2A3E;
+            line-height: 1.4;
+            overflow-x: hidden;
+        }
+
+        /* 背景层 */
+        .bg-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://xxdz-official.github.io/x/img/bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+            pointer-events: none;
+            animation: bgZoomIn 1.2s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+        }
+
+        @keyframes bgZoomIn {
+            0% { opacity: 0; transform: scale(1.3); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* 顶部栏 */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 3px solid rgba(0, 151, 254, 0.5);
+            padding: 0 clamp(16px, 4vw, 32px);
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        @media (min-width: 701px) {
+            .top-bar.island-mode {
+                top: 12px;
+                left: 12px;
+                width: calc(100% - 24px);
+                height: 56px;
+                padding: 0 28px;
+                background: rgba(255, 255, 255, 0.65);
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                border-bottom: 1px solid rgba(0, 151, 254, 0.35);
+                box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.35), 0 8px 18px rgba(0, 0, 0, 0.2);
+                clip-path: polygon(16px 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%, 0 16px);
+            }
+            .top-bar.island-mode::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                pointer-events: none;
+                clip-path: polygon(16px 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%, 0 16px);
+                border: 1px solid rgba(0, 151, 254, 0.35);
+                border-top: none;
+                box-sizing: border-box;
+            }
+            .top-bar.island-mode .site-title img {
+                height: 2.8rem;
+            }
+            .top-bar.island-mode .nav-item-wrapper a {
+                font-size: clamp(0.6rem, 1.8vw, 0.88rem);
+            }
+            .top-bar.island-mode .nav-icon-img {
+                height: 1.3em;
+            }
+            body.island-active .main-container {
+                margin-top: 90px;
+            }
+        }
+
+        .site-title {
+            font-size: clamp(1rem, 3.5vw, 1.65rem);
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            background: linear-gradient(135deg, #0097FE 0%, #005FAA 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            white-space: nowrap;
+        }
+        .site-title span {
+            display: inline-block;
+            font-size: 1.4rem;
+            transition: font-size 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .site-title img {
+            transition: height 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .nav-links {
+            display: flex;
+            gap: clamp(4px, 1.5vw, 28px);
+            flex-wrap: nowrap;
+            align-items: center;
+        }
+        .nav-item-wrapper {
+            position: relative;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        .nav-item-wrapper a {
+            text-decoration: none;
+            font-weight: 600;
+            font-size: clamp(0.65rem, 2vw, 1rem);
+            color: #2C3E50;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+            display: inline-block;
+            white-space: nowrap;
+        }
+        .nav-item-wrapper a:hover {
+            color: #0097FE;
+            border-bottom-color: #0097FE;
+            transform: translateY(-1px);
+        }
+        .forum-icon-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+        }
+        .nav-icon-img {
+            height: 1.4em;
+            width: auto;
+            object-fit: contain;
+            transition: all 0.2s ease;
+            vertical-align: middle;
+        }
+        .forum-icon-link:hover {
+            border-bottom-color: #0097FE;
+            transform: translateY(-1px);
+        }
+        .forum-icon-link:hover .nav-icon-img {
+            transform: scale(1.02);
+        }
+
+        /* 提示框样式 */
+        .btn-tooltip {
+            position: fixed;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 0px;
+            white-space: nowrap;
+            z-index: 10001;
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+            border-left: 2px solid #0097FE;
+            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(5px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .btn-tooltip.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 下拉菜单样式 */
+        .custom-dropdown {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 151, 254, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            z-index: 10001;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 12px 20px;
+            opacity: 0;
+            transform: translateY(5px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            pointer-events: none;
+        }
+        .custom-dropdown.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .dropdown-item-custom {
+            padding: 0;
+            margin: 0;
+            background: transparent;
+            border: none;
+        }
+        .dropdown-item-custom a {
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #2C3E50;
+            display: block;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+        }
+        .dropdown-item-custom a:hover {
+            color: #0097FE;
+            border-bottom-color: #0097FE;
+            transform: translateY(-1px);
+        }
+
+        /* 桌面端隐藏需要折叠的项 */
+        @media (min-width: 701px) {
+            .nav-item-wrapper.nav-item-bili,
+            .nav-item-wrapper.nav-item-github {
+                display: none;
+            }
+            .desktop-hide {
+                display: none;
+            }
+        }
+        /* 移动端隐藏需要折叠的项 */
+        @media (max-width: 700px) {
+            .nav-item-wrapper.nav-item-player,
+            .nav-item-wrapper.nav-item-wallpaper,
+            .nav-item-wrapper.nav-item-bili,
+            .nav-item-wrapper.nav-item-github {
+                display: none;
+            }
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px clamp(16px, 4vw, 32px) 60px;
+        }
+
+        /* 壁纸区域 */
+        .wallpaper-section { margin-bottom: 48px; }
+        .section-header {
+            margin-bottom: 28px;
+            border-left: 6px solid #0097FE;
+            padding-left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-header h2 { font-size: 1.8rem; font-weight: 700; color: #1F2A3E; }
+        .section-header i { font-size: 2rem; color: #0097FE; }
+
+        .wallpaper-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 28px;
+        }
+        .wallpaper-card {
+            background: #FFFFFF;
+            border: 1px solid #E9EDF2;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.25s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .wallpaper-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover-strong); border-color: #0097FE70; }
+        .card-preview {
+            position: relative;
+            aspect-ratio: 16 / 9;
+            background: #EAEEF4;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .card-preview img, .card-preview video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        .wallpaper-card:hover .card-preview img,
+        .wallpaper-card:hover .card-preview video { transform: scale(1.02); }
+
+        .badge-series {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(0, 151, 254, 0.85);
+            backdrop-filter: blur(6px);
+            padding: 4px 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border-left: 2px solid white;
+            z-index: 2;
+        }
+        .video-indicator {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            pointer-events: none;
+        }
+        .card-info {
+            padding: 16px 18px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .info-text h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+        .version-tag { font-size: 0.7rem; padding: 2px 8px; border-left: 2px solid; display: inline-block; }
+        .new-badge { background: #0097FE10; color: #0097FE; border-left-color: #0097FE; }
+        .old-badge { background: #f0f2f5; color: #6c7a91; border-left-color: #9AA4B8; }
+        .download-btn {
+            background: white;
+            border: 1.5px solid #E2E8F0;
+            padding: 8px 16px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #1F2A3E;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .download-btn:hover { background: #0097FE; border-color: #0097FE; color: white; transform: translateY(-2px); }
+
+        /* 预览弹窗动画 */
+        .image-preview-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0);
+            z-index: 20000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            transition: visibility 0.3s, background 0.3s ease;
+        }
+        .image-preview-overlay.active {
+            visibility: visible;
+            background: rgba(0,0,0,0.9);
+        }
+        .image-preview-img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border: 3px solid #fff;
+            box-shadow: 0 0 40px rgba(0,0,0,0.6);
+            transition: transform 0.35s cubic-bezier(0.34, 1.3, 0.64, 1), opacity 0.3s ease;
+            transform: scale(0.8);
+            opacity: 0;
+        }
+        .image-preview-overlay.active .image-preview-img {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .image-preview-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            background: none;
+            border: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .image-preview-overlay.active .image-preview-close { opacity: 1; }
+
+        /* 悬浮播放器样式 */
+        .floating-player {
+            position: fixed;
+            width: 540px;
+            height: 360px;
+            background: #1a1f2e;
+            border: 1px solid #39C5BB;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s, transform 0.2s ease;
+            transform: translateY(-8px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .floating-player.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .player-titlebar {
+            background: #2c3348;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8px 0 8px;
+            cursor: grab;
+            user-select: none;
+            border-bottom: 1px solid #39C5BB;
+        }
+        .breakout-btn {
+            background: transparent;
+            border: none;
+            color: #66ccff;
+            font-size: 0.9rem;
+            cursor: pointer;
+            padding: 0 6px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+            border-radius: 2px;
+            margin-right: 4px;
+        }
+        .breakout-btn:hover {
+            background: rgba(57, 197, 187, 0.3);
+            color: #39C5BB;
+            transform: scale(1.02);
+        }
+        .player-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #eef5ff;
+        }
+        .title-left-group {
+            display: flex;
+            align-items: center;
+        }
+        .player-titlebar:active { cursor: grabbing; }
+        .player-window-buttons {
+            display: flex;
+            gap: 6px;
+        }
+        .win-btn {
+            width: 28px;
+            height: 24px;
+            background: transparent;
+            border: none;
+            color: #eef5ff;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+        }
+        .win-btn:hover { background: #4a5568; }
+        .win-btn.close:hover { background: #e81123; color: white; }
+        .player-content {
+            flex: 1;
+            background: #0a0e1a;
+            position: relative;
+            cursor: none !important;
+        }
+        .player-content iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #0a0e1a;
+        }
+        .player-content,
+        .player-content *,
+        .floating-player,
+        .floating-player * {
+            cursor: none !important;
+        }
+        .floating-player.minimizing {
+            transition: transform 0.35s cubic-bezier(0.55, 0, 0.75, 0.5), opacity 0.3s ease;
+            transform: translateY(-120vh) !important;
+            opacity: 0;
+        }
+        .floating-player.dragging { transition: none; }
+        @media (max-width: 600px) {
+            .floating-player {
+                width: calc(100vw - 24px);
+                height: calc((100vw - 24px) * 360 / 540);
+                min-height: 280px;
+                left: 12px !important;
+            }
+            .win-btn { width: 32px; }
+        }
+
+        .cursor-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 99999;
+        }
+        .cursor-layer img {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: auto;
+            height: auto;
+            pointer-events: none;
+        }
+
+        .footer-corner {
+            position: fixed;
+            bottom: 20px;
+            right: 24px;
+            font-size: 0.75rem;
+            color: #7A8BA3;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(4px);
+            padding: 6px 14px;
+            border: 1px solid #E2E8F0;
+            font-weight: 500;
+            z-index: 99;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .footer-corner:hover { color: #0097FE; border-color: #0097FE; }
+
+        .loading-skeleton, .error-text { padding: 24px; text-align: center; background: white; border-left: 3px solid #0097FE; color: #8C9AB0; }
+    </style>
+</head>
+<body>
+<div class="cursor-layer" id="cursorLayer"><img src="https://xxdz-official.github.io/x/img/zhengchang_luoxiaohei.gif" alt="cursor"></div>
+<div class="bg-layer"></div>
+
+<header class="top-bar" id="mainTopBar">
+    <div class="logo-area">
+        <div class="site-title" style="display: flex; align-items: center; gap: 6px;">
+            <a href="https://xxdz-official.github.io/x/" style="display: flex; align-items: center; gap: 6px; text-decoration: none;">
+                <img src="https://xxdz-official.github.io/x/img/logo.png" alt="logo" style="height: 3.6rem; width: auto; vertical-align: middle;">
+                <span style="background: linear-gradient(135deg, #0097FE 0%, #005FAA 100%); background-clip: text; -webkit-background-clip: text; color: transparent;">電籽的灵质空间</span>
+            </a>
+        </div>
+    </div>
+    <div class="nav-links" id="navLinks">
+        <div class="nav-item-wrapper nav-item-forum">
+            <a href="https://miku66ccff.freeflarum.com" class="forum-icon-link" target="_blank" rel="noopener" data-tooltip-text="我旗下的术力口、furry、科技圈论坛：Miku66ccff论坛">
+                <img src="https://miku66ccff.freeflarum.com/assets/logo-cyvx1jbh.png" alt="Miku66ccff论坛" class="nav-icon-img">
+            </a>
+        </div>
+        <div class="nav-item-wrapper nav-item-wallpaper">
+            <a href="background.html" data-tooltip-text="我制作的壁纸~" style="color:#0097FE; border-bottom-color:#0097FE;">電籽壁纸库</a>
+        </div>
+        <div class="nav-item-wrapper nav-item-bili" data-collapsible="true">
+            <a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener" data-tooltip-text="关注我的最新动态 >w<">B站空间</a>
+        </div>
+        <div class="nav-item-wrapper nav-item-github" data-collapsible="true">
+            <a href="https://github.com/xxdz-Official" target="_blank" rel="noopener" data-tooltip-text="嗷呜~ 为我的仓库给个星标？">GitHub</a>
+        </div>
+        <div class="nav-item-wrapper nav-item-friend">
+            <a href="https://xxdz-official.github.io/x/FriendURL.html" target="_blank" rel="noopener" data-tooltip-text="为我或我的项目做出贡献的朋友们~">友情链接</a>
+        </div>
+        <div class="nav-item-wrapper nav-item-player" id="playerNavItem">
+            <a href="#" id="playerToggleBtn" data-tooltip-text="这是个内嵌的术力口音乐播放器？！">术术播放器</a>
+        </div>
+        <div class="nav-item-wrapper nav-item-more" id="moreBtn">
+            <a href="#">展开更多 ▼</a>
+        </div>
+    </div>
+</header>
+
+<main class="main-container">
+    <div class="wallpaper-section">
+        <div class="section-header">
+            <h2>✨ 新版壁纸</h2>
+        </div>
+        <div id="newWallpaperGrid" class="wallpaper-grid"><div class="loading-skeleton"><i class="fas fa-spinner fa-pulse"></i> 加载中...</div></div>
+    </div>
+
+    <div class="wallpaper-section">
+            <div class="section-header">
+                <h2>旧版壁纸 <span style="font-size: 0.7rem; font-weight: normal; color: #999; margin-left: 12px;">(这些是我早期制作的壁纸，画风崩坏....不建议使用)</span></h2>
+            </div>
+        <div id="oldWallpaperGrid" class="wallpaper-grid"><div class="loading-skeleton"><i class="fas fa-spinner fa-pulse"></i> 加载中...</div></div>
+    </div>
+</main>
+
+<div class="footer-corner" id="backToTopBtn"><i class="fas fa-arrow-up"></i></div>
+
+<div id="floatingPlayer" class="floating-player">
+    <div class="player-titlebar" id="playerTitlebar">
+        <div class="title-left-group">
+            <button class="breakout-btn" id="breakoutBtn" title="冲破图层！">
+                <i class="fas fa-external-link-alt"></i>
+            </button>
+            <div class="player-title">
+                <i class="fas fa-head-side-vr"></i>
+                <span>電籽术术播放器</span>
+            </div>
+        </div>
+        <div class="player-window-buttons">
+            <button class="win-btn minimize" id="winMinimizeBtn" title="最小化">_</button>
+            <button class="win-btn maximize" id="winMaximizeBtn" title="在新标签页打开">🗖</button>
+            <button class="win-btn close" id="winCloseBtn" title="关闭">🗙</button>
+        </div>
+    </div>
+    <div class="player-content">
+        <iframe id="playerIframe" src="about:blank" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // 壁纸数据
+        const allItems = [
+            { name: "小狼坏事做尽", filename: "小狼坏事做尽.png", type: "image", isNew: true, series: null, seriesName: null },
+            { name: "耶耶電籽", filename: "耶耶電籽.png", type: "image", isNew: true, series: null, seriesName: null },
+            { name: "XXDZ遇到问题，需要ruarua", filename: "XXDZ遇到问题，需要ruarua.mp4", type: "dynamic_preview", isNew: true, series: "ruarua系列", seriesName: "ruarua系列" },
+            { name: "XXDZ遇到问题，需要ruarua_NT", filename: "XXDZ遇到问题，需要ruarua_NT.png", type: "image", isNew: true, series: "ruarua系列", seriesName: "ruarua系列" },
+            { name: "安装我", filename: "安装我.png", type: "image", isNew: false, series: null, seriesName: null },
+            { name: "意义不明 - 副本", filename: "意义不明 - 副本.png", type: "image", isNew: false, series: null, seriesName: null },
+            { name: "新壁纸1", filename: "新壁纸1.png", type: "image", isNew: false, series: null, seriesName: null },
+            { name: "璀璨星空", filename: "璀璨星空.png", type: "image", isNew: false, series: null, seriesName: null },
+            { name: "笛", filename: "笛.png", type: "image", isNew: false, series: "笛系列", seriesName: "笛系列" },
+            { name: "笛-浅色主题", filename: "笛-浅色主题.png", type: "image", isNew: false, series: "笛系列", seriesName: "笛系列" }
+        ];
+
+        const BASE_URL = "https://xxdz-official.github.io/x/background/";
+        const DYNAMIC_HD_URL = BASE_URL + "[动态壁纸]XXDZ遇到问题，需要ruarua.mp4";
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
+        }
+
+        const biliOpusLinks = {
+            "小狼坏事做尽": "https://www.bilibili.com/opus/1196617969352835076",
+            "璀璨星空": "https://www.bilibili.com/opus/964700180713570323",
+            "笛": "https://www.bilibili.com/opus/948017217739423765",
+            "笛-浅色主题": "https://www.bilibili.com/opus/948017217739423765",
+            "耶耶電籽": "https://www.bilibili.com/opus/1153881167820226561",
+            "XXDZ遇到问题，需要ruarua": "https://www.bilibili.com/opus/1083911997323477025",
+            "XXDZ遇到问题，需要ruarua_NT": "https://www.bilibili.com/opus/1083502983320174612"
+        };
+
+        function generateCard(item) {
+            let previewUrl = BASE_URL + item.filename;
+            let downloadUrl = BASE_URL + item.filename;
+            let isDynamicCase = (item.filename === "XXDZ遇到问题，需要ruarua.mp4");
+            let mediaTag = '';
+            if (isDynamicCase) {
+                previewUrl = BASE_URL + "XXDZ遇到问题，需要ruarua.mp4";
+                downloadUrl = DYNAMIC_HD_URL;
+                mediaTag = `<video src="${previewUrl}" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;"></video>`;
+            } else {
+                mediaTag = `<img src="${previewUrl}" alt="${item.name}" loading="lazy" onerror="this.src='https://xxdz-official.github.io/x/img/fallback.png'">`;
+            }
+
+            let seriesHtml = '';
+            if (item.seriesName) {
+                let icon = (item.seriesName === "ruarua系列") ? '<i class="fas fa-paw"></i>' : '<i class="fas fa-music"></i>';
+                seriesHtml = `<div class="badge-series">${icon} ${item.seriesName}</div>`;
+            }
+            let versionBadge = item.isNew ? '<span class="version-tag new-badge"><i class="fas fa-certificate"></i> 新版壁纸</span>' : '<span class="version-tag old-badge"><i class="fas fa-database"></i> 旧版壁纸</span>';
+            let indicatorHtml = (isDynamicCase) ? '<div class="video-indicator"><i class="fas fa-infinity"></i>动态壁纸预览</div>' : '';
+
+            let infoLink = biliOpusLinks[item.name] || '#';
+
+            return `
+                <div class="wallpaper-card" data-filename="${item.filename}" data-type="${item.type}" data-download="${downloadUrl}" data-name="${item.name}">
+                    <div class="card-preview" data-full="${downloadUrl}" data-is-dynamic="${isDynamicCase}">
+                        ${seriesHtml}
+                        ${mediaTag}
+                        ${indicatorHtml}
+                    </div>
+                    <div class="card-info">
+                        <div class="info-text">
+                            <h3>${escapeHtml(item.name)}</h3>
+                            ${versionBadge}
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <a class="download-btn info-btn" href="${infoLink}" target="_blank" rel="noopener" style="padding: 8px 12px;"><i class="fas fa-info-circle"></i></a>
+                            <a class="download-btn" href="${downloadUrl}" download="${item.filename}" target="_blank"><i class="fas fa-download"></i> 直接下载原图</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function render() {
+            const newContainer = document.getElementById('newWallpaperGrid');
+            const oldContainer = document.getElementById('oldWallpaperGrid');
+            if (!newContainer || !oldContainer) return;
+            const newItems = allItems.filter(i => i.isNew === true);
+            const oldItems = allItems.filter(i => i.isNew === false);
+
+            if (newItems.length) newContainer.innerHTML = newItems.map(generateCard).join('');
+            else newContainer.innerHTML = '<div class="error-text">暂无新版壁纸</div>';
+
+            if (oldItems.length) oldContainer.innerHTML = oldItems.map(generateCard).join('');
+            else oldContainer.innerHTML = '<div class="error-text">暂无旧版壁纸</div>';
+
+            document.querySelectorAll('.card-preview').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    if(e.target.closest('.download-btn')) return;
+                    const isDynamic = el.getAttribute('data-is-dynamic') === 'true';
+                    const fullUrl = el.getAttribute('data-full');
+                    const name = el.getAttribute('data-name') || '壁纸预览';
+                    if (isDynamic) {
+                        showDynamicFullscreen(fullUrl, name);
+                    } else {
+                        showImagePreview(fullUrl);
+                    }
+                });
+            });
+        }
+
+        let previewOverlay = null;
+        function showImagePreview(url) {
+            if (!previewOverlay) {
+                previewOverlay = document.createElement('div');
+                previewOverlay.className = 'image-preview-overlay';
+                previewOverlay.innerHTML = `<button class="image-preview-close">&times;</button><img class="image-preview-img" alt="预览">`;
+                document.body.appendChild(previewOverlay);
+                const closeBtn = previewOverlay.querySelector('.image-preview-close');
+                closeBtn.onclick = (e) => { e.stopPropagation(); closePreview(); };
+                previewOverlay.onclick = (e) => { if(e.target === previewOverlay) closePreview(); };
+            }
+            const img = previewOverlay.querySelector('.image-preview-img');
+            img.style.transform = '';
+            img.style.opacity = '';
+            img.onload = () => {};
+            img.src = url;
+            void img.offsetHeight;
+            previewOverlay.classList.add('active');
+
+            function closePreview() {
+                previewOverlay.classList.remove('active');
+                setTimeout(() => {
+                    if(!previewOverlay.classList.contains('active')) img.src = '';
+                }, 400);
+            }
+            window.closePreview = closePreview;
+        }
+
+        let videoOverlay = null;
+        function showDynamicFullscreen(videoUrl, title) {
+            if (videoOverlay) {
+                const closeFn = videoOverlay._closeVideoPreview;
+                if (closeFn) closeFn();
+                return;
+            }
+
+            videoOverlay = document.createElement('div');
+            videoOverlay.className = 'dynamic-video-overlay';
+            videoOverlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0);
+                z-index: 20001;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                visibility: visible;
+                transition: background 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            `;
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'dynamic-video-content';
+            contentDiv.style.cssText = `
+                position: relative;
+                width: 85%;
+                max-width: 1100px;
+                transition: all 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+                opacity: 0;
+                transform: scale(0.7);
+            `;
+            contentDiv.innerHTML = `
+                <video controls autoplay loop style="width:100%; border:3px solid #0097FE; box-shadow:0 0 40px rgba(0,151,254,0.5); background:#000;" src="${videoUrl}"></video>
+                <button class="video-preview-close-btn" style="position:absolute; top:-48px; right:0; background:#0097FE; border:none; color:white; font-size:1.5rem; padding:0 18px; cursor:pointer; font-weight:bold; transition:transform 0.2s;">&times;</button>
+                <div style="margin-top:16px; color:white; font-size:0.95rem; text-align:center;"><i class="fas fa-film"></i> ${escapeHtml(title)} (4K高清原版)</div>
+            `;
+            videoOverlay.appendChild(contentDiv);
+            document.body.appendChild(videoOverlay);
+
+            const videoElem = contentDiv.querySelector('video');
+            const closeBtn = contentDiv.querySelector('.video-preview-close-btn');
+
+            void videoOverlay.offsetHeight;
+            void contentDiv.offsetHeight;
+
+            requestAnimationFrame(() => {
+                videoOverlay.style.background = 'rgba(0,0,0,0.96)';
+                contentDiv.style.opacity = '1';
+                contentDiv.style.transform = 'scale(1)';
+            });
+
+            const closeVideoPreview = () => {
+                if (!videoOverlay || videoOverlay._isClosing) return;
+                videoOverlay._isClosing = true;
+                contentDiv.style.opacity = '0';
+                contentDiv.style.transform = 'scale(0.7)';
+                videoOverlay.style.background = 'rgba(0,0,0,0)';
+                if (videoElem) videoElem.pause();
+                setTimeout(() => {
+                    if (videoOverlay && videoOverlay.parentNode) videoOverlay.parentNode.removeChild(videoOverlay);
+                    videoOverlay = null;
+                }, 450);
+            };
+            videoOverlay._closeVideoPreview = closeVideoPreview;
+
+            closeBtn.onclick = (e) => { e.stopPropagation(); closeVideoPreview(); };
+            videoOverlay.onclick = (e) => { if (e.target === videoOverlay) closeVideoPreview(); };
+
+            closeBtn.onmouseenter = () => closeBtn.style.transform = 'scale(1.08)';
+            closeBtn.onmouseleave = () => closeBtn.style.transform = 'scale(1)';
+
+            window.videoClose = closeVideoPreview;
+        }
+
+        // ========== 悬浮播放器逻辑 ==========
+        const floatingPlayer = document.getElementById('floatingPlayer');
+        const playerIframe = document.getElementById('playerIframe');
+        const playerTitlebar = document.getElementById('playerTitlebar');
+        const winMinimizeBtn = document.getElementById('winMinimizeBtn');
+        const winMaximizeBtn = document.getElementById('winMaximizeBtn');
+        const winCloseBtn = document.getElementById('winCloseBtn');
+        const PLAYER_URL = 'https://xxdz-official.github.io/x/Vocaloidplayer.html';
+
+        let isPlayerOpen = false;
+        let isMinimized = false;
+        let savedPosition = { left: null, top: null };
+        let isDragging = false;
+        let dragOffsetX = 0, dragOffsetY = 0;
+
+        function showFloatingPlayer(triggerElement, useSavedPosition = false) {
+            if (!floatingPlayer) return;
+            floatingPlayer.classList.remove('minimizing');
+            if (!useSavedPosition && triggerElement) {
+                const rect = triggerElement.getBoundingClientRect();
+                const playerWidth = 540, playerHeight = 360;
+                let left = rect.left + (rect.width / 2) - (playerWidth / 2);
+                let top = rect.bottom + 8;
+                if (left + playerWidth > window.innerWidth - 16) left = window.innerWidth - playerWidth - 16;
+                if (left < 16) left = 16;
+                if (top + playerHeight > window.innerHeight - 16) top = rect.top - playerHeight - 8;
+                floatingPlayer.style.left = left + 'px';
+                floatingPlayer.style.top = top + 'px';
+                savedPosition = { left, top };
+            } else if (savedPosition.left !== null && savedPosition.top !== null) {
+                floatingPlayer.style.left = savedPosition.left + 'px';
+                floatingPlayer.style.top = savedPosition.top + 'px';
+            }
+            if (!isPlayerOpen && playerIframe.src === 'about:blank') playerIframe.src = PLAYER_URL;
+            floatingPlayer.classList.add('show');
+            isPlayerOpen = true;
+            isMinimized = false;
+        }
+
+        function minimizePlayer() {
+            if (!floatingPlayer || !isPlayerOpen) return;
+            isMinimized = true;
+            floatingPlayer.classList.add('minimizing');
+            setTimeout(() => {
+                if (isMinimized) {
+                    floatingPlayer.classList.remove('show');
+                    floatingPlayer.classList.remove('minimizing');
+                    isPlayerOpen = false;
+                }
+            }, 350);
+        }
+
+        function restoreFromMinimize(triggerElement) {
+            if (!isMinimized) return;
+            const navItem = document.getElementById('playerNavItem');
+            showFloatingPlayer(navItem || triggerElement, true);
+        }
+
+        function maximizePlayer() {
+            window.open(PLAYER_URL, '_blank');
+            closePlayer();
+        }
+
+        function closePlayer() {
+            if (!floatingPlayer) return;
+            floatingPlayer.classList.remove('show');
+            isPlayerOpen = false;
+            isMinimized = false;
+            if (playerIframe) playerIframe.src = 'about:blank';
+            savedPosition = { left: null, top: null };
+        }
+
+        let playerOverlay = null;
+        function createPlayerOverlay() {
+            if (playerOverlay) return;
+            const playerContent = floatingPlayer.querySelector('.player-content');
+            if (!playerContent) return;
+            playerOverlay = document.createElement('div');
+            playerOverlay.id = 'playerDragOverlay';
+            playerOverlay.style.cssText = 'position:absolute; top:0; left:0; width:100%; height:100%; background:transparent; cursor:grabbing; pointer-events:auto; z-index:10;';
+            playerContent.style.position = 'relative';
+            playerContent.appendChild(playerOverlay);
+        }
+        function removePlayerOverlay() {
+            if (playerOverlay && playerOverlay.parentNode) playerOverlay.parentNode.removeChild(playerOverlay);
+            playerOverlay = null;
+        }
+
+        function startDrag(e) {
+            if (!isPlayerOpen || isMinimized) return;
+            if (!playerTitlebar.contains(e.target)) return;
+            if (e.target.closest('.win-btn')) return;
+            e.preventDefault();
+            isDragging = true;
+            floatingPlayer.classList.add('dragging');
+            const rect = floatingPlayer.getBoundingClientRect();
+            dragOffsetX = e.clientX - rect.left;
+            dragOffsetY = e.clientY - rect.top;
+            createPlayerOverlay();
+            document.addEventListener('mousemove', onDrag);
+            document.addEventListener('mouseup', stopDrag);
+            document.body.style.userSelect = 'none';
+        }
+        function onDrag(e) {
+            if (!isDragging) return;
+            let newLeft = e.clientX - dragOffsetX;
+            let newTop = e.clientY - dragOffsetY;
+            newLeft = Math.max(4, Math.min(newLeft, window.innerWidth - floatingPlayer.offsetWidth - 4));
+            newTop = Math.max(4, Math.min(newTop, window.innerHeight - floatingPlayer.offsetHeight - 4));
+            floatingPlayer.style.left = newLeft + 'px';
+            floatingPlayer.style.top = newTop + 'px';
+            savedPosition = { left: newLeft, top: newTop };
+        }
+        function stopDrag() {
+            if (!isDragging) return;
+            isDragging = false;
+            floatingPlayer.classList.remove('dragging');
+            document.removeEventListener('mousemove', onDrag);
+            document.removeEventListener('mouseup', stopDrag);
+            document.body.style.userSelect = '';
+            removePlayerOverlay();
+        }
+
+        const playerToggleBtn = document.getElementById('playerToggleBtn');
+        const playerToggleBtnMobile = document.getElementById('playerToggleBtnMobile');
+        function openOrRestorePlayer(e) {
+            e.preventDefault();
+            if (isMinimized) restoreFromMinimize(playerToggleBtn);
+            else if (isPlayerOpen && !floatingPlayer.classList.contains('show')) {
+                const navItem = document.getElementById('playerNavItem');
+                showFloatingPlayer(navItem || playerToggleBtn, true);
+            } else if (!isPlayerOpen) {
+                const navItem = document.getElementById('playerNavItem');
+                showFloatingPlayer(navItem || playerToggleBtn);
+            }
+        }
+        if (playerToggleBtn) playerToggleBtn.addEventListener('click', openOrRestorePlayer);
+        if (winMinimizeBtn) winMinimizeBtn.addEventListener('click', (e) => { e.stopPropagation(); minimizePlayer(); });
+        if (winMaximizeBtn) winMaximizeBtn.addEventListener('click', (e) => { e.stopPropagation(); maximizePlayer(); });
+        if (winCloseBtn) winCloseBtn.addEventListener('click', (e) => { e.stopPropagation(); closePlayer(); });
+        if (playerTitlebar) playerTitlebar.addEventListener('mousedown', startDrag);
+
+        const breakoutBtn = document.getElementById('breakoutBtn');
+        let popupWindow = null, popupHeartbeatInterval = null;
+        function isPopupAlive() { return popupWindow && !popupWindow.closed; }
+        function onPopupClosed() { if (popupHeartbeatInterval) clearInterval(popupHeartbeatInterval); popupHeartbeatInterval = null; popupWindow = null; }
+        function breakoutToPopup() {
+            if (isPopupAlive()) { try { popupWindow.focus(); } catch(e){} return; }
+            if (popupHeartbeatInterval) clearInterval(popupHeartbeatInterval);
+            let targetUrl = PLAYER_URL;
+            if (playerIframe && playerIframe.src && playerIframe.src !== 'about:blank') targetUrl = playerIframe.src;
+            const popupWidth = 860, popupHeight = 560;
+            const left = (window.screen.width - popupWidth) / 2;
+            const top = (window.screen.height - popupHeight) / 2;
+            const features = `width=${popupWidth},height=${popupHeight},left=${left},top=${top},resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,status=no`;
+            popupWindow = window.open(targetUrl, 'DianziPlayerPopup', features);
+            if (popupWindow) {
+                popupHeartbeatInterval = setInterval(() => { if (!isPopupAlive()) onPopupClosed(); }, 1000);
+                if (isPlayerOpen) closePlayer();
+                try { popupWindow.focus(); } catch(e) {}
+            } else {
+                alert("浏览器可能阻止了我的小窗口，请允许弹出窗口后重试qwq");
+            }
+        }
+        if (breakoutBtn) breakoutBtn.addEventListener('click', (e) => { e.stopPropagation(); breakoutToPopup(); });
+
+        // ========== 展开更多下拉菜单 ==========
+        (function() {
+            const moreBtn = document.getElementById('moreBtn');
+            if (!moreBtn) return;
+
+            const dropdown = document.createElement('div');
+            dropdown.className = 'custom-dropdown';
+            dropdown.innerHTML = `
+                <div class="dropdown-item-custom desktop-hide"><a href="background.html">電籽壁纸库</a></div>
+                <div class="dropdown-item-custom desktop-hide"><a href="#" id="playerToggleBtnMobile">术术播放器</a></div>
+                <div class="dropdown-item-custom"><a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener">B站空间</a></div>
+                <div class="dropdown-item-custom"><a href="https://github.com/xxdz-Official" target="_blank" rel="noopener">GitHub</a></div>
+            `;
+            document.body.appendChild(dropdown);
+
+            let hideTimer = null;
+            let isHoveringButton = false;
+            let isHoveringDropdown = false;
+
+            function updateDesktopHide() {
+                const isDesktop = window.innerWidth >= 701;
+                const items = dropdown.querySelectorAll('.desktop-hide');
+                items.forEach(item => {
+                    item.style.display = isDesktop ? 'none' : '';
+                });
+            }
+
+            function getExtraOffset() {
+                const topBar = document.getElementById('mainTopBar');
+                return (topBar && !topBar.classList.contains('island-mode')) ? 10 : 0;
+            }
+
+            function updateDropdownPosition() {
+                const rect = moreBtn.getBoundingClientRect();
+                const w = dropdown.offsetWidth;
+                let left = window.innerWidth - w - 28;
+                if (left < 8) left = 8;
+                let top = rect.bottom + 20 + getExtraOffset();
+                dropdown.style.left = left + 'px';
+                dropdown.style.top = top + 'px';
+            }
+
+            function showDropdown() {
+                if (hideTimer) clearTimeout(hideTimer);
+                updateDropdownPosition();
+                dropdown.classList.remove('show');
+                void dropdown.offsetHeight;
+                dropdown.classList.add('show');
+            }
+
+            function hideDropdown() {
+                if (hideTimer) clearTimeout(hideTimer);
+                hideTimer = setTimeout(() => {
+                    if (!isHoveringButton && !isHoveringDropdown) dropdown.classList.remove('show');
+                }, 150);
+            }
+
+            moreBtn.addEventListener('mouseenter', () => { isHoveringButton = true; showDropdown(); });
+            moreBtn.addEventListener('mouseleave', () => { isHoveringButton = false; hideDropdown(); });
+            dropdown.addEventListener('mouseenter', () => { isHoveringDropdown = true; if (hideTimer) clearTimeout(hideTimer); dropdown.classList.add('show'); });
+            dropdown.addEventListener('mouseleave', () => { isHoveringDropdown = false; hideDropdown(); });
+
+            window.addEventListener('resize', () => {
+                updateDesktopHide();
+                if (dropdown.classList.contains('show')) updateDropdownPosition();
+            });
+            window.addEventListener('scroll', () => { if (dropdown.classList.contains('show')) updateDropdownPosition(); });
+            const observer = new MutationObserver(() => { if (dropdown.classList.contains('show')) updateDropdownPosition(); });
+            const topBar = document.getElementById('mainTopBar');
+            if (topBar) observer.observe(topBar, { attributes: true, attributeFilter: ['class'] });
+
+            const mobilePlayerBtn = dropdown.querySelector('#playerToggleBtnMobile');
+            if (mobilePlayerBtn) {
+                mobilePlayerBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (isMinimized) restoreFromMinimize(mobilePlayerBtn);
+                    else if (isPlayerOpen && !floatingPlayer.classList.contains('show')) {
+                        const navItem = document.getElementById('playerNavItem');
+                        showFloatingPlayer(navItem || mobilePlayerBtn, true);
+                    } else if (!isPlayerOpen) {
+                        const navItem = document.getElementById('playerNavItem');
+                        showFloatingPlayer(navItem || mobilePlayerBtn);
+                    }
+                    dropdown.classList.remove('show');
+                });
+            }
+
+            updateDesktopHide();
+            updateDropdownPosition();
+        })();
+
+        // ========== 提示框 ==========
+        (function() {
+            const btns = document.querySelectorAll('[data-tooltip-text]');
+            btns.forEach(btn => {
+                const tip = document.createElement('div');
+                tip.className = 'btn-tooltip';
+                tip.textContent = btn.getAttribute('data-tooltip-text');
+                document.body.appendChild(tip);
+                let timer = null;
+                btn.addEventListener('mouseenter', () => {
+                    if (timer) clearTimeout(timer);
+                    const rect = btn.getBoundingClientRect();
+                    let left = rect.left;
+                    const w = tip.offsetWidth;
+                    const rightEdge = window.innerWidth - 30;
+                    if (left + w > rightEdge) left = rightEdge - w;
+                    if (left < 10) left = 10;
+                    tip.style.left = left + 'px';
+                    tip.style.top = (rect.bottom + 8) + 'px';
+                    tip.classList.remove('show');
+                    void tip.offsetHeight;
+                    tip.classList.add('show');
+                });
+                btn.addEventListener('mouseleave', () => {
+                    if (timer) clearTimeout(timer);
+                    timer = setTimeout(() => tip.classList.remove('show'), 100);
+                });
+            });
+        })();
+
+        // 灵动岛滚动
+        const topBarEl = document.getElementById('mainTopBar');
+        function updateIsland() {
+            if (window.innerWidth >= 701) {
+                if (window.scrollY > 30) {
+                    topBarEl.classList.remove('island-mode');
+                    document.body.classList.remove('island-active');
+                } else {
+                    topBarEl.classList.add('island-mode');
+                    document.body.classList.add('island-active');
+                }
+            } else {
+                topBarEl.classList.remove('island-mode');
+                document.body.classList.remove('island-active');
+            }
+        }
+        window.addEventListener('scroll', updateIsland);
+        window.addEventListener('resize', updateIsland);
+        updateIsland();
+
+        // 返回顶部
+        const backBtn = document.getElementById('backToTopBtn');
+        if (backBtn) {
+            window.addEventListener('scroll', () => {
+                backBtn.style.opacity = window.scrollY > 200 ? '1' : '0';
+                backBtn.style.visibility = window.scrollY > 200 ? 'visible' : 'hidden';
+            });
+            backBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        render();
+    })();
+</script>
+
+<!-- 光标处理脚本 -->
+<script>
+    (function() {
+        const cursorLayer = document.getElementById('cursorLayer');
+        if (!cursorLayer) return;
+        const cursorImg = cursorLayer.querySelector('img');
+        if (!cursorImg) return;
+
+        cursorLayer.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:2147483647; visibility:visible;';
+        cursorImg.style.cssText = 'position:fixed; top:0; left:0; width:auto; height:auto; transform-origin:0px 0px; pointer-events:none; will-change:transform; opacity:0; transform:translate(-100px,-100px); transition:opacity 0.1s ease, transform 0.12s linear;';
+
+        let mouseX = 0, mouseY = 0, rafId = null, visible = false;
+        const hideStyle = document.createElement('style');
+        hideStyle.textContent = `*,*::before,*::after,html,body,div,span,a,button,input,textarea,select,iframe,iframe *,.floating-player,.floating-player *,.player-content,.player-content *,.player-content::before,.player-content::after,.hover-border,.hover-border::before,.hover-border::after{cursor:none !important;}.player-content{cursor:none !important;}`;
+        document.head.appendChild(hideStyle);
+
+        document.addEventListener('mousemove', function(e) {
+            mouseX = e.clientX; mouseY = e.clientY;
+            if (!visible) { visible = true; cursorImg.style.opacity = '1'; }
+            if (rafId === null) rafId = requestAnimationFrame(() => { cursorImg.style.transform = `translate(${mouseX}px, ${mouseY}px)`; rafId = null; });
+        });
+        document.addEventListener('mouseleave', () => { visible = false; cursorImg.style.opacity = '0'; });
+
+        const iframe = document.getElementById('playerIframe');
+        if (iframe) {
+            iframe.addEventListener('load', () => {
+                try {
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    if (iframeDoc) {
+                        const s = iframeDoc.createElement('style');
+                        s.textContent = '*{cursor:none!important;}';
+                        iframeDoc.head.appendChild(s);
+                    }
+                } catch(e) {}
+            });
+        }
+
+        const playerContent = document.querySelector('.player-content');
+        if (playerContent) {
+            playerContent.style.cursor = 'none';
+            const s2 = document.createElement('style');
+            s2.textContent = '.player-content,.player-content::before,.player-content::after,.player-content.hover-border,.player-content.hover-border::before,.player-content.hover-border::after{cursor:none!important;}';
+            document.head.appendChild(s2);
+            playerContent.addEventListener('mouseenter', () => { playerContent.classList.add('hover-border'); cursorImg.style.opacity = '0'; });
+            playerContent.addEventListener('mouseleave', () => { playerContent.classList.remove('hover-border'); cursorImg.style.opacity = visible ? '1' : '0'; });
+        }
+    })();
+</script>
+
+<script>
+    (function() {
+        const iconUrls = ['https://xxdz-official.github.io/x/img/ico_1.ico','https://xxdz-official.github.io/x/img/ico_2.ico','https://xxdz-official.github.io/x/img/ico_3.ico'];
+        let idx = 0;
+        const link = document.getElementById('dynamic-favicon');
+        if (link) setInterval(() => { idx = (idx+1)%iconUrls.length; link.href = iconUrls[idx]; }, 1000);
+    })();
+</script>
+</body>
+</html>
