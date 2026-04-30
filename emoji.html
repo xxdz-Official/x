@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>電籽表情包 | 電籽的灵质空间</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" id="dynamic-favicon" href="https://xxdz-official.github.io/x/img/ico_1.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --shadow-sm: 3px 3px 8px rgba(0, 0, 0, 0.1);
+            --shadow-md: 4px 4px 12px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 6px 6px 18px rgba(0, 0, 0, 0.15);
+            --shadow-hover: 6px 8px 20px rgba(0, 151, 254, 0.3);
+            --shadow-hover-strong: 8px 12px 24px rgba(0, 151, 254, 0.35);
+        }
+
+        body {
+            background-color: #F5F7FC;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            color: #1F2A3E;
+            line-height: 1.4;
+            overflow-x: hidden;
+        }
+
+        /* 背景层 */
+        .bg-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://xxdz-official.github.io/x/img/bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+            pointer-events: none;
+            animation: bgZoomIn 1.2s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+        }
+
+        @keyframes bgZoomIn {
+            0% { opacity: 0; transform: scale(1.3); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* 顶部栏 */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 3px solid rgba(0, 151, 254, 0.5);
+            padding: 0 clamp(16px, 4vw, 32px);
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        @media (min-width: 701px) {
+            .top-bar.island-mode {
+                top: 12px;
+                left: 12px;
+                width: calc(100% - 24px);
+                height: 56px;
+                padding: 0 28px;
+                background: rgba(255, 255, 255, 0.65);
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                border-bottom: 1px solid rgba(0, 151, 254, 0.35);
+                box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.35), 0 8px 18px rgba(0, 0, 0, 0.2);
+                clip-path: polygon(16px 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%, 0 16px);
+            }
+            .top-bar.island-mode::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                pointer-events: none;
+                clip-path: polygon(16px 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%, 0 16px);
+                border: 1px solid rgba(0, 151, 254, 0.35);
+                border-top: none;
+                box-sizing: border-box;
+            }
+            .top-bar.island-mode .site-title img {
+                height: 2.8rem;
+            }
+            .top-bar.island-mode .nav-item-wrapper a {
+                font-size: clamp(0.6rem, 1.8vw, 0.88rem);
+            }
+            .top-bar.island-mode .nav-icon-img {
+                height: 1.3em;
+            }
+            body.island-active .main-container {
+                margin-top: 90px;
+            }
+        }
+
+        .site-title {
+            font-size: clamp(1rem, 3.5vw, 1.65rem);
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            white-space: nowrap;
+        }
+        .site-title a {
+            background: linear-gradient(135deg, #0097FE 0%, #005FAA 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-decoration: none;
+        }
+        .site-title span {
+            background: linear-gradient(135deg, #0097FE 0%, #005FAA 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            display: inline-block;
+            font-size: 1.4rem;
+            transition: font-size 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .site-title span {
+            display: inline-block;
+            font-size: 1.4rem;
+            transition: font-size 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .site-title img {
+            transition: height 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .nav-links {
+            display: flex;
+            gap: clamp(4px, 1.5vw, 28px);
+            flex-wrap: nowrap;
+            align-items: center;
+        }
+        .nav-item-wrapper {
+            position: relative;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        .nav-item-wrapper a {
+            text-decoration: none;
+            font-weight: 600;
+            font-size: clamp(0.65rem, 2vw, 1rem);
+            color: #2C3E50;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+            display: inline-block;
+            white-space: nowrap;
+        }
+        .nav-item-wrapper a:hover {
+            color: #0097FE;
+            border-bottom-color: #0097FE;
+            transform: translateY(-1px);
+        }
+        .forum-icon-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+        }
+        .nav-icon-img {
+            height: 1.4em;
+            width: auto;
+            object-fit: contain;
+            transition: all 0.2s ease;
+            vertical-align: middle;
+        }
+        .forum-icon-link:hover {
+            border-bottom-color: #0097FE;
+            transform: translateY(-1px);
+        }
+        .forum-icon-link:hover .nav-icon-img {
+            transform: scale(1.02);
+        }
+
+        /* 提示框样式 */
+        .btn-tooltip {
+            position: fixed;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 0px;
+            white-space: nowrap;
+            z-index: 10001;
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+            border-left: 2px solid #0097FE;
+            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(5px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .btn-tooltip.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 下拉菜单样式 */
+        .custom-dropdown {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 151, 254, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            z-index: 10001;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 12px 20px;
+            opacity: 0;
+            transform: translateY(5px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            pointer-events: none;
+        }
+        .custom-dropdown.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .dropdown-item-custom {
+            padding: 0;
+            margin: 0;
+            background: transparent;
+            border: none;
+        }
+        .dropdown-item-custom a {
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #2C3E50;
+            display: block;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+        }
+        .dropdown-item-custom a:hover {
+            color: #0097FE;
+            border-bottom-color: #0097FE;
+            transform: translateY(-1px);
+        }
+
+        /* 桌面端隐藏需要折叠的项 */
+        @media (min-width: 701px) {
+            .nav-item-wrapper.nav-item-bili,
+            .nav-item-wrapper.nav-item-github {
+                display: none;
+            }
+            .desktop-hide {
+                display: none;
+            }
+        }
+        /* 移动端隐藏需要折叠的项 */
+        @media (max-width: 700px) {
+            .nav-item-wrapper.nav-item-player,
+            .nav-item-wrapper.nav-item-wallpaper,
+            .nav-item-wrapper.nav-item-emoji,
+            .nav-item-wrapper.nav-item-bili,
+            .nav-item-wrapper.nav-item-github {
+                display: none;
+            }
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px clamp(16px, 4vw, 32px) 60px;
+        }
+
+        /* 表情包区域 */
+        .emoji-section {
+            margin-bottom: 48px;
+        }
+        .section-header {
+            margin-bottom: 20px;
+            border-left: 6px solid #0097FE;
+            padding-left: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        /* 移动端标题与按钮垂直排列且贴着 */
+        @media (max-width: 700px) {
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            .download-all-btn {
+                margin-left: 0;
+                align-self: flex-start;
+            }
+        }
+        .section-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1F2A3E;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-header h2 img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: rgba(0, 151, 254, 0.1);
+            padding: 4px;
+        }
+        .download-all-btn {
+            background: #0097FE;
+            border: none;
+            padding: 10px 24px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+        }
+        .download-all-btn:hover {
+            background: #0077CC;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* 表情包矩阵容器 - 毛玻璃矩形效果 */
+        .emoji-grid-wrapper {
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 151, 254, 0.25);
+            padding: 28px 24px;
+            transition: all 0.3s ease;
+        }
+
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 24px;
+        }
+        .emoji-card {
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid #E9EDF2;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.25s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: cardFadeInUp 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+        }
+        .emoji-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover-strong);
+            border-color: #0097FE70;
+        }
+
+        /* 卡片依次进入动画 */
+        @keyframes cardFadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .emoji-preview {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            background: #F8FAFE;
+            overflow: hidden;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .emoji-preview img {
+            max-width: 85%;
+            max-height: 85%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            transition: transform 0.3s;
+        }
+        .emoji-card:hover .emoji-preview img {
+            transform: scale(1.05);
+        }
+        .emoji-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 12px 12px 8px;
+            color: #1F2A3E;
+            border-top: 1px solid #E9EDF2;
+        }
+        .emoji-download {
+            padding: 0 12px 16px;
+        }
+        .download-single-btn {
+            background: white;
+            border: 1.5px solid #E2E8F0;
+            padding: 8px 12px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            color: #1F2A3E;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            cursor: pointer;
+            width: 100%;
+            justify-content: center;
+        }
+        .download-single-btn:hover {
+            background: #0097FE;
+            border-color: #0097FE;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* 图片预览弹窗 */
+        .image-preview-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0);
+            z-index: 20000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            transition: visibility 0.3s, background 0.3s ease;
+        }
+        .image-preview-overlay.active {
+            visibility: visible;
+            background: rgba(0,0,0,0.9);
+        }
+        .image-preview-img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border: 3px solid #fff;
+            box-shadow: 0 0 40px rgba(0,0,0,0.6);
+            transition: transform 0.35s cubic-bezier(0.34, 1.3, 0.64, 1), opacity 0.3s ease;
+            transform: scale(0.8);
+            opacity: 0;
+        }
+        .image-preview-overlay.active .image-preview-img {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .image-preview-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            background: none;
+            border: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .image-preview-overlay.active .image-preview-close {
+            opacity: 1;
+        }
+
+        /* 悬浮播放器样式 */
+        .floating-player {
+            position: fixed;
+            width: 540px;
+            height: 360px;
+            background: #1a1f2e;
+            border: 1px solid #39C5BB;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s, transform 0.2s ease;
+            transform: translateY(-8px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .floating-player.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .player-titlebar {
+            background: #2c3348;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8px 0 8px;
+            cursor: grab;
+            user-select: none;
+            border-bottom: 1px solid #39C5BB;
+        }
+        .breakout-btn {
+            background: transparent;
+            border: none;
+            color: #66ccff;
+            font-size: 0.9rem;
+            cursor: pointer;
+            padding: 0 6px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+            border-radius: 2px;
+            margin-right: 4px;
+        }
+        .breakout-btn:hover {
+            background: rgba(57, 197, 187, 0.3);
+            color: #39C5BB;
+            transform: scale(1.02);
+        }
+        .player-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #eef5ff;
+        }
+        .title-left-group {
+            display: flex;
+            align-items: center;
+        }
+        .player-titlebar:active { cursor: grabbing; }
+        .player-window-buttons {
+            display: flex;
+            gap: 6px;
+        }
+        .win-btn {
+            width: 28px;
+            height: 24px;
+            background: transparent;
+            border: none;
+            color: #eef5ff;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+        }
+        .win-btn:hover { background: #4a5568; }
+        .win-btn.close:hover { background: #e81123; color: white; }
+        .player-content {
+            flex: 1;
+            background: #0a0e1a;
+            position: relative;
+            cursor: none !important;
+        }
+        .player-content iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #0a0e1a;
+        }
+        .player-content,
+        .player-content *,
+        .floating-player,
+        .floating-player * {
+            cursor: none !important;
+        }
+        .floating-player.minimizing {
+            transition: transform 0.35s cubic-bezier(0.55, 0, 0.75, 0.5), opacity 0.3s ease;
+            transform: translateY(-120vh) !important;
+            opacity: 0;
+        }
+        .floating-player.dragging { transition: none; }
+        @media (max-width: 600px) {
+            .floating-player {
+                width: calc(100vw - 24px);
+                height: calc((100vw - 24px) * 360 / 540);
+                min-height: 280px;
+                left: 12px !important;
+            }
+            .win-btn { width: 32px; }
+        }
+
+        .cursor-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 99999;
+        }
+        .cursor-layer img {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: auto;
+            height: auto;
+            pointer-events: none;
+        }
+
+        .footer-corner {
+            position: fixed;
+            bottom: 20px;
+            right: 24px;
+            font-size: 0.75rem;
+            color: #7A8BA3;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(4px);
+            padding: 6px 14px;
+            border: 1px solid #E2E8F0;
+            font-weight: 500;
+            z-index: 99;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .footer-corner:hover { color: #0097FE; border-color: #0097FE; }
+
+        @media (max-width: 550px) {
+            .emoji-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 16px;
+            }
+            .section-header h2 {
+                font-size: 1.2rem;
+            }
+            .section-header h2 img {
+                width: 36px;
+                height: 36px;
+            }
+            .emoji-grid-wrapper {
+                padding: 18px 16px;
+            }
+            .emoji-card {
+                min-width: 0;
+            }
+            .emoji-name {
+                font-size: 0.75rem;
+                padding: 8px 8px 4px;
+            }
+            .download-single-btn {
+                font-size: 0.65rem;
+                padding: 6px 8px;
+            }
+            .download-all-btn {
+                padding: 6px 16px;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="cursor-layer" id="cursorLayer"><img src="https://xxdz-official.github.io/x/img/zhengchang_luoxiaohei.gif" alt="cursor"></div>
+<div class="bg-layer"></div>
+
+<header class="top-bar" id="mainTopBar">
+    <div class="logo-area">
+        <div class="site-title" style="display: flex; align-items: center; gap: 6px;">
+            <a href="https://xxdz-official.github.io/x/" style="display: flex; align-items: center; gap: 6px; text-decoration: none;">
+                <img src="https://xxdz-official.github.io/x/img/logo.png" alt="logo" style="height: 3.6rem; width: auto; vertical-align: middle;">
+                <span>電籽的灵质空间</span>
+            </a>
+        </div>
+    </div>
+    <div class="nav-links" id="navLinks">
+        <div class="nav-item-wrapper nav-item-forum">
+            <a href="https://miku66ccff.freeflarum.com" class="forum-icon-link" target="_blank" rel="noopener" data-tooltip-text="我旗下的术力口、furry、科技圈论坛：Miku66ccff论坛">
+                <img src="https://miku66ccff.freeflarum.com/assets/logo-cyvx1jbh.png" alt="Miku66ccff论坛" class="nav-icon-img">
+            </a>
+        </div>
+        <div class="nav-item-wrapper nav-item-wallpaper">
+            <a href="background.html" data-tooltip-text="我制作的壁纸~">電籽壁纸库</a>
+        </div>
+        <div class="nav-item-wrapper nav-item-emoji" data-collapsible="true">
+            <a href="emoji.html" data-tooltip-text="電籽表情包大全 🐾" style="color:#0097FE; border-bottom-color:#0097FE;">表情包</a>
+        </div>
+        <div class="nav-item-wrapper nav-item-bili" data-collapsible="true">
+            <a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener" data-tooltip-text="关注我的最新动态 >w<">B站空间</a>
+        </div>
+        <div class="nav-item-wrapper nav-item-github" data-collapsible="true">
+            <a href="https://github.com/xxdz-Official" target="_blank" rel="noopener" data-tooltip-text="嗷呜~ 为我的仓库给个星标？">GitHub</a>
+        </div>
+        <div class="nav-item-wrapper nav-item-friend">
+            <a href="FriendURL.html" target="_blank" rel="noopener" data-tooltip-text="为我或我的项目做出贡献的朋友们~">友情链接</a>
+        </div>
+        <div class="nav-item-wrapper nav-item-player" id="playerNavItem">
+            <a href="#" id="playerToggleBtn" data-tooltip-text="这是个内嵌的术力口音乐播放器？！">术术播放器</a>
+        </div>
+        <div class="nav-item-wrapper nav-item-more" id="moreBtn">
+            <a href="#">展开更多 ▼</a>
+        </div>
+    </div>
+</header>
+
+<main class="main-container">
+    <div class="emoji-section">
+        <div class="section-header">
+            <h2><img id="firstEmojiPreview" src="" alt="表情包图标" style="width: 48px; height: 48px; object-fit: contain;"> 電籽新版表情包第一弹</h2>
+            <a href="https://xxdz-official.github.io/x/emoji/xxdz_emoji_01.zip" class="download-all-btn" id="downloadAllBtn" download>
+                <i class="fas fa-download"></i> 下载全部表情包
+            </a>
+        </div>
+        <div class="emoji-grid-wrapper">
+            <div id="emojiGrid" class="emoji-grid">
+                <div class="loading-skeleton" style="padding:24px; text-align:center;"><i class="fas fa-spinner fa-pulse"></i> 加载中...</div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="footer-corner" id="backToTopBtn"><i class="fas fa-arrow-up"></i></div>
+
+<div id="floatingPlayer" class="floating-player">
+    <div class="player-titlebar" id="playerTitlebar">
+        <div class="title-left-group">
+            <button class="breakout-btn" id="breakoutBtn" title="冲破图层！"><i class="fas fa-external-link-alt"></i></button>
+            <div class="player-title"><i class="fas fa-head-side-vr"></i><span>電籽术术播放器</span></div>
+        </div>
+        <div class="player-window-buttons">
+            <button class="win-btn minimize" id="winMinimizeBtn" title="最小化">_</button>
+            <button class="win-btn maximize" id="winMaximizeBtn" title="在新标签页打开">🗖</button>
+            <button class="win-btn close" id="winCloseBtn" title="关闭">🗙</button>
+        </div>
+    </div>
+    <div class="player-content">
+        <iframe id="playerIframe" src="about:blank" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // 表情包数据
+        const emojiList = [
+            { name: "哈喽", filename: "哈喽.png" },
+            { name: "唉？！", filename: "唉？！.png" },
+            { name: "坏笑", filename: "坏笑.png" },
+            { name: "害羞", filename: "害羞.png" },
+            { name: "开心", filename: "开心.png" },
+            { name: "思考", filename: "思考.png" },
+            { name: "看", filename: "看.png" },
+            { name: "骚主意", filename: "骚主意.png" }
+        ];
+
+        const BASE_URL = "https://xxdz-official.github.io/x/emoji/";
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
+        }
+
+        function renderEmojis() {
+            const container = document.getElementById('emojiGrid');
+            if (!container) return;
+
+            let html = '';
+            let firstEmojiUrl = '';
+            for (let i = 0; i < emojiList.length; i++) {
+                const emoji = emojiList[i];
+                const imgUrl = BASE_URL + encodeURIComponent(emoji.filename);
+                if (i === 0) firstEmojiUrl = imgUrl;
+                html += `
+                    <div class="emoji-card" data-filename="${escapeHtml(emoji.filename)}" data-url="${imgUrl}">
+                        <div class="emoji-preview" data-full-img="${imgUrl}">
+                            <img src="${imgUrl}" alt="${escapeHtml(emoji.name)}" loading="lazy" onerror="this.src='https://xxdz-official.github.io/x/img/fallback.png'">
+                        </div>
+                        <div class="emoji-name">${escapeHtml(emoji.name)}</div>
+                        <div class="emoji-download">
+                            <button class="download-single-btn" data-filename="${escapeHtml(emoji.filename)}" data-url="${imgUrl}">
+                                <i class="fas fa-download"></i> 下载表情包
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            container.innerHTML = html;
+
+            // 设置标题左侧的第一张表情包预览图
+            const firstEmojiImg = document.getElementById('firstEmojiPreview');
+            if (firstEmojiImg && firstEmojiUrl) {
+                firstEmojiImg.src = firstEmojiUrl;
+                firstEmojiImg.onerror = () => { firstEmojiImg.src = 'https://xxdz-official.github.io/x/img/fallback.png'; };
+            }
+
+            // 动态计算并设置每个卡片的动画延迟（根据索引依次延迟，新增表情包自动适配）
+            const cards = container.querySelectorAll('.emoji-card');
+            cards.forEach((card, index) => {
+                const delay = index * 0.05;
+                card.style.animationDelay = delay + 's';
+            });
+
+            // 绑定预览点击事件
+            document.querySelectorAll('.emoji-preview').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    if (e.target.closest('.download-single-btn')) return;
+                    const fullUrl = el.getAttribute('data-full-img');
+                    if (fullUrl) showImagePreview(fullUrl);
+                });
+            });
+
+            // 绑定单个下载按钮 - 使用 fetch + blob 方式强制下载（解决跨域图片直接打开的问题）
+            document.querySelectorAll('.download-single-btn').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    const filename = btn.getAttribute('data-filename');
+                    const url = btn.getAttribute('data-url');
+                    if (url && filename) {
+                        // 显示下载中提示
+                        const originalText = btn.innerHTML;
+                        btn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> 下载中...';
+                        btn.disabled = true;
+                        try {
+                            // 使用 fetch 获取图片数据并转为 blob 下载
+                            const response = await fetch(url);
+                            const blob = await response.blob();
+                            const blobUrl = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = blobUrl;
+                            a.download = filename;
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                            URL.revokeObjectURL(blobUrl);
+                        } catch (err) {
+                            console.error('下载失败:', err);
+                            alert('下载失败，请稍后重试或右键另存为');
+                        } finally {
+                            btn.innerHTML = originalText;
+                            btn.disabled = false;
+                        }
+                    }
+                });
+            });
+        }
+
+        // 下载文件辅助函数
+        function downloadFile(url, filename) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.target = '_blank';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        // 图片预览
+        let previewOverlay = null;
+        function showImagePreview(url) {
+            if (!previewOverlay) {
+                previewOverlay = document.createElement('div');
+                previewOverlay.className = 'image-preview-overlay';
+                previewOverlay.innerHTML = `<button class="image-preview-close">&times;</button><img class="image-preview-img" alt="预览">`;
+                document.body.appendChild(previewOverlay);
+                const closeBtn = previewOverlay.querySelector('.image-preview-close');
+                closeBtn.onclick = (e) => { e.stopPropagation(); closePreview(); };
+                previewOverlay.onclick = (e) => { if(e.target === previewOverlay) closePreview(); };
+            }
+            const img = previewOverlay.querySelector('.image-preview-img');
+            img.onload = () => {};
+            img.src = url;
+            void img.offsetHeight;
+            previewOverlay.classList.add('active');
+
+            function closePreview() {
+                previewOverlay.classList.remove('active');
+                setTimeout(() => {
+                    if(!previewOverlay.classList.contains('active')) img.src = '';
+                }, 400);
+            }
+            window.closePreview = closePreview;
+        }
+
+        // ========== 悬浮播放器逻辑 ==========
+        const floatingPlayer = document.getElementById('floatingPlayer');
+        const playerIframe = document.getElementById('playerIframe');
+        const playerTitlebar = document.getElementById('playerTitlebar');
+        const winMinimizeBtn = document.getElementById('winMinimizeBtn');
+        const winMaximizeBtn = document.getElementById('winMaximizeBtn');
+        const winCloseBtn = document.getElementById('winCloseBtn');
+        const PLAYER_URL = 'https://xxdz-official.github.io/x/Vocaloidplayer.html';
+
+        let isPlayerOpen = false;
+        let isMinimized = false;
+        let savedPosition = { left: null, top: null };
+        let isDragging = false;
+        let dragOffsetX = 0, dragOffsetY = 0;
+
+        function showFloatingPlayer(triggerElement, useSavedPosition = false) {
+            if (!floatingPlayer) return;
+            floatingPlayer.classList.remove('minimizing');
+            if (!useSavedPosition && triggerElement) {
+                const rect = triggerElement.getBoundingClientRect();
+                let left = rect.left + (rect.width / 2) - 270;
+                let top = rect.bottom + 8;
+                if (left + 540 > window.innerWidth - 16) left = window.innerWidth - 556;
+                if (left < 16) left = 16;
+                if (top + 360 > window.innerHeight - 16) top = rect.top - 368;
+                floatingPlayer.style.left = left + 'px';
+                floatingPlayer.style.top = top + 'px';
+                savedPosition = { left, top };
+            } else if (savedPosition.left !== null && savedPosition.top !== null) {
+                floatingPlayer.style.left = savedPosition.left + 'px';
+                floatingPlayer.style.top = savedPosition.top + 'px';
+            }
+            if (!isPlayerOpen && playerIframe.src === 'about:blank') playerIframe.src = PLAYER_URL;
+            floatingPlayer.classList.add('show');
+            isPlayerOpen = true;
+            isMinimized = false;
+        }
+
+        function minimizePlayer() {
+            if (!floatingPlayer || !isPlayerOpen) return;
+            isMinimized = true;
+            floatingPlayer.classList.add('minimizing');
+            setTimeout(() => {
+                if (isMinimized) {
+                    floatingPlayer.classList.remove('show', 'minimizing');
+                    isPlayerOpen = false;
+                }
+            }, 350);
+        }
+
+        function restoreFromMinimize(triggerElement) {
+            if (!isMinimized) return;
+            const navItem = document.getElementById('playerNavItem');
+            showFloatingPlayer(navItem || triggerElement, true);
+        }
+
+        function maximizePlayer() {
+            window.open(PLAYER_URL, '_blank');
+            closePlayer();
+        }
+
+        function closePlayer() {
+            if (!floatingPlayer) return;
+            floatingPlayer.classList.remove('show');
+            isPlayerOpen = false;
+            isMinimized = false;
+            if (playerIframe) playerIframe.src = 'about:blank';
+            savedPosition = { left: null, top: null };
+        }
+
+        let playerOverlay = null;
+        function createPlayerOverlay() {
+            if (playerOverlay) return;
+            const playerContent = floatingPlayer.querySelector('.player-content');
+            if (!playerContent) return;
+            playerOverlay = document.createElement('div');
+            playerOverlay.style.cssText = 'position:absolute; top:0; left:0; width:100%; height:100%; background:transparent; cursor:grabbing; pointer-events:auto; z-index:10;';
+            playerContent.style.position = 'relative';
+            playerContent.appendChild(playerOverlay);
+        }
+        function removePlayerOverlay() {
+            if (playerOverlay && playerOverlay.parentNode) playerOverlay.parentNode.removeChild(playerOverlay);
+            playerOverlay = null;
+        }
+
+        function startDrag(e) {
+            if (!isPlayerOpen || isMinimized) return;
+            if (!playerTitlebar.contains(e.target)) return;
+            if (e.target.closest('.win-btn')) return;
+            e.preventDefault();
+            isDragging = true;
+            floatingPlayer.classList.add('dragging');
+            const rect = floatingPlayer.getBoundingClientRect();
+            dragOffsetX = e.clientX - rect.left;
+            dragOffsetY = e.clientY - rect.top;
+            createPlayerOverlay();
+            document.addEventListener('mousemove', onDrag);
+            document.addEventListener('mouseup', stopDrag);
+            document.body.style.userSelect = 'none';
+        }
+        function onDrag(e) {
+            if (!isDragging) return;
+            let newLeft = e.clientX - dragOffsetX;
+            let newTop = e.clientY - dragOffsetY;
+            newLeft = Math.max(4, Math.min(newLeft, window.innerWidth - floatingPlayer.offsetWidth - 4));
+            newTop = Math.max(4, Math.min(newTop, window.innerHeight - floatingPlayer.offsetHeight - 4));
+            floatingPlayer.style.left = newLeft + 'px';
+            floatingPlayer.style.top = newTop + 'px';
+            savedPosition = { left: newLeft, top: newTop };
+        }
+        function stopDrag() {
+            if (!isDragging) return;
+            isDragging = false;
+            floatingPlayer.classList.remove('dragging');
+            document.removeEventListener('mousemove', onDrag);
+            document.removeEventListener('mouseup', stopDrag);
+            document.body.style.userSelect = '';
+            removePlayerOverlay();
+        }
+
+        const playerToggleBtn = document.getElementById('playerToggleBtn');
+        function openOrRestorePlayer(e) {
+            e.preventDefault();
+            if (isMinimized) restoreFromMinimize(playerToggleBtn);
+            else if (isPlayerOpen && !floatingPlayer.classList.contains('show')) {
+                const navItem = document.getElementById('playerNavItem');
+                showFloatingPlayer(navItem || playerToggleBtn, true);
+            } else if (!isPlayerOpen) {
+                const navItem = document.getElementById('playerNavItem');
+                showFloatingPlayer(navItem || playerToggleBtn);
+            }
+        }
+        if (playerToggleBtn) playerToggleBtn.addEventListener('click', openOrRestorePlayer);
+        if (winMinimizeBtn) winMinimizeBtn.addEventListener('click', (e) => { e.stopPropagation(); minimizePlayer(); });
+        if (winMaximizeBtn) winMaximizeBtn.addEventListener('click', (e) => { e.stopPropagation(); maximizePlayer(); });
+        if (winCloseBtn) winCloseBtn.addEventListener('click', (e) => { e.stopPropagation(); closePlayer(); });
+        if (playerTitlebar) playerTitlebar.addEventListener('mousedown', startDrag);
+
+        const breakoutBtn = document.getElementById('breakoutBtn');
+        let popupWindow = null, popupHeartbeatInterval = null;
+        function isPopupAlive() { return popupWindow && !popupWindow.closed; }
+        function onPopupClosed() { if (popupHeartbeatInterval) clearInterval(popupHeartbeatInterval); popupHeartbeatInterval = null; popupWindow = null; }
+        function breakoutToPopup() {
+            if (isPopupAlive()) { try { popupWindow.focus(); } catch(e){} return; }
+            if (popupHeartbeatInterval) clearInterval(popupHeartbeatInterval);
+            let targetUrl = PLAYER_URL;
+            if (playerIframe && playerIframe.src !== 'about:blank') targetUrl = playerIframe.src;
+            const popupWidth = 860, popupHeight = 560, left = (screen.width - popupWidth) / 2, top = (screen.height - popupHeight) / 2;
+            const features = `width=${popupWidth},height=${popupHeight},left=${left},top=${top},resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,status=no`;
+            popupWindow = window.open(targetUrl, 'DianziPlayerPopup', features);
+            if (popupWindow) {
+                popupHeartbeatInterval = setInterval(() => { if (!isPopupAlive()) onPopupClosed(); }, 1000);
+                if (isPlayerOpen) closePlayer();
+                try { popupWindow.focus(); } catch(e) {}
+            } else { alert("浏览器可能阻止了我的小窗口，请允许弹出窗口后重试qwq"); }
+        }
+        if (breakoutBtn) breakoutBtn.addEventListener('click', (e) => { e.stopPropagation(); breakoutToPopup(); });
+
+        // ========== 展开更多下拉菜单 ==========
+        (function() {
+            const moreBtn = document.getElementById('moreBtn');
+            if (!moreBtn) return;
+            const dropdown = document.createElement('div');
+            dropdown.className = 'custom-dropdown';
+            dropdown.innerHTML = `
+                <div class="dropdown-item-custom desktop-hide"><a href="background.html">電籽壁纸库</a></div>
+                <div class="dropdown-item-custom desktop-hide"><a href="emoji.html">表情包</a></div>
+                <div class="dropdown-item-custom desktop-hide"><a href="#" id="playerToggleBtnMobile">术术播放器</a></div>
+                <div class="dropdown-item-custom"><a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener">B站空间</a></div>
+                <div class="dropdown-item-custom"><a href="https://github.com/xxdz-Official" target="_blank" rel="noopener">GitHub</a></div>
+            `;
+            document.body.appendChild(dropdown);
+            let hideTimer = null, isHoveringButton = false, isHoveringDropdown = false;
+            function updateDesktopHide() {
+                const isDesktop = window.innerWidth >= 701;
+                dropdown.querySelectorAll('.desktop-hide').forEach(item => item.style.display = isDesktop ? 'none' : '');
+            }
+            function updateDropdownPosition() {
+                const rect = moreBtn.getBoundingClientRect();
+                let left = window.innerWidth - dropdown.offsetWidth - 28;
+                if (left < 8) left = 8;
+                dropdown.style.left = left + 'px';
+                dropdown.style.top = rect.bottom + 20 + 'px';
+            }
+            function showDropdown() { if (hideTimer) clearTimeout(hideTimer); updateDropdownPosition(); dropdown.classList.remove('show'); void dropdown.offsetHeight; dropdown.classList.add('show'); }
+            function hideDropdown() { if (hideTimer) clearTimeout(hideTimer); hideTimer = setTimeout(() => { if (!isHoveringButton && !isHoveringDropdown) dropdown.classList.remove('show'); }, 150); }
+            updateDesktopHide(); updateDropdownPosition();
+            window.addEventListener('resize', () => { updateDesktopHide(); if (dropdown.classList.contains('show')) updateDropdownPosition(); });
+            moreBtn.addEventListener('mouseenter', () => { isHoveringButton = true; showDropdown(); });
+            moreBtn.addEventListener('mouseleave', () => { isHoveringButton = false; hideDropdown(); });
+            dropdown.addEventListener('mouseenter', () => { isHoveringDropdown = true; if (hideTimer) clearTimeout(hideTimer); dropdown.classList.add('show'); });
+            dropdown.addEventListener('mouseleave', () => { isHoveringDropdown = false; hideDropdown(); });
+            const mobilePlayerBtn = dropdown.querySelector('#playerToggleBtnMobile');
+            if (mobilePlayerBtn) mobilePlayerBtn.addEventListener('click', (e) => { e.preventDefault(); if (isMinimized) restoreFromMinimize(mobilePlayerBtn); else if (isPlayerOpen && !floatingPlayer.classList.contains('show')) { const navItem = document.getElementById('playerNavItem'); showFloatingPlayer(navItem || mobilePlayerBtn, true); } else if (!isPlayerOpen) { const navItem = document.getElementById('playerNavItem'); showFloatingPlayer(navItem || mobilePlayerBtn); } dropdown.classList.remove('show'); });
+        })();
+
+        // 提示框
+        (function() {
+            const btns = document.querySelectorAll('[data-tooltip-text]');
+            btns.forEach(btn => {
+                const tip = document.createElement('div');
+                tip.className = 'btn-tooltip';
+                tip.textContent = btn.getAttribute('data-tooltip-text');
+                document.body.appendChild(tip);
+                let timer = null;
+                btn.addEventListener('mouseenter', () => {
+                    if (timer) clearTimeout(timer);
+                    const rect = btn.getBoundingClientRect();
+                    let left = rect.left, w = tip.offsetWidth, rightEdge = window.innerWidth - 30;
+                    if (left + w > rightEdge) left = rightEdge - w;
+                    if (left < 10) left = 10;
+                    tip.style.left = left + 'px';
+                    tip.style.top = (rect.bottom + 8) + 'px';
+                    tip.classList.remove('show');
+                    void tip.offsetHeight;
+                    tip.classList.add('show');
+                });
+                btn.addEventListener('mouseleave', () => { if (timer) clearTimeout(timer); timer = setTimeout(() => tip.classList.remove('show'), 100); });
+            });
+        })();
+
+        // 灵动岛滚动
+        const topBarEl = document.getElementById('mainTopBar');
+        function updateIsland() {
+            if (window.innerWidth >= 701) {
+                if (window.scrollY > 30) { topBarEl.classList.remove('island-mode'); document.body.classList.remove('island-active'); }
+                else { topBarEl.classList.add('island-mode'); document.body.classList.add('island-active'); }
+            } else { topBarEl.classList.remove('island-mode'); document.body.classList.remove('island-active'); }
+        }
+        window.addEventListener('scroll', updateIsland);
+        window.addEventListener('resize', updateIsland);
+        updateIsland();
+
+        // 返回顶部
+        const backBtn = document.getElementById('backToTopBtn');
+        if (backBtn) {
+            window.addEventListener('scroll', () => { backBtn.style.opacity = window.scrollY > 200 ? '1' : '0'; backBtn.style.visibility = window.scrollY > 200 ? 'visible' : 'hidden'; });
+            backBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 动态favicon
+        const iconUrls = ['https://xxdz-official.github.io/x/img/ico_1.ico','https://xxdz-official.github.io/x/img/ico_2.ico','https://xxdz-official.github.io/x/img/ico_3.ico'];
+        let idx = 0;
+        const link = document.getElementById('dynamic-favicon');
+        if (link) setInterval(() => { idx = (idx+1)%iconUrls.length; link.href = iconUrls[idx]; }, 1000);
+
+        renderEmojis();
+    })();
+</script>
+
+<script>
+    (function() {
+        const cursorLayer = document.getElementById('cursorLayer');
+        if (!cursorLayer) return;
+        const cursorImg = cursorLayer.querySelector('img');
+        if (!cursorImg) return;
+        cursorLayer.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:2147483647; visibility:visible;';
+        cursorImg.style.cssText = 'position:fixed; top:0; left:0; width:auto; height:auto; transform-origin:0px 0px; pointer-events:none; will-change:transform; opacity:0; transform:translate(-100px,-100px); transition:opacity 0.1s ease, transform 0.12s linear;';
+        let mouseX = 0, mouseY = 0, rafId = null, visible = false;
+        const hideStyle = document.createElement('style');
+        hideStyle.textContent = `*,*::before,*::after,html,body,div,span,a,button,input,textarea,select,iframe,iframe *,.floating-player,.floating-player *,.player-content,.player-content *,.player-content::before,.player-content::after,.hover-border,.hover-border::before,.hover-border::after{cursor:none !important;}.player-content{cursor:none !important;}`;
+        document.head.appendChild(hideStyle);
+        document.addEventListener('mousemove', function(e) { mouseX = e.clientX; mouseY = e.clientY; if (!visible) { visible = true; cursorImg.style.opacity = '1'; } if (rafId === null) rafId = requestAnimationFrame(() => { cursorImg.style.transform = `translate(${mouseX}px, ${mouseY}px)`; rafId = null; }); });
+        document.addEventListener('mouseleave', () => { visible = false; cursorImg.style.opacity = '0'; });
+        const iframe = document.getElementById('playerIframe');
+        if (iframe) iframe.addEventListener('load', () => { try { const iframeDoc = iframe.contentDocument || iframe.contentWindow.document; if (iframeDoc) { const s = iframeDoc.createElement('style'); s.textContent = '*{cursor:none!important;}'; iframeDoc.head.appendChild(s); } } catch(e) {} });
+        const playerContent = document.querySelector('.player-content');
+        if (playerContent) {
+            playerContent.style.cursor = 'none';
+            const s2 = document.createElement('style');
+            s2.textContent = '.player-content,.player-content::before,.player-content::after,.player-content.hover-border,.player-content.hover-border::before,.player-content.hover-border::after{cursor:none!important;}';
+            document.head.appendChild(s2);
+            playerContent.addEventListener('mouseenter', () => { playerContent.classList.add('hover-border'); cursorImg.style.opacity = '0'; });
+            playerContent.addEventListener('mouseleave', () => { playerContent.classList.remove('hover-border'); cursorImg.style.opacity = visible ? '1' : '0'; });
+        }
+    })();
+</script>
+</body>
+</html>
