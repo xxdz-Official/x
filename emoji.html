@@ -29,6 +29,9 @@
             line-height: 1.4;
             overflow-x: hidden;
         }
+        html {
+            height: 100%;
+        }
 
         /* 背景层 */
         .bg-layer {
@@ -106,9 +109,6 @@
             }
             .top-bar.island-mode .nav-icon-img {
                 height: 1.3em;
-            }
-            body.island-active .main-container {
-                margin-top: 90px;
             }
         }
 
@@ -292,8 +292,10 @@
 
         .main-container {
             max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px clamp(16px, 4vw, 32px) 60px;
+            margin: 140px auto 0 auto;
+            padding: 0 clamp(16px, 4vw, 32px) 60px;
+            position: relative;
+            z-index: 1;
         }
 
         /* 表情包区域 */
@@ -1138,15 +1140,26 @@
             });
         })();
 
-        // 灵动岛滚动
+        // 灵动岛滚动 - 使用 requestAnimationFrame 防止闪烁
         const topBarEl = document.getElementById('mainTopBar');
+        let islandTicking = false;
         function updateIsland() {
-            if (window.innerWidth >= 701) {
-                if (window.scrollY > 30) { topBarEl.classList.remove('island-mode'); document.body.classList.remove('island-active'); }
-                else { topBarEl.classList.add('island-mode'); document.body.classList.add('island-active'); }
-            } else { topBarEl.classList.remove('island-mode'); document.body.classList.remove('island-active'); }
+            if (islandTicking) return;
+            islandTicking = true;
+            requestAnimationFrame(() => {
+                if (window.innerWidth >= 701) {
+                    if (window.scrollY > 30) {
+                        topBarEl.classList.remove('island-mode');
+                    } else {
+                        topBarEl.classList.add('island-mode');
+                    }
+                } else {
+                    topBarEl.classList.remove('island-mode');
+                }
+                islandTicking = false;
+            });
         }
-        window.addEventListener('scroll', updateIsland);
+        window.addEventListener('scroll', updateIsland, { passive: true });
         window.addEventListener('resize', updateIsland);
         updateIsland();
 
