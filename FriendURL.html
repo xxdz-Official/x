@@ -304,6 +304,7 @@
         @media (max-width: 700px) {
             .nav-item-wrapper.nav-item-player,
             .nav-item-wrapper.nav-item-wallpaper,
+            .nav-item-wrapper.nav-item-emoji,
             .nav-item-wrapper.nav-item-bili,
             .nav-item-wrapper.nav-item-github {
                 display: none;
@@ -801,6 +802,9 @@
         <div class="nav-item-wrapper nav-item-wallpaper">
             <a href="https://xxdz-official.github.io/x/background.html" data-tooltip-text="我制作的壁纸~">電籽壁纸库</a>
         </div>
+        <div class="nav-item-wrapper nav-item-emoji" data-collapsible="true">
+            <a href="emoji.html" target="_blank" rel="noopener" data-tooltip-text="電籽表情包大全 🐾">表情包</a>
+        </div>
         <div class="nav-item-wrapper nav-item-bili" data-collapsible="true">
             <a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener" data-tooltip-text="关注我的最新动态 >w<">B站空间</a>
         </div>
@@ -986,6 +990,7 @@
             dropdown.className = 'custom-dropdown';
             dropdown.innerHTML = `
                 <div class="dropdown-item-custom desktop-hide"><a href="#">電籽壁纸库</a></div>
+                <div class="dropdown-item-custom desktop-hide"><a href="emoji.html">表情包</a></div>
                 <div class="dropdown-item-custom desktop-hide"><a href="#" id="playerToggleBtnMobile">术术播放器</a></div>
                 <div class="dropdown-item-custom"><a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener">B站空间</a></div>
                 <div class="dropdown-item-custom"><a href="https://github.com/xxdz-Official" target="_blank" rel="noopener">GitHub</a></div>
