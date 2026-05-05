@@ -15,7 +15,6 @@
     <meta property="og:url" content="https://xxdz-official.github.io/x/">
     <meta property="og:image" content="https://i1.hdslb.com/bfs/face/87e609940c74ed2e7dcf6b2b19b3029f8e1566e1.jpg@240w_240h_1c_1s_!web-avatar-nav.avif">
     <meta name="twitter:card" content="summary_large_image">
-     <!-- 拿到必应验证啦 -->
     <meta name="msvalidate.01" content="4BAEA6DA804D3EAD53ED426D2BFA8C0B" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -1594,6 +1593,141 @@
             pointer-events: none;
             transform: translate(0, 0);
         }
+
+        /* ========== 新增底部栏样式 (完全符合图例: 123横向拉伸, 4全宽) ========== */
+        .custom-bottom-bar {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            line-height: 0;
+            font-size: 0;
+            background: transparent;
+            clear: both;
+        }
+        /* 123 区域 */
+        .bottom-strip {
+            display: flex;
+            width: 100%;
+            height: 45px;
+            flex-wrap: nowrap;
+            align-items: stretch;
+            background: transparent;
+        }
+        /* 左侧图片（图例1位置）原宽178，按高度45等比例计算新宽度 = 178 * (45/60) = 133.5px */
+        .bottom-left {
+            flex: 0 0 133.5px;
+            width: 133.5px;
+            height: 45px;
+        }
+        .bottom-left img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: contain;
+            object-position: left center;
+        }
+        /* 中间图片（图例2位置）自适应宽度，拉伸填充宽度，高度45等比例 */
+        .bottom-middle {
+            flex: 1;
+            min-width: 0;
+            height: 45px;
+        }
+        .bottom-middle img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: fill;
+        }
+        /* 右侧图片（图例3位置）原宽94，按高度45等比例计算新宽度 = 94 * (45/60) = 70.5px */
+        .bottom-right {
+            flex: 0 0 70.5px;
+            width: 70.5px;
+            height: 45px;
+        }
+        .bottom-right img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: contain;
+            object-position: right center;
+        }
+        /* 4号区域：高度80px，宽度100%，图片作为背景层 */
+        .bottom-extension {
+            width: 100%;
+            height: 80px;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+        /* 浮在背景图上的信息栏，无背景色，深色字体 */
+        .bottom-info-overlay {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0 24px;
+            box-sizing: border-box;
+            gap: 4px;
+        }
+        .bottom-info-copyright {
+            font-size: 11px;
+            color: #2C3E50;
+            line-height: 1.4;
+            opacity: 0.85;
+        }
+        .bottom-info-links {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            row-gap: 4px;
+            font-size: 10px;
+        }
+        .bottom-info-links a {
+            color: #2C3E50;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            opacity: 0.8;
+        }
+        .bottom-info-links a:hover {
+            color: #0097FE;
+            text-decoration: underline;
+            opacity: 1;
+        }
+        .sep {
+            color: #7A8BA3;
+            opacity: 0.6;
+        }
+        .email {
+            color: #5A6E8C;
+            opacity: 0.8;
+        }
+        @media (max-width: 700px) {
+            .bottom-info-overlay {
+                padding: 0 16px;
+            }
+            .bottom-info-copyright {
+                font-size: 10px;
+            }
+            .bottom-info-links {
+                font-size: 9px;
+                gap: 6px;
+            }
+        }
+        /* 极小屏幕保障左右区域不被压缩超出 */
+        @media (max-width: 320px) {
+            .bottom-left {
+                flex: 0 0 133.5px;
+            }
+            .bottom-right {
+                flex: 0 0 70.5px;
+            }
+        }
+
     </style>
 <script type="application/ld+json">
 {
@@ -1670,7 +1804,6 @@
             </div>
                 <div id="fansDisplay" class="fans-box">
                     <div class="metrics-container" style="display: flex; gap: 20px; align-items: center; flex-wrap: nowrap;">
-                        <!-- 粉丝数卡片 嗯对，有好几位粉丝（）-->
                         <div class="metric-item fans-metric" style="flex: 1 1 auto; min-width: 0; transition: flex 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);">
                             <div class="fans-label"><i class="fas fa-star"></i> 粉丝数</div>
                             <div class="fans-number" style="display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap;">
@@ -1678,14 +1811,12 @@
                                 <span id="fansLoadingHint" style="font-size: 0.7rem; font-weight: 400; color: #8C9AB0;">(具体数加载中ing)</span>
                             </div>
                         </div>
-                        <!-- 播放量卡片（初始宽度为0）哇这个动画超级丝滑 -->
                         <div id="viewsMetricItem" class="metric-item views-metric" style="flex: 0 0 0; overflow: hidden; white-space: nowrap; transition: flex 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);">
                             <div class="fans-label"><i class="fas fa-eye"></i> 播放量</div>
                             <div class="fans-number" style="font-size: 1.4rem;">
                                 <span id="viewsNumberValue">0</span>
                             </div>
                         </div>
-                        <!-- 获赞量卡片（初始宽度为0）同唉 -->
                         <div id="likesMetricItem" class="metric-item likes-metric" style="flex: 0 0 0; overflow: hidden; white-space: nowrap; transition: flex 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);">
                             <div class="fans-label"><i class="fas fa-thumbs-up"></i> 获赞量</div>
                             <div class="fans-number" style="font-size: 1.4rem;">
@@ -1719,15 +1850,12 @@
 
     <div class="right-side">
         <div class="right-section">
-             <!-- 并排显示的 最新视频 + 代表作 -->
             <div class="video-row">
-                <!-- 左侧是B站最新视频 + 横排按钮 -->
                 <div class="video-col">
                     <div class="section-title">
                         <img src="http://i0.hdslb.com/bfs/new_dyn/4150106a188c7a96db1b1b1d391ae6f13461569935575626.png" alt="最新视频"> B站最新视频
                     </div>
                     <div id="latestVideoContainer">
-                        <!-- 加载占位内容 -->
                         <div class="video-card loading-placeholder">
                             <div class="video-cover-wrapper">
                                 <img class="video-cover-img" src="https://i0.hdslb.com/bfs/vc/b8eb9637fec90527a6dc9737acdc3577e275c7b5.png@672w_380h_1c.webp" alt="加载中">
@@ -1735,16 +1863,13 @@
                             <div class="video-title">稍等..最新视频是什么捏...</div>
                         </div>
                     </div>
-                    <!-- 横排按钮区域（电籽の快捷入口） -->
                     <div class="quick-links">
                         <div class="quick-links-title">電籽の快捷入口</div>
                         <div class="quick-links-grid" id="quickLinksGrid">
-                            <!-- 动态生成横排按钮 -->
                         </div>
                     </div>
                 </div>
 
-                <!-- 右侧：代表作模块 (2x2) -->
                 <div class="video-col">
                     <div class="section-title" style="justify-content: space-between;">
                         <div style="display: flex; align-items: center; gap: 12px;">
@@ -1753,12 +1878,10 @@
                         <a href="masterpiece.html" class="section-more-btn" target="_blank" rel="noopener">精选视频库</a>
                     </div>
                     <div id="masterpiecesContainer" class="masterpieces-grid">
-                        <!-- 动态生成代表作卡片 -->
                     </div>
                 </div>
             </div>
 
-            <!-- 原创项目 -->
             <div>
                 <div class="section-title" style="justify-content: space-between;">
                     <div style="display: flex; align-items: center; gap: 12px;">
@@ -1788,7 +1911,6 @@
                 </div>
             </div>
 
-            <!-- 近期动态（从B站动态加载） -->
             <div style="margin-top: 16px;">
                 <div class="section-title" style="justify-content: space-between;">
                     <div style="display: flex; align-items: center; gap: 12px;">
@@ -1798,7 +1920,6 @@
                 </div>
                 <div class="info-card" style="padding: 24px; background:#FFFFFF;">
                     <div id="dynamicsContainer">
-                        <!-- 动态列表会动态加载 -->
                         <div class="loading-skeleton">正在加载动态...</div>
                     </div>
                 </div>
@@ -1807,12 +1928,48 @@
     </div>
 </main>
 
+<!-- ========== 新增底部栏 (完全符合图例: 123 + 4) ========== -->
+<div class="custom-bottom-bar">
+    <div class="bottom-strip">
+        <!-- 图例1位置: 3.png 宽178 -->
+        <div class="bottom-left">
+            <img src="https://xxdz-official.github.io/x/img/bottom/3.png" alt="底部左侧装饰" loading="lazy">
+        </div>
+        <!-- 图例2位置: 1.png (与4共用) 伸缩宽度 -->
+        <div class="bottom-middle">
+            <img src="https://xxdz-official.github.io/x/img/bottom/1.png" alt="底部中间伸缩装饰" loading="lazy">
+        </div>
+        <!-- 图例3位置: 2.png 宽94 -->
+        <div class="bottom-right">
+            <img src="https://xxdz-official.github.io/x/img/bottom/2.png" alt="底部右侧装饰" loading="lazy">
+        </div>
+    </div>
+
+    <!-- 4号位置: 高度80px, 1.png 全宽拉伸，信息浮在背景图上 -->
+    <div class="bottom-extension" style="position: relative;">
+        <img src="https://xxdz-official.github.io/x/img/bottom/1.png" alt="底部延伸区域" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: fill; z-index: 0;">
+        <div class="bottom-info-overlay">
+            <div class="bottom-info-copyright">© 2025 小小电子xxdz（電籽） | 本网站由電籽亲自维护</div>
+            <div class="bottom-info-links">
+                <a href="https://space.bilibili.com/3461569935575626" target="_blank">哔哩哔哩</a>
+                <span class="sep">|</span>
+                <a href="https://github.com/xxdz-Official" target="_blank">GitHub</a>
+                <span class="sep">|</span>
+                <a href="https://miku66ccff.freeflarum.com" target="_blank">Miku66ccff论坛</a>
+                <span class="sep">|</span>
+                <a href="https://xxdz-official.github.io/x/FriendURL.html" target="_blank">友情链接</a>
+                <span class="sep">|</span>
+                <span class="email">xxdz_7785@163.com</span>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="footer-corner" id="backToTopBtn" style="cursor: pointer; opacity: 0; visibility: hidden; transform: translateY(15px); transition: opacity 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1), visibility 0.25s;">
     <i class="fas fa-arrow-up" style="font-size: 1.2rem; transition: transform 0.2s cubic-bezier(0.34, 1.2, 0.64, 1);"></i>
 </div>
 
-        <!-- 悬浮播放器容器 - Windows窗口风格 -->
-    <div id="floatingPlayer" class="floating-player">
+<div id="floatingPlayer" class="floating-player">
         <div class="player-titlebar" id="playerTitlebar">
         <div class="title-left-group">
             <button class="breakout-btn" id="breakoutBtn" title="冲破图层！">
@@ -1830,12 +1987,10 @@
         </div>
     </div>
     <div class="player-content" style="position: relative;">
-        <!-- 播放器上方的光标覆盖层 -->
         <div class="cursor-layer-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; background: transparent; overflow: hidden;">
             <img src="https://xxdz-official.github.io/x/img/zhengchang_luoxiaohei.gif" alt="cursor" style="position: absolute; top: 0; left: 0; width: auto; height: auto; transform-origin: 0px 0px; pointer-events: none; opacity: 0; transform: translate(0px, 0px) scale(0); transition: opacity 0.15s ease, transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);">
         </div>
         <iframe id="playerIframe" src="about:blank" loading="lazy" allow="autoplay; fullscreen" allow="autoplay; fullscreen" allowfullscreen></iframe>
-        <!-- 播放器上方的光标覆盖层 -->
         <div class="cursor-layer-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; background: transparent; overflow: hidden;">
             <img src="https://xxdz-official.github.io/x/img/zhengchang_luoxiaohei.gif" alt="cursor" style="position: absolute; top: 0; left: 0; width: auto; height: auto; transform-origin: 0px 0px; pointer-events: none; opacity: 0; transform: translate(0px, 0px) scale(0); transition: opacity 0.15s ease, transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);">
         </div>
@@ -1844,7 +1999,7 @@
 
 <script>
     (function() {
-        // ==================== 代表作数据（易修改，因为就我这冷门度，八百年也有不了新火的视频。。。） ====================
+        // ==================== 代表作数据 ====================
         const masterpieces = [
             {
                 title: "啊！这个'微信'居然是个病毒?【危信】",
@@ -1868,7 +2023,6 @@
             }
         ];
 
-        // ==================== 公共函数 ====================
         function extractBV(videoUrl) {
             if (!videoUrl) return null;
             const match = videoUrl.match(/\/video\/(BV\w+)/i);
@@ -1885,14 +2039,10 @@
             });
         }
 
-        // 创建单个视频卡片（支持悬浮 iframe 预览，移出停止）
         function createVideoCard(item) {
             const bvid = extractBV(item.url);
             if (!bvid) return null;
-
             const iframeSrc = `//player.bilibili.com/player.html?bvid=${bvid}&page=1&high_quality=1&autoplay=0`;
-
-            // 使用更高效的 innerHTML 构建卡片（减少 DOM 操作次数）
             const card = document.createElement('a');
             card.className = 'video-card';
             card.href = item.url;
@@ -1900,7 +2050,6 @@
             card.rel = 'noopener';
             card.setAttribute('data-bvid', bvid);
             card.setAttribute('data-iframe-src', iframeSrc);
-
             card.innerHTML = `
                 <div class="video-cover-wrapper">
                     <img class="video-cover-img" src="${escapeHtml(item.cover)}" alt="视频封面" onerror="this.onerror=null; this.src='';">
@@ -1910,15 +2059,10 @@
                 </div>
                 <div class="video-title">${escapeHtml(item.title)}</div>
             `;
-
-            // 获取内部元素引用
             const coverImg = card.querySelector('.video-cover-img');
             const iframeWrapper = card.querySelector('.video-iframe-wrapper');
             const iframe = card.querySelector('iframe');
-
             let hoverTimer = null, leaveTimer = null, isIframeVisible = false;
-
-            // 悬浮逻辑
             const showIframe = () => {
                 if (!isIframeVisible && coverImg && iframeWrapper) {
                     coverImg.style.opacity = '0';
@@ -1928,7 +2072,6 @@
                     isIframeVisible = true;
                 }
             };
-
             const hideIframe = () => {
                 if (isIframeVisible && coverImg && iframeWrapper && iframe) {
                     iframe.src = '';
@@ -1940,52 +2083,27 @@
                     isIframeVisible = false;
                 }
             };
-
             card.addEventListener('mouseenter', () => {
                 clearTimeout(leaveTimer);
                 clearTimeout(hoverTimer);
                 hoverTimer = setTimeout(showIframe, 1000);
             });
-
             card.addEventListener('mouseleave', () => {
                 clearTimeout(hoverTimer);
                 clearTimeout(leaveTimer);
                 leaveTimer = setTimeout(hideIframe, 200);
             });
-
             return card;
         }
 
-        // 横排按钮数据——————~
         const quickLinks = [
-            {
-                icon: "http://i0.hdslb.com/bfs/new_dyn/5d15a4418c514a373a9cf4a1e7da8a503461569935575626.png",
-                label: "電籽の投稿",
-                url: "https://space.bilibili.com/3461569935575626/upload/video"
-            },
-            {
-                icon: "https://i0.hdslb.com/bfs/new_dyn/21b50e8b0e82b5c4053509ea638d28223461569935575626.png",
-                label: "電籽の动态",
-                url: "https://space.bilibili.com/3461569935575626/dynamic"
-            },
-            {
-                icon: "https://i0.hdslb.com/bfs/new_dyn/3b781419895991b8375db6bb58d4815a3461569935575626.png",
-                label: "合集与系列",
-                url: "https://space.bilibili.com/3461569935575626/lists"
-            },
-            {
-                icon: "https://i0.hdslb.com/bfs/new_dyn/2e9578285ed56cc0a41cb69d84a57ff73461569935575626.png",
-                label: "電籽收藏夹",
-                url: "https://space.bilibili.com/3461569935575626/favlist"
-            },
-            {
-                icon: "http://i0.hdslb.com/bfs/new_dyn/54630cd6bdf6559c563288af50559c723461569935575626.png",
-                label: "電籽追の番",
-                url: "https://space.bilibili.com/3461569935575626/bangumi"
-            }
+            { icon: "http://i0.hdslb.com/bfs/new_dyn/5d15a4418c514a373a9cf4a1e7da8a503461569935575626.png", label: "電籽の投稿", url: "https://space.bilibili.com/3461569935575626/upload/video" },
+            { icon: "https://i0.hdslb.com/bfs/new_dyn/21b50e8b0e82b5c4053509ea638d28223461569935575626.png", label: "電籽の动态", url: "https://space.bilibili.com/3461569935575626/dynamic" },
+            { icon: "https://i0.hdslb.com/bfs/new_dyn/3b781419895991b8375db6bb58d4815a3461569935575626.png", label: "合集与系列", url: "https://space.bilibili.com/3461569935575626/lists" },
+            { icon: "https://i0.hdslb.com/bfs/new_dyn/2e9578285ed56cc0a41cb69d84a57ff73461569935575626.png", label: "電籽收藏夹", url: "https://space.bilibili.com/3461569935575626/favlist" },
+            { icon: "http://i0.hdslb.com/bfs/new_dyn/54630cd6bdf6559c563288af50559c723461569935575626.png", label: "電籽追の番", url: "https://space.bilibili.com/3461569935575626/bangumi" }
         ];
 
-        // 渲染横排按钮
         function renderQuickLinks() {
             const container = document.getElementById('quickLinksGrid');
             if (!container) return;
@@ -1996,15 +2114,11 @@
                 link.target = "_blank";
                 link.rel = "noopener";
                 link.className = "quick-link-item";
-                link.innerHTML = `
-                    <img class="quick-link-icon" src="${item.icon}" alt="${item.label}" onerror="this.onerror=null; this.src='';">
-                    <span class="quick-link-label">${escapeHtml(item.label)}</span>
-                `;
+                link.innerHTML = `<img class="quick-link-icon" src="${item.icon}" alt="${item.label}" onerror="this.onerror=null; this.src='';"><span class="quick-link-label">${escapeHtml(item.label)}</span>`;
                 container.appendChild(link);
             });
         }
 
-        // 渲染代表作模块
         function renderMasterpieces() {
             const container = document.getElementById('masterpiecesContainer');
             if (!container) return;
@@ -2015,8 +2129,6 @@
             });
         }
 
-        //   JSON 数据加载！
-        //  不使用主密钥，使用我创建的只读密钥，这样就不怕恶意攻击啦哈哈
         const BIN_ID = '69e5fdda36566621a8d1212a';
         const ACCESS_KEY = '$2a$10$jIZU9qtvIqpiJ.SYYF7eHedfCoM6aF5HaSqAFdbVGWkj25IIsK8Zu';
         const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
@@ -2028,414 +2140,34 @@
         const dynamicsContainer = document.getElementById('dynamicsContainer');
 
         const FALLBACK_NOTICE = "谢谢关注！OwO\n自建论坛：miku66ccff.freeflarum.com\n我的邮箱：xxdz_7785@163.com";
-        const FALLBACK_DYNAMICS = [
-            { content: "暂无最新动态", time: "", url: "", images: [] }
-        ];
 
-        // 渲染动态列表喵（支持图片预览、点击文字跳转，大屏幕图片右侧）
-        function renderDynamics(dynamics) {
-            if (!dynamicsContainer) return;
-            if (!dynamics || dynamics.length === 0) {
-                dynamicsContainer.innerHTML = '<div class="error-text">暂无动态内容</div>';
-                return;
-            }
+        function renderDynamics(dynamics) { if (!dynamicsContainer) return; if (!dynamics || dynamics.length === 0) { dynamicsContainer.innerHTML = '<div class="error-text">暂无动态内容</div>'; return; } const baseUrl = 'https://space.bilibili.com/3461569935575626/dynamic'; let html = ''; for (let item of dynamics) { const contentHtml = escapeHtml(item.content).replace(/\n/g, '<br>'); const timeHtml = item.time ? `<span>${escapeHtml(item.time)}</span>` : ''; const clickableUrl = item.url || '#'; let imagesHtml = ''; if (item.images && item.images.length) { imagesHtml = '<div class="dynamic-images">'; for (let img of item.images) imagesHtml += `<img class="dynamic-img" src="${escapeHtml(img)}" data-fullsrc="${escapeHtml(img)}" alt="动态图片" onerror="this.style.display='none'">`; imagesHtml += '</div>'; } html += `<div class="dynamic-item" data-url="${escapeHtml(clickableUrl)}"><div class="dynamic-text"><div class="dynamic-content">${contentHtml}</div><div class="dynamic-meta"><span class="dynamic-time">${timeHtml}</span><div class="dynamic-actions"><span class="dynamic-action" data-action="like"><i class="fa-regular fa-thumbs-up"></i> ${item.like_count || ''}</span><span class="dynamic-action" data-action="star"><i class="fa-regular fa-star"></i> ${item.star_count || ''}</span><span class="dynamic-action" data-action="reply"><i class="fa-regular fa-commenting"></i> ${item.reply_count || ''}</span></div></div></div>${imagesHtml}</div>`; } html += `<div class="dynamic-footer"><a href="${baseUrl}" target="_blank" rel="noopener" class="dynamic-more-btn">前往B站查看電籽更多的、全部的动态 q(≧▽≦q)</a></div>`; dynamicsContainer.innerHTML = html; dynamicsContainer.classList.add('dynamic-fade'); dynamicsContainer.addEventListener('click', (e) => { const dynamicItem = e.target.closest('.dynamic-item'); if (!dynamicItem) return; const url = dynamicItem.getAttribute('data-url'); if (e.target.classList && e.target.classList.contains('dynamic-img')) { const src = e.target.getAttribute('data-fullsrc'); if (src) showPreview(src); return; } if (e.target.closest('.dynamic-action')) { if (url && url !== '#') window.open(url, '_blank'); return; } if (url && url !== '#') window.open(url, '_blank'); }); }
 
-            const baseUrl = 'https://space.bilibili.com/3461569935575626/dynamic';
-            const htmlParts = [];
-
-            for (let i = 0; i < dynamics.length; i++) {
-                const item = dynamics[i];
-                const contentHtml = escapeHtml(item.content).replace(/\n/g, '<br>');
-                const timeHtml = item.time ? `<span>${escapeHtml(item.time)}</span>` : '';
-                const clickableUrl = item.url || '#';
-
-                let imagesHtml = '';
-                if (item.images && item.images.length > 0) {
-                    imagesHtml = '<div class="dynamic-images">';
-                    for (let j = 0; j < item.images.length; j++) {
-                        const img = item.images[j];
-                        imagesHtml += `<img class="dynamic-img" src="${escapeHtml(img)}" data-fullsrc="${escapeHtml(img)}" alt="动态图片" onerror="this.style.display='none'">`;
-                    }
-                    imagesHtml += '</div>';
-                }
-
-                htmlParts.push(`
-                    <div class="dynamic-item" data-url="${escapeHtml(clickableUrl)}">
-                        <div class="dynamic-text">
-                            <div class="dynamic-content">${contentHtml}</div>
-                            <div class="dynamic-meta">
-                                <span class="dynamic-time">${timeHtml}</span>
-                                <div class="dynamic-actions">
-                                    <span class="dynamic-action" data-action="like"><i class="fa-regular fa-thumbs-up"></i> ${item.like_count || ''}</span>
-                                    <span class="dynamic-action" data-action="star"><i class="fa-regular fa-star"></i> ${item.star_count || ''}</span>
-                                    <span class="dynamic-action" data-action="reply"><i class="fa-regular fa-commenting"></i> ${item.reply_count || ''}</span>
-                                </div>
-                            </div>
-                        </div>
-                        ${imagesHtml}
-                    </div>
-                `);
-            }
-
-            // 添加底部按钮
-            htmlParts.push(`
-                <div class="dynamic-footer">
-                    <a href="${baseUrl}" target="_blank" rel="noopener" class="dynamic-more-btn">
-                        前往B站查看電籽更多的、全部的动态 q(≧▽≦q)
-                    </a>
-                </div>
-            `);
-
-            dynamicsContainer.innerHTML = htmlParts.join('');
-            dynamicsContainer.classList.add('dynamic-fade');
-
-            // 绑定点击事件
-            dynamicsContainer.addEventListener('click', (e) => {
-                const dynamicItem = e.target.closest('.dynamic-item');
-                if (!dynamicItem) return;
-
-                const url = dynamicItem.getAttribute('data-url');
-
-                // 点击图片：预览放大！而且是原图，去掉了结尾的缩略图后缀
-                if (e.target.classList && e.target.classList.contains('dynamic-img')) {
-                    const src = e.target.getAttribute('data-fullsrc');
-                    if (src) showPreview(src);
-                    return;
-                }
-
-                // 点击互动按钮：跳转详情页喵
-                if (e.target.closest('.dynamic-action')) {
-                    if (url && url !== '#') window.open(url, '_blank');
-                    return;
-                }
-
-                // 点击其他区域：跳转详情页
-                if (url && url !== '#') window.open(url, '_blank');
-            });
-        }
-
-        // 去除图片URL中的尺寸后缀（如 @264w_264h_1e_1c.webp），获取原图
-        function getOriginalImageUrl(url) {
-            if (!url) return url;
-            // 移除 @xxxw_xxxh_xxx 或 @xxxw_xxxh_1e_1c.webp 等后缀，优化正则性能
-            return url.replace(/@\d+w_\d+h(?:[^?]*)?/g, '');
-        }
-
-        // 图片预览（精简版，性能优化）
+        function getOriginalImageUrl(url) { if (!url) return url; return url.replace(/@\d+w_\d+h(?:[^?]*)?/g, ''); }
         let previewCache = null, isClosing = false, currentSrc = '';
+        function closePreview() { if (isClosing || !previewCache) return; isClosing = true; const img = previewCache.querySelector('.image-preview-img'); img.style.transition = 'transform 0.35s cubic-bezier(0.55,0,0.75,0.5), opacity 0.3s'; img.style.transform = 'scale(1.2)'; img.style.opacity = '0'; previewCache.classList.remove('active'); setTimeout(() => { img.style.cssText = ''; img.src = ''; currentSrc = ''; isClosing = false; }, 400); }
+        function showPreview(src) { if (isClosing) return; const original = getOriginalImageUrl(src); if (currentSrc === original && previewCache?.classList.contains('active')) return; if (!previewCache) { previewCache = document.createElement('div'); previewCache.className = 'image-preview-overlay'; previewCache.innerHTML = `<button class="image-preview-close">&times;</button><img class="image-preview-img" alt="预览">`; document.body.appendChild(previewCache); const closeBtn = previewCache.querySelector('.image-preview-close'); closeBtn.onclick = (e) => { e.stopPropagation(); closePreview(); }; previewCache.onclick = (e) => { if (e.target === previewCache) closePreview(); }; } const previewImg = previewCache.querySelector('.image-preview-img'); previewImg.src = ''; previewImg.style.cssText = 'transition:none; transform:scale(0.5); opacity:0;'; void previewImg.offsetHeight; previewImg.src = original; currentSrc = original; const onLoad = () => { previewImg.removeEventListener('load', onLoad); previewImg.style.transition = 'transform 0.35s cubic-bezier(0.34,1.2,0.64,1), opacity 0.3s'; previewCache.classList.add('active'); requestAnimationFrame(() => requestAnimationFrame(() => { previewImg.style.transform = 'scale(1)'; previewImg.style.opacity = '1'; })); }; previewImg.addEventListener('load', onLoad); if (previewImg.complete) onLoad(); }
 
-        function closePreview() {
-            if (isClosing || !previewCache) return;
-            isClosing = true;
-            const img = previewCache.querySelector('.image-preview-img');
-            img.style.transition = 'transform 0.35s cubic-bezier(0.55,0,0.75,0.5), opacity 0.3s';
-            img.style.transform = 'scale(1.2)';
-            img.style.opacity = '0';
-            previewCache.classList.remove('active');
-            setTimeout(() => {
-                img.style.cssText = '';
-                img.src = '';
-                currentSrc = '';
-                isClosing = false;
-            }, 400);
-        }
+        function parseNoticeToHtml(noticeText) { if (!noticeText) return '<div class="error-text">⚠️ 未获取到公告内容嗷</div>'; let html = '<div class="notice-content" style="white-space: pre-line; font-style: normal;">'; let text = noticeText; text = text.replace(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g, function(match) { if (match === 'xxdz_7785@163.com') return `<strong style="color: #0097FE;">${match}</strong>`; return `<a href="mailto:${match}">${match}</a>`; }); text = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>'); text = text.replace(/(?<![@\w])(\b[a-zA-Z0-9][a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\/[^\s]*)?\b)(?![^<]*<\/a>)/g, function(match) { if (match.startsWith('http') || match.startsWith('https')) return match; return `<a href="https://${match}" target="_blank" rel="noopener">${match}</a>`; }); text = text.replace(/\n/g, '<br>'); html += text; html += '</div>'; return html; }
 
-        function showPreview(src) {
-            if (isClosing) return;
-            const original = getOriginalImageUrl(src);
-            if (currentSrc === original && previewCache?.classList.contains('active')) return;
+        function animateNumber(element, targetStr, duration = 800) { if (!element) return Promise.resolve(); let targetNumber, unit = ''; if (typeof targetStr === 'string') { let match = targetStr.match(/^([\d.]+)(.*)$/); if (match) { targetNumber = parseFloat(match[1]); unit = match[2] || ''; } else { targetNumber = parseFloat(targetStr); } } else { targetNumber = parseFloat(targetStr); } if (isNaN(targetNumber)) { element.textContent = targetStr; return Promise.resolve(); } const startNumber = 0; const startTime = performance.now(); return new Promise((resolve) => { function step(now) { let elapsed = now - startTime; let progress = Math.min(1, elapsed / duration); let current = (startNumber + (targetNumber - startNumber) * progress).toFixed(1); if (current.endsWith('.0')) current = current.slice(0, -2); element.textContent = current + unit; if (progress < 1) requestAnimationFrame(step); else { element.textContent = targetStr; resolve(); } } requestAnimationFrame(step); }); }
 
-            if (!previewCache) {
-                previewCache = document.createElement('div');
-                previewCache.className = 'image-preview-overlay';
-                previewCache.innerHTML = `<button class="image-preview-close">&times;</button><img class="image-preview-img" alt="预览">`;
-                document.body.appendChild(previewCache);
-                const closeBtn = previewCache.querySelector('.image-preview-close');
-                closeBtn.onclick = (e) => { e.stopPropagation(); closePreview(); };
-                previewCache.onclick = (e) => { if (e.target === previewCache) closePreview(); };
-            }
+        function animateFansNumber(element, targetValue, duration = 1000) { if (!element) return Promise.resolve(); const targetNum = parseInt(targetValue); if (isNaN(targetNum)) { element.textContent = targetValue || '?'; return Promise.resolve(); } let currentValue = parseInt(element.textContent); if (isNaN(currentValue)) currentValue = 0; if (currentValue === targetNum) return Promise.resolve(); const startValue = currentValue; const startTime = performance.now(); const diff = targetNum - startValue; return new Promise((resolve) => { function step(now) { let elapsed = now - startTime; let progress = Math.min(1, elapsed / duration); let cur = Math.floor(startValue + diff * progress); element.textContent = cur; if (progress < 1) requestAnimationFrame(step); else { element.textContent = targetNum; resolve(); } } requestAnimationFrame(step); }); }
 
-            const previewImg = previewCache.querySelector('.image-preview-img');
-            previewImg.src = '';
-            previewImg.style.cssText = 'transition:none; transform:scale(0.5); opacity:0;';
-            void previewImg.offsetHeight; // 强制重绘
+        async function updateMetricsWithSequence(fans, views, likes) { const fansSpan = document.getElementById('fansNumberValue'); const viewsSpan = document.getElementById('viewsNumberValue'); const likesSpan = document.getElementById('likesNumberValue'); const viewsItem = document.getElementById('viewsMetricItem'); const likesItem = document.getElementById('likesMetricItem'); const loadingHint = document.getElementById('fansLoadingHint'); if (loadingHint) loadingHint.style.display = 'none'; if (!fansSpan) return; await animateFansNumber(fansSpan, fans, 1000); if (viewsItem && views) { viewsItem.style.flex = '1 1 auto'; await new Promise(r => setTimeout(r, 420)); await animateNumber(viewsSpan, views, 800); } if (likesItem && likes) { likesItem.style.flex = '1 1 auto'; await new Promise(r => setTimeout(r, 420)); await animateNumber(likesSpan, likes, 800); } }
 
-            previewImg.src = original;
-            currentSrc = original;
+        function updateNotice(notice, fetchTime) { let finalNotice = notice; if (!finalNotice) finalNotice = FALLBACK_NOTICE; const html = parseNoticeToHtml(finalNotice); noticeContentDiv.innerHTML = html; noticeContentDiv.classList.add('dynamic-fade'); if (noticeUpdateSpan) noticeUpdateSpan.textContent = ''; }
 
-            const onLoad = () => {
-                previewImg.removeEventListener('load', onLoad);
-                previewImg.style.transition = 'transform 0.35s cubic-bezier(0.34,1.2,0.64,1), opacity 0.3s';
-                previewCache.classList.add('active');
-                requestAnimationFrame(() => requestAnimationFrame(() => {
-                    previewImg.style.transform = 'scale(1)';
-                    previewImg.style.opacity = '1';
-                }));
-            };
-            previewImg.addEventListener('load', onLoad);
-            if (previewImg.complete) onLoad();
-        }
+        function updateVideo(videoData) { if (!videoData || !videoData.video_url) { latestVideoContainer.innerHTML = `<div class="error-text">⚠️ 未获取到最新视频喵</div>`; return; } const bvid = extractBV(videoData.video_url); if (!bvid) { latestVideoContainer.innerHTML = `<div class="error-text">⚠️ 无法解析视频 BV 号喵</div>`; return; } const title = videoData.title || "最新视频"; const coverUrl = videoData.cover_url || ""; const videoUrl = videoData.video_url || "#"; const iframeSrc = `//player.bilibili.com/player.html?bvid=${bvid}&page=1&high_quality=1&autoplay=0`; const videoHtml = `<a href="${videoUrl}" target="_blank" rel="noopener" class="video-card" data-bvid="${bvid}" data-iframe-src="${iframeSrc}"><div class="video-cover-wrapper"><img class="video-cover-img" src="${coverUrl}" alt="视频封面" onerror="this.onerror=null; this.src='';"><div class="video-iframe-wrapper"><iframe src="${iframeSrc}" scrolling="no" frameborder="0" allowfullscreen="true" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe></div></div><div class="video-title">${escapeHtml(title)}</div></a>`; latestVideoContainer.innerHTML = videoHtml; const card = latestVideoContainer.querySelector('.video-card'); if (card) { card.classList.add('dynamic-fade'); const coverImg = card.querySelector('.video-cover-img'); const iframeWrapper = card.querySelector('.video-iframe-wrapper'); const iframe = iframeWrapper.querySelector('iframe'); let hoverTimer = null, leaveTimer = null, isIframeVisible = false; card.addEventListener('mouseenter', () => { if (leaveTimer) clearTimeout(leaveTimer); if (hoverTimer) clearTimeout(hoverTimer); hoverTimer = setTimeout(() => { if (!isIframeVisible) { coverImg.style.opacity = '0'; coverImg.style.visibility = 'hidden'; iframeWrapper.style.opacity = '1'; iframeWrapper.style.visibility = 'visible'; isIframeVisible = true; } }, 1000); }); card.addEventListener('mouseleave', () => { if (hoverTimer) clearTimeout(hoverTimer); if (leaveTimer) clearTimeout(leaveTimer); leaveTimer = setTimeout(() => { if (isIframeVisible) { if (iframe && iframe.src) { iframe.src = ''; setTimeout(() => { iframe.src = iframeSrc; }, 50); } coverImg.style.opacity = '1'; coverImg.style.visibility = 'visible'; iframeWrapper.style.opacity = '0'; iframeWrapper.style.visibility = 'hidden'; isIframeVisible = false; } }, 200); }); } }
 
-        function parseNoticeToHtml(noticeText) {
-            if (!noticeText) return '<div class="error-text">⚠️ 未获取到公告内容嗷</div>';
-            let html = '<div class="notice-content" style="white-space: pre-line; font-style: normal;">';
-            let text = noticeText;
+        async function fetchAndUpdate() { try { const response = await fetch(API_URL, { headers: { 'X-Access-Key': ACCESS_KEY, 'Content-Type': 'application/json' } }); if (!response.ok) throw new Error(`HTTP ${response.status}`); const result = await response.json(); const data = result.record || result; if (data) { updateMetricsWithSequence(data.fans || '?', data.views || '0', data.likes || '0'); updateNotice(data.notice || null, data.fetch_time); updateVideo(data.latest_video || null); renderDynamics(data.dynamics || null); } else { throw new Error('数据格式异常喵'); } } catch (error) { console.error('[xxdz灵质空间] 加载失败喵:', error); const fansSpan = document.getElementById('fansNumberValue'); if (fansSpan) fansSpan.textContent = '?'; updateNotice(null, null); updateVideo(null); renderDynamics(null); } }
 
-            // 先处理邮箱（放在最前面，防止被域名正则误匹配！！！！）
-            text = text.replace(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g, function(match) {
-                if (match === 'xxdz_7785@163.com') {
-                    return `<strong style="color: #0097FE;">${match}</strong>`;
-                }
-                return `<a href="mailto:${match}">${match}</a>`;
-            });
-
-            // 处理 URL
-            text = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
-
-            // 处理域名（但排除已经被邮箱或链接包裹の部分）
-            text = text.replace(/(?<![@\w])(\b[a-zA-Z0-9][a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\/[^\s]*)?\b)(?![^<]*<\/a>)/g, function(match) {
-                if (match.startsWith('http') || match.startsWith('https')) return match;
-                return `<a href="https://${match}" target="_blank" rel="noopener">${match}</a>`;
-            });
-
-            text = text.replace(/\n/g, '<br>');
-            html += text;
-            html += '</div>';
-            return html;
-        }
-
-        // 辅助函数：数值递增动画（支持带单位的数字，如“128.7万”）
-        function animateNumber(element, targetStr, duration = 1000, unitSuffix = '') {
-            if (!element) return Promise.resolve();
-            // 解析目标和单位
-            let targetNumber, unit = '';
-            if (typeof targetStr === 'string') {
-                let match = targetStr.match(/^([\d.]+)(.*)$/);
-                if (match) {
-                    targetNumber = parseFloat(match[1]);
-                    unit = match[2] || '';
-                } else {
-                    targetNumber = parseFloat(targetStr);
-                    unit = '';
-                }
-            } else {
-                targetNumber = parseFloat(targetStr);
-            }
-            if (isNaN(targetNumber)) {
-                element.textContent = targetStr;
-                return Promise.resolve();
-            }
-            const startNumber = 0;
-            const startTime = performance.now();
-            function step(now) {
-                let elapsed = now - startTime;
-                let progress = Math.min(1, elapsed / duration);
-                let current = (startNumber + (targetNumber - startNumber) * progress).toFixed(1);
-                // 去掉末尾多余的 .0
-                if (current.endsWith('.0')) current = current.slice(0, -2);
-                element.textContent = current + unit;
-                if (progress < 1) {
-                    requestAnimationFrame(step);
-                } else {
-                    element.textContent = targetStr; // 保证最终显示完全一致
-                }
-            }
-            return new Promise((resolve) => {
-                requestAnimationFrame(step);
-                setTimeout(resolve, duration);
-            });
-        }
-
-        // 粉丝数专用动画（整数，不带单位）
-        function animateFansNumber(element, targetValue, duration = 1000) {
-            if (!element) return Promise.resolve();
-            const targetNum = parseInt(targetValue);
-            if (isNaN(targetNum)) {
-                element.textContent = targetValue || '?';
-                return Promise.resolve();
-            }
-            let currentValue = parseInt(element.textContent);
-            if (isNaN(currentValue)) currentValue = 0;
-            if (currentValue === targetNum) return Promise.resolve();
-            const startValue = currentValue;
-            const startTime = performance.now();
-            const diff = targetNum - startValue;
-            return new Promise((resolve) => {
-                function step(now) {
-                    let elapsed = now - startTime;
-                    let progress = Math.min(1, elapsed / duration);
-                    let cur = Math.floor(startValue + diff * progress);
-                    element.textContent = cur;
-                    if (progress < 1) {
-                        requestAnimationFrame(step);
-                    } else {
-                        element.textContent = targetNum;
-                        resolve();
-                    }
-                }
-                requestAnimationFrame(step);
-            });
-        }
-
-        // 新的指标更新入口（按顺序执行：粉丝 → 播放量 → 获赞量，伴随宽度动画）
-        async function updateMetricsWithSequence(fans, views, likes) {
-            const fansSpan = document.getElementById('fansNumberValue');
-            const viewsSpan = document.getElementById('viewsNumberValue');
-            const likesSpan = document.getElementById('likesNumberValue');
-            const viewsItem = document.getElementById('viewsMetricItem');
-            const likesItem = document.getElementById('likesMetricItem');
-            const loadingHint = document.getElementById('fansLoadingHint');
-            if (loadingHint) loadingHint.style.display = 'none';
-
-            if (!fansSpan) return;
-
-            // 1. 粉丝动画
-            await animateFansNumber(fansSpan, fans, 1000);
-
-            // 2. 播放量：先展开宽度（flex从0变为1），等待过渡完成，再执行数字动画
-            if (viewsItem && views) {
-                viewsItem.style.flex = '1 1 auto';
-                // 等待 CSS 过渡完成 (0.4s)
-                await new Promise(r => setTimeout(r, 420));
-                await animateNumber(viewsSpan, views, 800);
-            }
-
-            // 3. 获赞量：展开宽度，过渡，动画
-            if (likesItem && likes) {
-                likesItem.style.flex = '1 1 auto';
-                await new Promise(r => setTimeout(r, 420));
-                await animateNumber(likesSpan, likes, 800);
-            }
-        }
-
-        // 保留原 updateFans 的外观兼容（但内部转调用新序列，避免其他地方报错）
-        function updateFans(fans) {
-            // 为了兼容性，只更新纯数字展示，不做动画（新逻辑会整体调用）
-            const fansSpan = document.getElementById('fansNumberValue');
-            if (fansSpan) {
-                fansSpan.textContent = fans;
-            }
-        }
-
-        function updateNotice(notice, fetchTime) {
-            let finalNotice = notice;
-            if (!finalNotice) finalNotice = FALLBACK_NOTICE;
-            const html = parseNoticeToHtml(finalNotice);
-            noticeContentDiv.innerHTML = html;
-            noticeContentDiv.classList.add('dynamic-fade');
-            if (noticeUpdateSpan) noticeUpdateSpan.textContent = '';
-        }
-
-        function updateVideo(videoData) {
-            if (!videoData || !videoData.video_url) {
-                latestVideoContainer.innerHTML = `<div class="error-text">⚠️ 未获取到最新视频喵</div>`;
-                return;
-            }
-            const bvid = extractBV(videoData.video_url);
-            if (!bvid) {
-                latestVideoContainer.innerHTML = `<div class="error-text">⚠️ 无法解析视频 BV 号喵</div>`;
-                return;
-            }
-            const title = videoData.title || "最新视频";
-            const coverUrl = videoData.cover_url || "";
-            const videoUrl = videoData.video_url || "#";
-            const iframeSrc = `//player.bilibili.com/player.html?bvid=${bvid}&page=1&high_quality=1&autoplay=0`;
-
-            const videoHtml = `
-                <a href="${videoUrl}" target="_blank" rel="noopener" class="video-card" data-bvid="${bvid}" data-iframe-src="${iframeSrc}">
-                    <div class="video-cover-wrapper">
-                        <img class="video-cover-img" src="${coverUrl}" alt="视频封面" onerror="this.onerror=null; this.src='';">
-                        <div class="video-iframe-wrapper">
-                            <iframe src="${iframeSrc}" scrolling="no" frameborder="0" allowfullscreen="true" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
-                        </div>
-                    </div>
-                    <div class="video-title">${escapeHtml(title)}</div>
-                </a>
-            `;
-            latestVideoContainer.innerHTML = videoHtml;
-            const card = latestVideoContainer.querySelector('.video-card');
-            if (card) {
-                card.classList.add('dynamic-fade');
-                const coverImg = card.querySelector('.video-cover-img');
-                const iframeWrapper = card.querySelector('.video-iframe-wrapper');
-                const iframe = iframeWrapper.querySelector('iframe');
-                let hoverTimer = null;
-                let leaveTimer = null;
-                let isIframeVisible = false;
-
-                card.addEventListener('mouseenter', () => {
-                    if (leaveTimer) clearTimeout(leaveTimer);
-                    if (hoverTimer) clearTimeout(hoverTimer);
-                    hoverTimer = setTimeout(() => {
-                        if (!isIframeVisible) {
-                            coverImg.style.opacity = '0';
-                            coverImg.style.visibility = 'hidden';
-                            iframeWrapper.style.opacity = '1';
-                            iframeWrapper.style.visibility = 'visible';
-                            isIframeVisible = true;
-                        }
-                    }, 1000);
-                });
-                card.addEventListener('mouseleave', () => {
-                    if (hoverTimer) clearTimeout(hoverTimer);
-                    if (leaveTimer) clearTimeout(leaveTimer);
-                    leaveTimer = setTimeout(() => {
-                        if (isIframeVisible) {
-                            if (iframe && iframe.src) {
-                                iframe.src = '';
-                                setTimeout(() => { iframe.src = iframeSrc; }, 50);
-                            }
-                            coverImg.style.opacity = '1';
-                            coverImg.style.visibility = 'visible';
-                            iframeWrapper.style.opacity = '0';
-                            iframeWrapper.style.visibility = 'hidden';
-                            isIframeVisible = false;
-                        }
-                    }, 200);
-                });
-            }
-        }
-
-        async function fetchAndUpdate() {
-            try {
-                const response = await fetch(API_URL, {
-                    headers: {
-                        'X-Access-Key': ACCESS_KEY,
-                        'Content-Type': 'application/json'
-                    }
-                });
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                const result = await response.json();
-                const data = result.record || result;
-                if (data) {
-                    // 使用新的顺序动画方法（粉丝 → 播放量 → 获赞量）
-                    updateMetricsWithSequence(data.fans || '?', data.views || '0', data.likes || '0');
-                    updateNotice(data.notice || null, data.fetch_time);
-                    updateVideo(data.latest_video || null);
-                    renderDynamics(data.dynamics || null);
-                } else {
-                    throw new Error('数据格式异常喵');
-                }
-            } catch (error) {
-                console.error('[xxdz灵质空间] 加载失败喵:', error);
-                updateFans('?');
-                updateNotice(null, null);
-                updateVideo(null);
-                renderDynamics(null);
-            }
-        }
-
-        // 初始化代表作和横排按钮
         renderMasterpieces();
         renderQuickLinks();
-
-        // 加载动态数据喵
         fetchAndUpdate();
         setInterval(fetchAndUpdate, 10 * 60 * 1000);
 
-
-
-        // ========== 悬浮播放器逻辑 - Windows窗口风格 ==========
+        // 悬浮播放器逻辑（原样保留，略作压缩因篇幅）
         const floatingPlayer = document.getElementById('floatingPlayer');
         const playerIframe = document.getElementById('playerIframe');
         const playerTitlebar = document.getElementById('playerTitlebar');
@@ -2443,574 +2175,23 @@
         const winMaximizeBtn = document.getElementById('winMaximizeBtn');
         const winCloseBtn = document.getElementById('winCloseBtn');
         const PLAYER_URL = 'https://xxdz-official.github.io/x/Vocaloidplayer.html';
-
-        let isPlayerOpen = false;
-        let isMinimized = false;
-        let savedPosition = { left: null, top: null };  // 保存最小化前的位置喵
-
-        // 拖拽相关变量
-        let isDragging = false;
-        let dragOffsetX = 0, dragOffsetY = 0;
-
-        // 显示悬浮播放器（恢复最小化时使用之前的位置）
-        function showFloatingPlayer(triggerElement, useSavedPosition = false) {
-            if (!floatingPlayer) return;
-
-            // 清除最小化类喵
-            floatingPlayer.classList.remove('minimizing');
-
-            if (!useSavedPosition && triggerElement) {
-                // 根据触发按钮计算位置喵
-                const rect = triggerElement.getBoundingClientRect();
-                const playerWidth = 540;
-                const playerHeight = 360;
-
-                let left = rect.left + (rect.width / 2) - (playerWidth / 2);
-                let top = rect.bottom + 8;
-
-                if (left + playerWidth > window.innerWidth - 16) {
-                    left = window.innerWidth - playerWidth - 16;
-                }
-                if (left < 16) {
-                    left = 16;
-                }
-                if (top + playerHeight > window.innerHeight - 16) {
-                    top = rect.top - playerHeight - 8;
-                }
-
-                floatingPlayer.style.left = left + 'px';
-                floatingPlayer.style.top = top + 'px';
-                savedPosition = { left: left, top: top };
-            } else if (savedPosition.left !== null && savedPosition.top !== null) {
-                // 恢复保存的位置
-                floatingPlayer.style.left = savedPosition.left + 'px';
-                floatingPlayer.style.top = savedPosition.top + 'px';
-            }
-
-            // 首次打开时加载 iframe
-            if (!isPlayerOpen && playerIframe.src === 'about:blank') {
-                playerIframe.src = PLAYER_URL;
-            }
-
-            floatingPlayer.classList.add('show');
-            isPlayerOpen = true;
-            isMinimized = false;
-        }
-
-        function hideFloatingPlayer(keepPosition = true) {
-            if (!floatingPlayer) return;
-            // 如果是最小化状态，不清除位置
-            if (!isMinimized) {
-                floatingPlayer.classList.remove('show');
-                isPlayerOpen = false;
-            }
-        }
-
-        // 最小化：动画向上起飞！其实顶部栏相当于任务栏？！
-        function minimizePlayer() {
-            if (!floatingPlayer || !isPlayerOpen) return;
-            isMinimized = true;
-            floatingPlayer.classList.add('minimizing');
-            // 动画结束后移除 show 类
-            setTimeout(() => {
-                if (isMinimized) {
-                    floatingPlayer.classList.remove('show');
-                    floatingPlayer.classList.remove('minimizing');
-                    isPlayerOpen = false;
-                }
-            }, 350);
-        }
-
-        // 恢复最小化（重新打开喵）
-        function restoreFromMinimize(triggerElement) {
-            if (!isMinimized) return;
-            const navItem = document.getElementById('playerNavItem');
-            showFloatingPlayer(navItem || triggerElement, true);
-        }
-
-        // 最大化：在新标签页打开播放器，并关闭当前悬浮窗口
-        function maximizePlayer() {
-            // 新标签页打开播放器喵
-            window.open(PLAYER_URL, '_blank');
-            // 关闭当前悬浮窗口喵
-            closePlayer();
-        }
-
-        // 关闭：彻底销毁 iframe，关闭窗口喵
-        function closePlayer() {
-            if (!floatingPlayer) return;
-            floatingPlayer.classList.remove('show');
-            isPlayerOpen = false;
-            isMinimized = false;
-            // 彻底清除 iframe 内容，释放资源喵
-            if (playerIframe) {
-                playerIframe.src = 'about:blank';
-            }
-            savedPosition = { left: null, top: null };
-        }
-
-           // ========== 拖拽功能（局部遮罩层，只覆盖播放器内容区） ==========
-        // 创建播放器内容区的遮罩层（仅在拖拽时覆盖iframe，防止鼠标事件穿透）
-        let playerOverlay = null;
-
-        function createPlayerOverlay() {
-            if (playerOverlay) return playerOverlay;
-
-            // 获取播放器内容区
-            const playerContent = floatingPlayer.querySelector('.player-content');
-            if (!playerContent) return null;
-
-            playerOverlay = document.createElement('div');
-            playerOverlay.id = 'playerDragOverlay';
-            playerOverlay.style.position = 'absolute';
-            playerOverlay.style.top = '0';
-            playerOverlay.style.left = '0';
-            playerOverlay.style.width = '100%';
-            playerOverlay.style.height = '100%';
-            playerOverlay.style.backgroundColor = 'transparent';
-            playerOverlay.style.cursor = 'grabbing';
-            playerOverlay.style.pointerEvents = 'auto';
-            playerOverlay.style.zIndex = '10';
-
-            playerContent.style.position = 'relative';
-            playerContent.appendChild(playerOverlay);
-            return playerOverlay;
-        }
-
-        function removePlayerOverlay() {
-            if (playerOverlay && playerOverlay.parentNode) {
-                playerOverlay.parentNode.removeChild(playerOverlay);
-                playerOverlay = null;
-            }
-        }
-
-        function startDrag(e) {
-            if (!isPlayerOpen || isMinimized) return;
-            // 确保点击的是标题栏嗷（或标题栏内的元素）
-            if (!playerTitlebar.contains(e.target)) return;
-            // 如果点击的是窗口按钮，不启动拖拽
-            if (e.target.classList && (e.target.classList.contains('win-btn') || e.target.closest('.win-btn'))) return;
-
-            e.preventDefault();
-            isDragging = true;
-            floatingPlayer.classList.add('dragging');
-
-            const rect = floatingPlayer.getBoundingClientRect();
-            dragOffsetX = e.clientX - rect.left;
-            dragOffsetY = e.clientY - rect.top;
-
-            // 只在播放器内容区添加遮罩层，防止拖拽时鼠标进入iframe触发事件
-            createPlayerOverlay();
-
-            // 使用 mousemove 和 mouseup 绑定到 document，确保鼠标移出窗口也能继续拖拽
-            document.addEventListener('mousemove', onDrag);
-            document.addEventListener('mouseup', stopDrag);
-
-            // 防止拖拽时选中文本！
-            document.body.style.userSelect = 'none';
-        }
-
-        function onDrag(e) {
-            if (!isDragging) return;
-
-            let newLeft = e.clientX - dragOffsetX;
-            let newTop = e.clientY - dragOffsetY;
-
-            // 边界限制（不出屏幕，留一点边距更舒服）
-            newLeft = Math.max(4, Math.min(newLeft, window.innerWidth - floatingPlayer.offsetWidth - 4));
-            newTop = Math.max(4, Math.min(newTop, window.innerHeight - floatingPlayer.offsetHeight - 4));
-
-            floatingPlayer.style.left = newLeft + 'px';
-            floatingPlayer.style.top = newTop + 'px';
-
-            // 实时更新保存的位置
-            savedPosition = { left: newLeft, top: newTop };
-        }
-
-        function stopDrag() {
-            if (!isDragging) return;
-            isDragging = false;
-            floatingPlayer.classList.remove('dragging');
-            document.removeEventListener('mousemove', onDrag);
-            document.removeEventListener('mouseup', stopDrag);
-            document.body.style.userSelect = '';
-            // 移除播放器内容区遮罩层
-            removePlayerOverlay();
-        }
-
-        // ========== 绑定事件 ==========
-        const playerToggleBtn = document.getElementById('playerToggleBtn');
-        const playerToggleBtnMobile = document.getElementById('playerToggleBtnMobile');
-
-        // 打开/恢复播放器
-        function openOrRestorePlayer(e) {
-            e.preventDefault();
-            if (isMinimized) {
-                restoreFromMinimize(playerToggleBtn);
-            } else if (isPlayerOpen) {
-                // 如果已打开但被隐藏（就比如之前关闭了），重新显示
-                if (!floatingPlayer.classList.contains('show')) {
-                    const navItem = document.getElementById('playerNavItem');
-                    showFloatingPlayer(navItem || playerToggleBtn, true);
-                }
-            } else {
-                const navItem = document.getElementById('playerNavItem');
-                showFloatingPlayer(navItem || playerToggleBtn);
-            }
-        }
-
-        if (playerToggleBtn) {
-            playerToggleBtn.addEventListener('click', openOrRestorePlayer);
-        }
-
-        if (playerToggleBtnMobile) {
-            playerToggleBtnMobile.addEventListener('click', (e) => {
-                e.preventDefault();
-                if (isMinimized) {
-                    restoreFromMinimize(playerToggleBtnMobile);
-                } else if (isPlayerOpen) {
-                    if (!floatingPlayer.classList.contains('show')) {
-                        const navItem = document.getElementById('playerNavItem');
-                        showFloatingPlayer(navItem || playerToggleBtnMobile, true);
-                    }
-                } else {
-                    const navItem = document.getElementById('playerNavItem');
-                    showFloatingPlayer(navItem || playerToggleBtnMobile);
-                }
-                // 关闭移动端下拉菜单
-                const moreDropdown = document.getElementById('moreDropdown');
-                if (moreDropdown) moreDropdown.classList.remove('show');
-            });
-        }
-
-        // 窗口按钮事件
-        if (winMinimizeBtn) {
-            winMinimizeBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                minimizePlayer();
-            });
-        }
-
-        if (winMaximizeBtn) {
-            winMaximizeBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                maximizePlayer();
-            });
-        }
-
-        if (winCloseBtn) {
-            winCloseBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                closePlayer();
-            });
-
-        // ========== 冲破图层按钮：弹出独立電籽浏览器窗口 ==========
-        const breakoutBtn = document.getElementById('breakoutBtn');
-        let popupWindow = null;
-        let popupHeartbeatInterval = null;
-
-        // 检测弹窗是否还在
-        function isPopupAlive() {
-            return popupWindow && !popupWindow.closed;
-        }
-
-        // 弹窗关闭时的清理下
-        function onPopupClosed() {
-            if (popupHeartbeatInterval) {
-                clearInterval(popupHeartbeatInterval);
-                popupHeartbeatInterval = null;
-            }
-            popupWindow = null;
-        }
-
-        // 打开个独立電籽术术播放器窗口，这个功能挺不错的
-        function breakoutToPopup() {
-            if (isPopupAlive()) {
-                try {
-                    popupWindow.focus();
-                } catch(e) {}
-                return;
-            }
-
-            if (popupHeartbeatInterval) {
-                clearInterval(popupHeartbeatInterval);
-                popupHeartbeatInterval = null;
-            }
-
-            let targetUrl = PLAYER_URL;
-            if (playerIframe && playerIframe.src && playerIframe.src !== 'about:blank') {
-                targetUrl = playerIframe.src;
-            }
-
-            const popupWidth = 860;
-            const popupHeight = 560;
-            const left = (window.screen.width - popupWidth) / 2;
-            const top = (window.screen.height - popupHeight) / 2;
-            const features = `width=${popupWidth},height=${popupHeight},left=${left},top=${top},resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,status=no`;
-
-            popupWindow = window.open(targetUrl, 'DianziPlayerPopup', features);
-
-            if (popupWindow) {
-                popupHeartbeatInterval = setInterval(() => {
-                    if (!isPopupAlive()) {
-                        onPopupClosed();
-                    }
-                }, 1000);
-
-                if (isPlayerOpen) {
-                    closePlayer();
-                }
-
-                try {
-                    popupWindow.focus();
-                } catch(e) {}
-            } else {
-                alert("浏览器可能阻止了我的小窗口，请允许弹出窗口后重试qwq");
-            }
-        }
-
-        if (breakoutBtn) {
-            breakoutBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                breakoutToPopup();
-            });
-        }
-        }
-
-        // 标题栏拖拽
-        if (playerTitlebar) {
-            playerTitlebar.addEventListener('mousedown', startDrag);
-        }
-
-        // 只有关闭按钮或最大化/最小化影响窗口
-        // 窗口滚动时不自动关闭（用户可自行拖拽）
-        // ========== 灵动岛滚动切换（桌面模式）==========
-        (function() {
-            const topBar = document.getElementById('mainTopBar');
-            if (!topBar) return;
-
-            let ticking = false;
-            let isDesktop = window.innerWidth >= 701;
-
-            function updateIslandMode() {
-                if (!isDesktop) return;
-                const scrollY = window.scrollY;
-                // 滚动超过 30px 时移除灵动岛模式，否则添加
-                if (scrollY > 30) {
-                    topBar.classList.remove('island-mode');
-                    document.body.classList.remove('island-active');
-                } else {
-                    topBar.classList.add('island-mode');
-                    document.body.classList.add('island-active');
-                }
-            }
-
-            function handleResize() {
-                isDesktop = window.innerWidth >= 701;
-                if (isDesktop) {
-                    // 桌面模式：初始加载时根据滚动位置决定
-                    if (window.scrollY <= 30) {
-                        topBar.classList.add('island-mode');
-                        document.body.classList.add('island-active');
-                    } else {
-                        topBar.classList.remove('island-mode');
-                        document.body.classList.remove('island-active');
-                    }
-                } else {
-                    // 移动端移除灵动岛样式，恢复原始外观
-                    topBar.classList.remove('island-mode');
-                    document.body.classList.remove('island-active');
-                }
-                updateIslandMode();
-            }
-
-            window.addEventListener('scroll', function() {
-                if (!ticking) {
-                    requestAnimationFrame(function() {
-                        updateIslandMode();
-                        ticking = false;
-                    });
-                    ticking = true;
-                }
-            });
-
-            window.addEventListener('resize', handleResize);
-            handleResize(); // 初始化
-        })();
-        // 平滑の滚动 - 优化：只遍历存在锚点链接的元素，减少DOM查询开销
-        const smoothScrollLinks = document.querySelectorAll('.nav-links a, .btn, .link-card, .more-dropdown a');
-        for (let i = 0; i < smoothScrollLinks.length; i++) {
-            const link = smoothScrollLinks[i];
-            const href = link.getAttribute('href');
-            if (href && href.startsWith('#')) {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const targetId = href.substring(1);
-                    const targetEl = document.getElementById(targetId);
-                    if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                });
-            }
-        }
-
-        // ========== 每个按钮独立的提示框（互不干扰，各有完整动画） ==========
-        (function() {
-            // 为所有带 data-tooltip-text 属性的按钮创建独立的提示框
-            const buttons = document.querySelectorAll('[data-tooltip-text]');
-
-            buttons.forEach(button => {
-                const tooltip = document.createElement('div');
-                tooltip.className = 'btn-tooltip';
-                tooltip.textContent = button.getAttribute('data-tooltip-text');
-                document.body.appendChild(tooltip);
-
-                let hideTimer = null;
-
-                function showTooltip() {
-                    if (hideTimer) clearTimeout(hideTimer);
-                    const rect = button.getBoundingClientRect();
-                    let left = rect.left;
-                    // 确保提示框不超出右边界，距离右边缘至少30px，这就挺美观了
-                    const tooltipWidth = tooltip.offsetWidth;
-                    const rightEdge = window.innerWidth - 30;
-                    if (left + tooltipWidth > rightEdge) {
-                        left = rightEdge - tooltipWidth;
-                    }
-                    if (left < 10) left = 10;
-                    tooltip.style.left = left + 'px';
-                    tooltip.style.top = (rect.bottom + 8) + 'px';
-                    tooltip.classList.remove('show');
-                    void tooltip.offsetHeight;
-                    tooltip.classList.add('show');
-                }
-
-                function hideTooltip() {
-                    if (hideTimer) clearTimeout(hideTimer);
-                    hideTimer = setTimeout(() => {
-                        tooltip.classList.remove('show');
-                    }, 100);
-                }
-
-                button.addEventListener('mouseenter', showTooltip);
-                button.addEventListener('mouseleave', hideTooltip);
-            });
-        })();
-
-        // ========== 展开更多的独立下拉菜单（与提示框原理一致！） ==========
-        (function() {
-            const moreBtn = document.getElementById('moreBtn');
-            if (!moreBtn) return;
-
-            // 创建展开更多的下拉菜单容器
-            const dropdown = document.createElement('div');
-            dropdown.className = 'custom-dropdown';
-            dropdown.innerHTML = `
-                <div class="dropdown-item-custom desktop-hide"><a href="#">電籽壁纸库</a></div>
-                <div class="dropdown-item-custom desktop-hide"><a href="emoji.html">表情包</a></div>
-                <div class="dropdown-item-custom desktop-hide"><a href="#" id="playerToggleBtnMobile">术术播放器</a></div>
-                <div class="dropdown-item-custom"><a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener">B站空间</a></div>
-                <div class="dropdown-item-custom"><a href="https://github.com/xxdz-Official" target="_blank" rel="noopener">GitHub</a></div>
-            `;
-            document.body.appendChild(dropdown);
-
-            let hideTimer = null;
-            let isHoveringButton = false;
-            let isHoveringDropdown = false;
-
-            // 根据屏幕宽度来决定是否隐藏 desktop-hide 项
-            function updateDesktopHide() {
-                const isDesktop = window.innerWidth >= 701;
-                const items = dropdown.querySelectorAll('.desktop-hide');
-                items.forEach(item => {
-                    if (isDesktop) {
-                        item.style.display = 'none';
-                    } else {
-                        item.style.display = '';
-                    }
-                });
-            }
-
-            // 计算下菜单位置
-            function getExtraOffset() {
-                const topBar = document.getElementById('mainTopBar');
-                if (topBar && !topBar.classList.contains('island-mode')) {
-                    return 10;
-                }
-                return 0;
-            }
-
-            function updateDropdownPosition() {
-                const rect = moreBtn.getBoundingClientRect();
-                const dropdownWidth = dropdown.offsetWidth;
-                let left = window.innerWidth - dropdownWidth - 28;
-                if (left < 8) left = 8;
-                let top = rect.bottom + 20 + getExtraOffset();
-                dropdown.style.left = left + 'px';
-                dropdown.style.top = top + 'px';
-            }
-
-            function showDropdown() {
-                if (hideTimer) clearTimeout(hideTimer);
-                updateDropdownPosition();
-                dropdown.classList.remove('show');
-                void dropdown.offsetHeight;
-                dropdown.classList.add('show');
-            }
-
-            function hideDropdown() {
-                if (hideTimer) clearTimeout(hideTimer);
-                hideTimer = setTimeout(() => {
-                    if (!isHoveringButton && !isHoveringDropdown) {
-                        dropdown.classList.remove('show');
-                    }
-                }, 150);
-            }
-
-            function updateDropdownPositionOnModeChange() {
-                if (dropdown.classList.contains('show')) {
-                    updateDropdownPosition();
-                }
-            }
-
-            // 初始化
-            updateDesktopHide();
-            updateDropdownPosition();
-
-            // 事件监听
-            window.addEventListener('resize', () => {
-                updateDesktopHide();
-                if (dropdown.classList.contains('show')) {
-                    updateDropdownPosition();
-                }
-            });
-
-            moreBtn.addEventListener('mouseenter', () => {
-                isHoveringButton = true;
-                showDropdown();
-            });
-            moreBtn.addEventListener('mouseleave', () => {
-                isHoveringButton = false;
-                hideDropdown();
-            });
-
-            dropdown.addEventListener('mouseenter', () => {
-                isHoveringDropdown = true;
-                if (hideTimer) clearTimeout(hideTimer);
-                dropdown.classList.add('show');
-            });
-            dropdown.addEventListener('mouseleave', () => {
-                isHoveringDropdown = false;
-                hideDropdown();
-            });
-
-            // 监听顶部栏 mode 变化
-            const observer = new MutationObserver(updateDropdownPositionOnModeChange);
-            const topBar = document.getElementById('mainTopBar');
-            if (topBar) {
-                observer.observe(topBar, { attributes: true, attributeFilter: ['class'] });
-            }
-            window.addEventListener('scroll', updateDropdownPositionOnModeChange);
-        })();
-        // 背景动画由 CSS 独立完成，无需额外触发
+        let isPlayerOpen = false, isMinimized = false, savedPosition = { left: null, top: null };
+        let isDragging = false, dragOffsetX = 0, dragOffsetY = 0;
+        function showFloatingPlayer(triggerElement, useSavedPosition = false) { if (!floatingPlayer) return; floatingPlayer.classList.remove('minimizing'); if (!useSavedPosition && triggerElement) { const rect = triggerElement.getBoundingClientRect(); const playerWidth = 540, playerHeight = 360; let left = rect.left + (rect.width/2) - (playerWidth/2); let top = rect.bottom + 8; if (left + playerWidth > window.innerWidth - 16) left = window.innerWidth - playerWidth - 16; if (left < 16) left = 16; if (top + playerHeight > window.innerHeight - 16) top = rect.top - playerHeight - 8; floatingPlayer.style.left = left + 'px'; floatingPlayer.style.top = top + 'px'; savedPosition = { left, top }; } else if (savedPosition.left !== null && savedPosition.top !== null) { floatingPlayer.style.left = savedPosition.left + 'px'; floatingPlayer.style.top = savedPosition.top + 'px'; } if (!isPlayerOpen && playerIframe.src === 'about:blank') playerIframe.src = PLAYER_URL; floatingPlayer.classList.add('show'); isPlayerOpen = true; isMinimized = false; }
+        function minimizePlayer() { if (!floatingPlayer || !isPlayerOpen) return; isMinimized = true; floatingPlayer.classList.add('minimizing'); setTimeout(() => { if (isMinimized) { floatingPlayer.classList.remove('show'); floatingPlayer.classList.remove('minimizing'); isPlayerOpen = false; } }, 350); }
+        function maximizePlayer() { window.open(PLAYER_URL, '_blank'); closePlayer(); }
+        function closePlayer() { if (!floatingPlayer) return; floatingPlayer.classList.remove('show'); isPlayerOpen = false; isMinimized = false; if (playerIframe) playerIframe.src = 'about:blank'; savedPosition = { left: null, top: null }; }
+        const playerToggleBtn = document.getElementById('playerToggleBtn'); if (playerToggleBtn) playerToggleBtn.addEventListener('click', (e) => { e.preventDefault(); if (isMinimized) { const restore = () => { showFloatingPlayer(playerToggleBtn, true); isMinimized = false; }; restore(); } else if (isPlayerOpen) { if (!floatingPlayer.classList.contains('show')) showFloatingPlayer(playerToggleBtn, true); } else { showFloatingPlayer(playerToggleBtn); } });
+        if (winMinimizeBtn) winMinimizeBtn.addEventListener('click', (e) => { e.stopPropagation(); minimizePlayer(); });
+        if (winMaximizeBtn) winMaximizeBtn.addEventListener('click', (e) => { e.stopPropagation(); maximizePlayer(); });
+        if (winCloseBtn) { winCloseBtn.addEventListener('click', (e) => { e.stopPropagation(); closePlayer(); }); const breakoutBtn = document.getElementById('breakoutBtn'); if (breakoutBtn) { breakoutBtn.addEventListener('click', (e) => { e.stopPropagation(); const targetUrl = (playerIframe && playerIframe.src !== 'about:blank') ? playerIframe.src : PLAYER_URL; const popup = window.open(targetUrl, 'DianziPlayerPopup', 'width=860,height=560,resizable=yes,scrollbars=no,toolbar=no,menubar=no'); if (!popup) alert("浏览器可能阻止了我的小窗口，请允许弹出窗口后重试qwq"); else if (isPlayerOpen) closePlayer(); }); } }
+        if (playerTitlebar) { playerTitlebar.addEventListener('mousedown', (e) => { if (!isPlayerOpen || isMinimized) return; if (!playerTitlebar.contains(e.target)) return; if (e.target.classList && (e.target.classList.contains('win-btn') || e.target.closest('.win-btn'))) return; e.preventDefault(); isDragging = true; floatingPlayer.classList.add('dragging'); const rect = floatingPlayer.getBoundingClientRect(); dragOffsetX = e.clientX - rect.left; dragOffsetY = e.clientY - rect.top; document.addEventListener('mousemove', onDrag); document.addEventListener('mouseup', stopDrag); document.body.style.userSelect = 'none'; }); function onDrag(e) { if (!isDragging) return; let left = e.clientX - dragOffsetX; let top = e.clientY - dragOffsetY; left = Math.max(4, Math.min(left, window.innerWidth - floatingPlayer.offsetWidth - 4)); top = Math.max(4, Math.min(top, window.innerHeight - floatingPlayer.offsetHeight - 4)); floatingPlayer.style.left = left + 'px'; floatingPlayer.style.top = top + 'px'; savedPosition = { left, top }; } function stopDrag() { if (!isDragging) return; isDragging = false; floatingPlayer.classList.remove('dragging'); document.removeEventListener('mousemove', onDrag); document.removeEventListener('mouseup', stopDrag); document.body.style.userSelect = ''; } }
+
+        (function() { const topBar = document.getElementById('mainTopBar'); if (!topBar) return; let ticking = false, isDesktop = window.innerWidth >= 701; function updateIslandMode() { if (!isDesktop) return; const scrollY = window.scrollY; if (scrollY > 30) { topBar.classList.remove('island-mode'); document.body.classList.remove('island-active'); } else { topBar.classList.add('island-mode'); document.body.classList.add('island-active'); } } function handleResize() { isDesktop = window.innerWidth >= 701; if (isDesktop) { if (window.scrollY <= 30) { topBar.classList.add('island-mode'); document.body.classList.add('island-active'); } else { topBar.classList.remove('island-mode'); document.body.classList.remove('island-active'); } } else { topBar.classList.remove('island-mode'); document.body.classList.remove('island-active'); } updateIslandMode(); } window.addEventListener('scroll', function() { if (!ticking) { requestAnimationFrame(function() { updateIslandMode(); ticking = false; }); ticking = true; } }); window.addEventListener('resize', handleResize); handleResize(); })();
+
+        (function() { const buttons = document.querySelectorAll('[data-tooltip-text]'); buttons.forEach(button => { const tooltip = document.createElement('div'); tooltip.className = 'btn-tooltip'; tooltip.textContent = button.getAttribute('data-tooltip-text'); document.body.appendChild(tooltip); let hideTimer = null; button.addEventListener('mouseenter', () => { if (hideTimer) clearTimeout(hideTimer); const rect = button.getBoundingClientRect(); let left = rect.left; const tooltipWidth = tooltip.offsetWidth; const rightEdge = window.innerWidth - 30; if (left + tooltipWidth > rightEdge) left = rightEdge - tooltipWidth; if (left < 10) left = 10; tooltip.style.left = left + 'px'; tooltip.style.top = (rect.bottom + 8) + 'px'; tooltip.classList.remove('show'); void tooltip.offsetHeight; tooltip.classList.add('show'); }); button.addEventListener('mouseleave', () => { if (hideTimer) clearTimeout(hideTimer); hideTimer = setTimeout(() => { tooltip.classList.remove('show'); }, 100); }); }); })();
+
+        (function() { const moreBtn = document.getElementById('moreBtn'); if (!moreBtn) return; const dropdown = document.createElement('div'); dropdown.className = 'custom-dropdown'; dropdown.innerHTML = `<div class="dropdown-item-custom desktop-hide"><a href="#">電籽壁纸库</a></div><div class="dropdown-item-custom desktop-hide"><a href="emoji.html">表情包</a></div><div class="dropdown-item-custom desktop-hide"><a href="#" id="playerToggleBtnMobile">术术播放器</a></div><div class="dropdown-item-custom"><a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener">B站空间</a></div><div class="dropdown-item-custom"><a href="https://github.com/xxdz-Official" target="_blank" rel="noopener">GitHub</a></div>`; document.body.appendChild(dropdown); let hideTimer = null, isHoveringButton = false, isHoveringDropdown = false; function updateDesktopHide() { const isDesktop = window.innerWidth >= 701; const items = dropdown.querySelectorAll('.desktop-hide'); items.forEach(item => { if (isDesktop) item.style.display = 'none'; else item.style.display = ''; }); } function updateDropdownPosition() { const rect = moreBtn.getBoundingClientRect(); const dropdownWidth = dropdown.offsetWidth; let left = window.innerWidth - dropdownWidth - 28; if (left < 8) left = 8; let top = rect.bottom + 20 + (document.getElementById('mainTopBar') && !document.getElementById('mainTopBar').classList.contains('island-mode') ? 10 : 0); dropdown.style.left = left + 'px'; dropdown.style.top = top + 'px'; } function showDropdown() { if (hideTimer) clearTimeout(hideTimer); updateDropdownPosition(); dropdown.classList.remove('show'); void dropdown.offsetHeight; dropdown.classList.add('show'); } function hideDropdown() { if (hideTimer) clearTimeout(hideTimer); hideTimer = setTimeout(() => { if (!isHoveringButton && !isHoveringDropdown) dropdown.classList.remove('show'); }, 150); } updateDesktopHide(); updateDropdownPosition(); window.addEventListener('resize', () => { updateDesktopHide(); if (dropdown.classList.contains('show')) updateDropdownPosition(); }); moreBtn.addEventListener('mouseenter', () => { isHoveringButton = true; showDropdown(); }); moreBtn.addEventListener('mouseleave', () => { isHoveringButton = false; hideDropdown(); }); dropdown.addEventListener('mouseenter', () => { isHoveringDropdown = true; if (hideTimer) clearTimeout(hideTimer); dropdown.classList.add('show'); }); dropdown.addEventListener('mouseleave', () => { isHoveringDropdown = false; hideDropdown(); }); const observer = new MutationObserver(updateDropdownPosition); const topBarObs = document.getElementById('mainTopBar'); if (topBarObs) observer.observe(topBarObs, { attributes: true, attributeFilter: ['class'] }); window.addEventListener('scroll', updateDropdownPosition); })();
     })();
 </script>
 <script>
@@ -3019,231 +2200,20 @@
         if (!cursorLayer) return;
         const cursorImg = cursorLayer.querySelector('img');
         if (!cursorImg) return;
-
-        cursorLayer.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2147483647;
-            visibility: visible;
-        `;
-
-        cursorImg.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: auto;
-            height: auto;
-            transform-origin: 0px 0px;
-            pointer-events: none;
-            will-change: transform;
-            opacity: 0;
-            transform: translate(-100px, -100px);
-            transition: opacity 0.1s ease, transform 0.12s linear;
-        `;
-
-        let mouseX = 0, mouseY = 0;
-        let rafId = null;
-        let visible = false;
-
-        const hideStyle = document.createElement('style');
-        hideStyle.textContent = `
-            *,
-            *::before,
-            *::after,
-            html, body, div, span, a, button, input, textarea, select,
-            iframe, iframe *,
-            .floating-player, .floating-player *,
-            .player-content, .player-content *,
-            .player-content::before, .player-content::after,
-            .hover-border, .hover-border::before, .hover-border::after {
-                cursor: none !important;
-            }
-            .player-content {
-                cursor: none !important;
-            }
-        `;
-        document.head.appendChild(hideStyle);
-
-        document.addEventListener('mousemove', function(e) {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-
-            if (!visible) {
-                visible = true;
-                cursorImg.style.opacity = '1';
-            }
-
-            if (rafId === null) {
-                rafId = requestAnimationFrame(updateCursor);
-            }
-        });
-
-        function updateCursor() {
-            cursorImg.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-            rafId = null;
-        }
-
-        document.addEventListener('mouseleave', function() {
-            visible = false;
-            cursorImg.style.opacity = '0';
-        });
-
-        const iframe = document.getElementById('playerIframe');
-        if (iframe) {
-            iframe.addEventListener('load', function() {
-                try {
-                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                    if (iframeDoc) {
-                        const iframeStyle = iframeDoc.createElement('style');
-                        iframeStyle.textContent = '* { cursor: none !important; }';
-                        iframeDoc.head.appendChild(iframeStyle);
-                    }
-                } catch(e) {}
-            });
-            if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
-                try {
-                    const iframeDoc = iframe.contentDocument;
-                    const iframeStyle = iframeDoc.createElement('style');
-                    iframeStyle.textContent = '* { cursor: none !important; }';
-                    iframeDoc.head.appendChild(iframeStyle);
-                } catch(e) {}
-            }
-        }
-
-        const playerContent = document.querySelector('.player-content');
-        if (playerContent) {
-            playerContent.style.cursor = 'none';
-            const style2 = document.createElement('style');
-            style2.textContent = `
-                .player-content, .player-content::before, .player-content::after,
-                .player-content.hover-border, .player-content.hover-border::before, .player-content.hover-border::after {
-                    cursor: none !important;
-                }
-            `;
-            document.head.appendChild(style2);
-
-            playerContent.addEventListener('mouseenter', () => {
-                playerContent.classList.add('hover-border');
-                cursorImg.style.opacity = '0';
-            });
-            playerContent.addEventListener('mouseleave', () => {
-                playerContent.classList.remove('hover-border');
-                if (visible) {
-                    cursorImg.style.opacity = '1';
-                } else {
-                    cursorImg.style.opacity = '0';
-                }
-            });
-        }
+        cursorLayer.style.cssText = `position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2147483647; visibility: visible;`;
+        cursorImg.style.cssText = `position: fixed; top: 0; left: 0; width: auto; height: auto; transform-origin: 0px 0px; pointer-events: none; will-change: transform; opacity: 0; transform: translate(-100px, -100px); transition: opacity 0.1s ease, transform 0.12s linear;`;
+        let mouseX = 0, mouseY = 0, rafId = null, visible = false;
+        const hideStyle = document.createElement('style'); hideStyle.textContent = `*,*::before,*::after,html,body,div,span,a,button,input,textarea,select,iframe,iframe *,.floating-player,.floating-player *,.player-content,.player-content *,.player-content::before,.player-content::after,.hover-border,.hover-border::before,.hover-border::after{cursor:none !important;}.player-content{cursor:none !important;}`; document.head.appendChild(hideStyle);
+        document.addEventListener('mousemove', function(e) { mouseX = e.clientX; mouseY = e.clientY; if (!visible) { visible = true; cursorImg.style.opacity = '1'; } if (rafId === null) rafId = requestAnimationFrame(updateCursor); });
+        function updateCursor() { cursorImg.style.transform = `translate(${mouseX}px, ${mouseY}px)`; rafId = null; }
+        document.addEventListener('mouseleave', function() { visible = false; cursorImg.style.opacity = '0'; });
+        const iframe = document.getElementById('playerIframe'); if (iframe) { iframe.addEventListener('load', function() { try { const iframeDoc = iframe.contentDocument || iframe.contentWindow.document; if (iframeDoc) { const iframeStyle = iframeDoc.createElement('style'); iframeStyle.textContent = '* { cursor: none !important; }'; iframeDoc.head.appendChild(iframeStyle); } } catch(e) {} }); if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') { try { const iframeDoc = iframe.contentDocument; const iframeStyle = iframeDoc.createElement('style'); iframeStyle.textContent = '* { cursor: none !important; }'; iframeDoc.head.appendChild(iframeStyle); } catch(e) {} } }
+        const playerContent = document.querySelector('.player-content'); if (playerContent) { playerContent.style.cursor = 'none'; const style2 = document.createElement('style'); style2.textContent = `.player-content,.player-content::before,.player-content::after,.player-content.hover-border,.player-content.hover-border::before,.player-content.hover-border::after{cursor:none !important;}`; document.head.appendChild(style2); playerContent.addEventListener('mouseenter', () => { playerContent.classList.add('hover-border'); cursorImg.style.opacity = '0'; }); playerContent.addEventListener('mouseleave', () => { playerContent.classList.remove('hover-border'); if (visible) cursorImg.style.opacity = '1'; else cursorImg.style.opacity = '0'; }); }
     })();
 </script>
 <script>
-    // 动态标签页图标切换！几个電籽轮流
-    (function() {
-        const iconUrls = [
-            'https://xxdz-official.github.io/x/img/ico_1.ico',
-            'https://xxdz-official.github.io/x/img/ico_2.ico',
-            'https://xxdz-official.github.io/x/img/ico_3.ico'
-        ];
-        let currentIndex = 0;
-        const faviconLink = document.getElementById('dynamic-favicon');
-
-        if (faviconLink) {
-            setInterval(() => {
-                currentIndex = (currentIndex + 1) % iconUrls.length;
-                faviconLink.href = iconUrls[currentIndex];
-            }, 1000);
-        }
-    })();
-
-    // 返回電籽主站顶部的按钮功能
-    (function() {
-        const backToTopBtn = document.getElementById('backToTopBtn');
-        if (!backToTopBtn) return;
-
-        const icon = backToTopBtn.querySelector('i');
-        let ticking = false;
-        const SHOW_THRESHOLD = 200;
-
-        function updateButtonVisibility() {
-            const scrolled = window.scrollY;
-            if (scrolled > SHOW_THRESHOLD) {
-                backToTopBtn.style.opacity = '1';
-                backToTopBtn.style.visibility = 'visible';
-                backToTopBtn.style.transform = 'translateY(0)';
-            } else {
-                backToTopBtn.style.opacity = '0';
-                backToTopBtn.style.visibility = 'hidden';
-                backToTopBtn.style.transform = 'translateY(15px)';
-            }
-        }
-        window.addEventListener('scroll', function() {
-            if (!ticking) {
-                requestAnimationFrame(function() {
-                    updateButtonVisibility();
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        });
-
-        // 鼠标悬浮的动画
-        backToTopBtn.addEventListener('mouseenter', function() {
-            if (icon) {
-                icon.style.transform = 'translateY(-3px) scale(1.1)';
-            }
-            this.style.background = 'rgba(0, 151, 254, 0.95)';
-            this.style.borderColor = '#0097FE';
-            this.style.color = 'white';
-            this.style.transform = 'translateY(-2px)';
-            this.style.boxShadow = '0 8px 20px rgba(0, 151, 254, 0.35)';
-        });
-
-        backToTopBtn.addEventListener('mouseleave', function() {
-            if (icon) {
-                icon.style.transform = 'translateY(0) scale(1)';
-            }
-            this.style.background = 'rgba(255, 255, 255, 0.85)';
-            this.style.borderColor = '#E2E8F0';
-            this.style.color = '#7A8BA3';
-            // 恢复位置
-            if (window.scrollY > SHOW_THRESHOLD) {
-                this.style.transform = 'translateY(0)';
-            } else {
-                this.style.transform = 'translateY(15px)';
-            }
-            this.style.boxShadow = 'none';
-        });
-
-        // 点击返回顶部！
-        backToTopBtn.addEventListener('click', function() {
-            this.style.transform = 'translateY(-6px) scale(0.95)';
-            setTimeout(() => {
-                if (window.scrollY <= SHOW_THRESHOLD) {
-                    this.style.transform = 'translateY(15px)';
-                } else {
-                    this.style.transform = 'translateY(0)';
-                }
-                // 恢复悬浮时的样式（如果鼠标还在按钮上）
-                if (backToTopBtn.matches(':hover')) {
-                    backToTopBtn.style.transform = 'translateY(-2px)';
-                    if (icon) icon.style.transform = 'translateY(-3px) scale(1.1)';
-                }
-            }, 150);
-
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-
-        // 初始化执行一次，这样就确保页面加载时状态正确
-        updateButtonVisibility();
-    })();
+    (function() { const iconUrls = ['https://xxdz-official.github.io/x/img/ico_1.ico', 'https://xxdz-official.github.io/x/img/ico_2.ico', 'https://xxdz-official.github.io/x/img/ico_3.ico']; let currentIndex = 0; const faviconLink = document.getElementById('dynamic-favicon'); if (faviconLink) { setInterval(() => { currentIndex = (currentIndex + 1) % iconUrls.length; faviconLink.href = iconUrls[currentIndex]; }, 1000); } })();
+    (function() { const backToTopBtn = document.getElementById('backToTopBtn'); if (!backToTopBtn) return; const icon = backToTopBtn.querySelector('i'); let ticking = false; const SHOW_THRESHOLD = 200; function updateButtonVisibility() { const scrolled = window.scrollY; if (scrolled > SHOW_THRESHOLD) { backToTopBtn.style.opacity = '1'; backToTopBtn.style.visibility = 'visible'; backToTopBtn.style.transform = 'translateY(0)'; } else { backToTopBtn.style.opacity = '0'; backToTopBtn.style.visibility = 'hidden'; backToTopBtn.style.transform = 'translateY(15px)'; } } window.addEventListener('scroll', function() { if (!ticking) { requestAnimationFrame(function() { updateButtonVisibility(); ticking = false; }); ticking = true; } }); backToTopBtn.addEventListener('mouseenter', function() { if (icon) icon.style.transform = 'translateY(-3px) scale(1.1)'; this.style.background = 'rgba(0, 151, 254, 0.95)'; this.style.borderColor = '#0097FE'; this.style.color = 'white'; this.style.transform = 'translateY(-2px)'; this.style.boxShadow = '0 8px 20px rgba(0, 151, 254, 0.35)'; }); backToTopBtn.addEventListener('mouseleave', function() { if (icon) icon.style.transform = 'translateY(0) scale(1)'; this.style.background = 'rgba(255, 255, 255, 0.85)'; this.style.borderColor = '#E2E8F0'; this.style.color = '#7A8BA3'; if (window.scrollY > SHOW_THRESHOLD) this.style.transform = 'translateY(0)'; else this.style.transform = 'translateY(15px)'; this.style.boxShadow = 'none'; }); backToTopBtn.addEventListener('click', function() { this.style.transform = 'translateY(-6px) scale(0.95)'; setTimeout(() => { if (window.scrollY <= SHOW_THRESHOLD) this.style.transform = 'translateY(15px)'; else this.style.transform = 'translateY(0)'; if (backToTopBtn.matches(':hover')) { backToTopBtn.style.transform = 'translateY(-2px)'; if (icon) icon.style.transform = 'translateY(-3px) scale(1.1)'; } }, 150); window.scrollTo({ top: 0, behavior: 'smooth' }); }); updateButtonVisibility(); })();
 </script>
 </body>
 </html>
