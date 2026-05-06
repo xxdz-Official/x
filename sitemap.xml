@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+    <!-- 首页（主站） -->
+    <url>
+        <loc>https://xxdz-official.github.io/x/</loc>
+        <lastmod>2026-05-06</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    <!-- 電籽壁纸库 -->
+    <url>
+        <loc>https://xxdz-official.github.io/x/background.html</loc>
+        <lastmod>2026-05-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- 表情包页面 -->
+    <url>
+        <loc>https://xxdz-official.github.io/x/emoji.html</loc>
+        <lastmod>2026-05-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- 友情链接 -->
+    <url>
+        <loc>https://xxdz-official.github.io/x/FriendURL.html</loc>
+        <lastmod>2026-05-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <!-- 精选视频库（代表作） -->
+    <url>
+        <loc>https://xxdz-official.github.io/x/masterpiece.html</loc>
+        <lastmod>2026-05-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- 全部原创项目 -->
+    <url>
+        <loc>https://xxdz-official.github.io/x/project.html</loc>
+        <lastmod>2026-05-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- XXDZ工作室介绍页 -->
+    <url>
+        <loc>https://xxdz-official.github.io/x/XXDZ_Studio.html</loc>
+        <lastmod>2026-05-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+</urlset>
