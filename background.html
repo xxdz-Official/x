@@ -14,6 +14,18 @@
             box-sizing: border-box;
         }
 
+        /* 对访客隐藏，对SEO友好 */
+        .seo-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
         :root {
             --shadow-sm: 3px 3px 8px rgba(0, 0, 0, 0.1);
             --shadow-md: 4px 4px 12px rgba(0, 0, 0, 0.12);
@@ -592,6 +604,7 @@
     </style>
 </head>
 <body>
+<h1 class="seo-only">電籽壁纸库 | 小小电子xxdz 自制壁纸/动态壁纸原图下载</h1>
 <div class="cursor-layer" id="cursorLayer"><img src="https://xxdz-official.github.io/x/img/zhengchang_luoxiaohei.gif" alt="cursor"></div>
 <div class="bg-layer"></div>
 
@@ -629,7 +642,7 @@
             <a href="#" id="playerToggleBtn" data-tooltip-text="这是个内嵌的术力口音乐播放器？！">术术播放器</a>
         </div>
         <div class="nav-item-wrapper nav-item-more" id="moreBtn">
-            <a href="#">展开更多 ▼</a>
+            <span style="cursor: pointer; font-weight: 600; font-size: clamp(0.65rem, 2vw, 1rem); color: #2C3E50; transition: all 0.2s ease; border-bottom: 2px solid transparent; padding-bottom: 4px; display: inline-block;">展开更多 ▼</span>
         </div>
     </div>
 </header>
