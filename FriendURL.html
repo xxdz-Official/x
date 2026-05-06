@@ -10,6 +10,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" id="dynamic-favicon" href="https://xxdz-official.github.io/x/img/ico_1.ico">
     <style>
+        /* 对访客隐藏，对SEO友好 */
+        .seo-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
         :root {
             --shadow-sm: 3px 3px 8px rgba(0, 0, 0, 0.1);
             --shadow-md: 4px 4px 12px rgba(0, 0, 0, 0.12);
@@ -781,6 +793,7 @@
     </style>
 </head>
 <body>
+<h1 class="seo-only">友情链接 | 電籽的灵质空间 - 合作伙伴与贡献者</h1>
 <div class="cursor-layer" id="cursorLayer">
     <img src="https://xxdz-official.github.io/x/img/zhengchang_luoxiaohei.gif" alt="cursor" style="position: fixed; top: 0; left: 0; pointer-events: none;" onload="console.log('[光标] 罗小黑.gif 图片加载成功')" onerror="console.error('[光标] 罗小黑.gif 加载失败，请检查 URL')">
 </div>
@@ -820,7 +833,7 @@
             <a href="#" id="playerToggleBtn" data-tooltip-text="这是个内嵌的术力口音乐播放器？！">术术播放器</a>
         </div>
         <div class="nav-item-wrapper nav-item-more" id="moreBtn">
-            <a href="#">展开更多 ▼</a>
+            <span style="cursor: pointer; font-weight: 600; font-size: clamp(0.65rem, 2vw, 1rem); color: #2C3E50; transition: all 0.2s ease; border-bottom: 2px solid transparent; padding-bottom: 4px; display: inline-block;">展开更多 ▼</span>
         </div>
     </div>
 </header>
