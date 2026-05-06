@@ -4,7 +4,7 @@
     <meta name="referrer" content="no-referrer">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>電籽的灵质空间 | 小小电子xxdz 主站 - 原创项目与术力口音乐分享</title>
+    <title>電籽的灵质空间 | 小小电子xxdz 主站</title>
     <meta name="description" content="小小电子xxdz（電籽）的个人官网，B站UP主，分享编程作品、furry术力口作品的有趣项目,欢迎关注 OwO">
     <meta name="keywords" content="電籽,小小电子xxdz,编程,术力口,Vocaloid,Miku66ccff论坛,Itoc编辑器,桌面背景,XXDZ工作室,B站,UP主,bilibili,哔哩哔哩">
     <meta name="robots" content="index, follow">
@@ -20,6 +20,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="icon" id="dynamic-favicon" href="https://xxdz-official.github.io/x/img/ico_1.ico">
     <style>
+        /* 对访客隐藏，对SEO友好捏 */
+        .seo-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
         :root {
             --shadow-sm: 3px 3px 8px rgba(0, 0, 0, 0.1);
             --shadow-md: 4px 4px 12px rgba(0, 0, 0, 0.12);
@@ -526,8 +538,8 @@
                 padding: 14px 12px !important;
             }
             .avatar-img {
-                width: 70px !important;
-                height: 70px !important;
+                width: 98px !important;
+                height: 98px !important;
             }
             .greeting {
                 font-size: 1.2rem !important;
@@ -551,52 +563,230 @@
         }
 
         .avatar-section {
-            padding: 28px 24px 20px 24px;
+            padding: 24px 24px 20px 24px;
             text-align: left;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
         }
 
+        /* PC模式：头像在左，工作室logo在头像右侧（水平并排），名字简介在头像下方 */
+        .avatar-top-area {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .avatar-left {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
         .avatar-img {
             width: 110px;
             height: 110px;
             object-fit: cover;
             border: 3px solid #0097FE;
             background: white;
-            margin-bottom: 20px;
             transition: all 0.2s;
+            margin: 0;
+            flex-shrink: 0;
         }
-
         .avatar-img:hover {
             transform: scale(1.02);
             border-color: #0077CC;
         }
-
-        .greeting {
-            font-size: clamp(1.5rem, 5vw, 1.9rem);
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
+        /* PC模式隐藏移动端专用徽章 */
+        .mobile-studio {
+            display: none;
         }
-
+        .studio-badge a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+        }
+        /* 悬浮在a标签上时，logo和文字同时动画 */
+        .studio-badge a:hover .studio-logo {
+            transform: scale(1.08) rotate(2deg);
+        }
+        .studio-badge a:hover .studio-name {
+            transform: translateX(3px);
+            opacity: 1;
+        }
+        .studio-logo {
+            width: 70px;
+            height: auto;
+            display: block;
+            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .studio-name {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #0097FE;
+            margin-top: 6px;
+            white-space: nowrap;
+            opacity: 0.85;
+            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1), opacity 0.2s ease;
+        }
+        .avatar-right {
+            width: 100%;
+        }
+        .greeting {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
         .greeting span {
             background: #0097FE10;
             padding: 2px 8px;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 500;
             color: #0097FE;
             border-left: 3px solid #0097FE;
         }
+        .bio {
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        /* 移动模式：头像在左侧垂直居中，工作室徽章在头像下方水平排列 */
+        @media (max-width: 850px) {
+            .avatar-top-area {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 0;
+                width: 100%;
+            }
+            .avatar-left {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 12px;
+            }
+            /* PC模式专用的徽章在移动端隐藏 */
+            .pc-studio {
+                display: none;
+            }
+            /* 移动端专用徽章显示，改为水平排列，填充宽度 */
+            .mobile-studio {
+                display: block;
+                width: 100%;
+            }
+            .mobile-studio a {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 10px;
+                width: 100%;
+            }
+            /* 悬浮在a标签上时，logo和文字同时动画 */
+            .mobile-studio a:hover .studio-logo {
+                transform: scale(1.08) rotate(2deg);
+            }
+            .mobile-studio a:hover .studio-name {
+                transform: translateX(3px);
+                opacity: 1;
+            }
+            .mobile-studio .studio-logo {
+                transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            }
+            .mobile-studio .studio-name {
+                transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1), opacity 0.2s ease;
+            }
+            .mobile-studio .studio-logo {
+                width: 55px;
+                margin: 0;
+            }
+            .mobile-studio .studio-name {
+                margin-top: 0;
+                font-size: 0.85rem;
+                white-space: nowrap;
+            }
+            .avatar-img {
+                width: 90%;
+                max-width: 140px;
+                height: auto;
+                aspect-ratio: 1 / 1;
+                object-fit: cover;
+                margin: 0 auto;
+                display: block;
+            }
+            .avatar-right {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding-left: 12px;
+            }
+            .greeting {
+                font-size: 1.15rem;
+                margin-bottom: 6px;
+            }
+            .greeting span {
+                font-size: 0.75rem;
+                padding: 2px 6px;
+                background: #0097FE10;
+                border-left: 2px solid #0097FE;
+            }
+            .bio {
+                font-size: 0.75rem;
+                line-height: 1.4;
+            }
+        }
+
+        @media (max-width: 850px) {
+            .avatar-img {
+                width: 85%;
+                max-width: 120px;
+            }
+            .mobile-studio .studio-logo {
+                width: 48px;
+            }
+            .mobile-studio .studio-name {
+                font-size: 0.75rem;
+            }
+            .greeting {
+                font-size: 1rem;
+            }
+            .greeting span {
+                font-size: 0.65rem;
+            }
+            .bio {
+                font-size: 0.65rem;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .avatar-img {
+                width: 80%;
+                max-width: 100px;
+            }
+            .mobile-studio .studio-logo {
+                width: 42px;
+            }
+            .mobile-studio .studio-name {
+                font-size: 0.7rem;
+            }
+            .greeting {
+                font-size: 0.9rem;
+            }
+            .bio {
+                font-size: 0.6rem;
+            }
+        }
+
+
 
         .bio {
             color: #3A4D6E;
-            margin: 12px 0 8px;
-            font-size: 0.9rem;
+            margin: 0;
+            font-size: 0.85rem;
             line-height: 1.45;
         }
 
@@ -608,7 +798,6 @@
         }
 
         .fans-box {
-            margin-top: 16px;
             margin-bottom: 8px;
             padding: 8px 12px;
             background: #F0F9FF;
@@ -1748,6 +1937,7 @@
 </script>
 </head>
 <body>
+<h1 class="seo-only">電籽的灵质空间 | 小小电子xxdz 主站 -软件开发项目/术力口/Furry创新与创作导航站</h1>
 <div class="cursor-layer" id="cursorLayer">
     <img src="https://xxdz-official.github.io/x/img/zhengchang_luoxiaohei.gif" alt="cursor" style="position: fixed; top: 0; left: 0; pointer-events: none;" onload="console.log('[光标] 罗小黑.gif 图片加载成功')" onerror="console.error('[光标] 罗小黑.gif 加载失败，请检查 URL')">
 </div>
@@ -1785,7 +1975,7 @@
             <a href="#" id="playerToggleBtn" data-tooltip-text="这是个内嵌的术力口音乐播放器？！">术术播放器</a>
         </div>
         <div class="nav-item-wrapper nav-item-more" id="moreBtn">
-            <a href="#">展开更多 ▼</a>
+            <span style="cursor: pointer; font-weight: 600; font-size: clamp(0.65rem, 2vw, 1rem); color: #2C3E50; transition: all 0.2s ease; border-bottom: 2px solid transparent; padding-bottom: 4px; display: inline-block;">展开更多 ▼</span>
         </div>
     </div>
 
@@ -1794,13 +1984,33 @@
 <main class="main-container">
     <aside class="left-side">
         <div class="info-card avatar-section">
-            <img class="avatar-img" src="https://i1.hdslb.com/bfs/face/87e609940c74ed2e7dcf6b2b19b3029f8e1566e1.jpg@240w_240h_1c_1s_!web-avatar-nav.avif" alt="小小电子xxdz头像">
-            <div class="greeting">
-                小小电子xxdz
-                <span>電籽</span>
-            </div>
-            <div class="bio">
-                我叫電籽，一只爱好电脑·术曲滴小狼 ‖ XXDZ工作室创始人<br>
+            <div class="avatar-top-area">
+                <div class="avatar-left">
+                    <img class="avatar-img" src="https://i1.hdslb.com/bfs/face/87e609940c74ed2e7dcf6b2b19b3029f8e1566e1.jpg@240w_240h_1c_1s_!web-avatar-nav.avif" alt="小小电子xxdz头像">
+                    <!-- PC模式专用的工作室徽章（位于头像右侧） -->
+                    <div class="studio-badge pc-studio">
+                        <a href="XXDZ_Studio.html" target="_blank">
+                            <img src="https://xxdz-official.github.io/x/img/%E5%B0%8F%E5%B0%8F%E7%94%B5%E5%AD%90%E5%B7%A5%E4%BD%9C%E5%AE%A4%20loge3.0.png" alt="XXDZ工作室" class="studio-logo">
+                            <span class="studio-name">XXDZ工作室</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="avatar-right">
+                    <div class="greeting">
+                        <strong>小小电子xxdz</strong>
+                        <span>電籽</span>
+                    </div>
+                    <div class="bio">
+                        我叫電籽，一只爱好电脑·术曲滴小狼 ‖ XXDZ工作室创始人
+                    </div>
+                    <!-- 移动模式专用的工作室徽章（位于文字下方） -->
+                    <div class="studio-badge mobile-studio">
+                        <a href="XXDZ_Studio.html" target="_blank">
+                            <img src="https://xxdz-official.github.io/x/img/%E5%B0%8F%E5%B0%8F%E7%94%B5%E5%AD%90%E5%B7%A5%E4%BD%9C%E5%AE%A4%20loge3.0.png" alt="XXDZ工作室" class="studio-logo">
+                            <span class="studio-name">XXDZ工作室</span>
+                        </a>
+                    </div>
+                </div>
             </div>
                 <div id="fansDisplay" class="fans-box">
                     <div class="metrics-container" style="display: flex; gap: 20px; align-items: center; flex-wrap: nowrap;">
@@ -1949,7 +2159,7 @@
     <div class="bottom-extension" style="position: relative;">
         <img src="https://xxdz-official.github.io/x/img/bottom/1.png" alt="底部延伸区域" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: fill; z-index: 0;">
         <div class="bottom-info-overlay">
-            <div class="bottom-info-copyright">© 2025 小小电子xxdz（電籽） | 本网站由電籽亲自维护</div>
+            <div class="bottom-info-copyright">© 2026 小小电子xxdz（電籽） | 本网站由電籽亲自维护</div>
             <div class="bottom-info-links">
                 <a href="https://space.bilibili.com/3461569935575626" target="_blank">哔哩哔哩</a>
                 <span class="sep">|</span>
