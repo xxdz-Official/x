@@ -4,10 +4,25 @@
     <meta charset="UTF-8">
     <meta name="referrer" content="no-referrer">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>XXDZ工作室 | 创新基石·灵气创造</title>
-    <meta name="description" content="XXDZ工作室官方页面 —— 由小小电子xxdz（電籽）创立，凝聚创新力量，探索编程、萌系furry、术力口与设计的新边界~">
+    <title>XXDZ工作室 | 主页</title>
+    <meta name="description" content="XXDZ工作室由小小电子xxdz（電籽）创立，汇聚编程、术力口、萌系furry、视觉设计创作者。原创软件、人声分离、伴奏资源、二次元">
+    <meta name="keywords" content="XXDZ工作室,小小电子xxdz,電籽,软件开发,Itoc,上一个桌面背景,术力口,萌系furry,人声伴奏分离,原创软件,二次元,编程工作室,视觉设计,B站工作室">
+    <meta name="author" content="XXDZ工作室 - 小小电子xxdz">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <meta name="bingbot" content="index, follow">
+    <meta property="og:title" content="XXDZ工作室 | 主页">
+    <meta property="og:description" content="原创软件、术力口、萌系furry、人声分离资源 —— 由小小电子xxdz创立的工作室">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://xxdz-official.github.io/XXDZ_Studio.html">
+    <meta property="og:image" content="https://xxdz-official.github.io/x/img/%E5%B0%8F%E5%B0%8F%E7%94%B5%E5%AD%90%E5%B7%A5%E4%BD%9C%E5%AE%A4%20loge3.0.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="XXDZ工作室 | 主页">
+    <meta name="twitter:description" content="创新是创造的基石 —— XXDZ工作室">
+    <meta name="twitter:image" content="https://xxdz-official.github.io/x/img/%E5%B0%8F%E5%B0%8F%E7%94%B5%E5%AD%90%E5%B7%A5%E4%BD%9C%E5%AE%A4%20loge3.0.png">
     <!-- 标签页图标: 工作室完整Logo -->
     <link rel="icon" type="image/png" href="https://xxdz-official.github.io/x/img/%E5%B0%8F%E5%B0%8F%E7%94%B5%E5%AD%90%E5%B7%A5%E4%BD%9C%E5%AE%A4%20loge3.0.ico">
+    <link rel="canonical" href="https://xxdz-official.github.io/XXDZ_Studio.html">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -24,6 +39,7 @@
             line-height: 1.4;
             overflow-x: hidden;
             position: relative;
+            padding-top: 74px; /* 为固定顶栏留出空间 */
         }
 
         /* 动态背景层 */
@@ -71,7 +87,7 @@
             border-radius: 0px !important;
         }
 
-        /* 多边形顶栏 */
+        /* 多边形顶栏 — 固定顶部不可滚动噢 */
         .polygon-header {
             background: rgba(10, 20, 30, 0.78);
             backdrop-filter: blur(18px);
@@ -82,7 +98,10 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            position: relative;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
             z-index: 50;
             clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 28px) 100%, 28px 100%, 0 calc(100% - 12px));
             transition: all 0.2s;
@@ -353,6 +372,33 @@
             margin-bottom: 6px;
             border-left: 6px solid #0097FE;
             padding-left: 12px;
+        }
+
+        /* 成员标题背景块（统一风格这一块儿） */
+        .section-label-bg {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            padding: 14px 20px;
+            border-left: 6px solid #0097FE;
+            background: rgba(18, 28, 38, 0.7);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(100, 180, 250, 0.5);
+            transition: all 0.3s;
+        }
+        .section-label-bg:hover {
+            border-color: #66CCFF;
+            box-shadow: 0 6px 16px rgba(0, 151, 254, 0.2);
+        }
+        .section-label-bg h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #EFF3F8;
+        }
+        .section-label-bg span {
+            font-size: 0.65rem;
+            color: #95ADCC;
         }
 
         .section-label h2 {
@@ -661,6 +707,8 @@
     </style>
 </head>
 <body>
+<!-- SEO 隐藏 H1 标题（对用户不可见，仅搜索引擎友好抓取嘿嘿） -->
+<h1 style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;">XXDZ工作室 | 小小电子xxdz（電籽）| 术力口·萌系furry·原创软件·人声分离</h1>
 <div class="bg-dynamic"></div>
 <div class="overlay-glow"></div>
 <div class="cursor-glow" id="cursorGlow"></div>
@@ -687,7 +735,7 @@
             <div class="motto">
                 <span style="color: #88D0FF; font-weight: 800; letter-spacing: 0.5px; display: inline-block; text-shadow: 0 0 2px rgba(0,151,254,0.4);">“ 创新是创造的基石 ”</span>
                 <br>
-                <small class="motto-sub motto-italic" style="color: #88B8E0 !important; font-style: italic !important;">工作室座右铭</small>
+                <small class="motto-sub motto-italic" style="color: #88B8E0 !important; font-style: italic !important;">—— 工作室座右铭</small>
             </div>
             <div class="founder-area" style="display: flex; gap: 20px; align-items: flex-start;">
                 <img class="founder-avatar" src="https://i1.hdslb.com/bfs/face/87e609940c74ed2e7dcf6b2b19b3029f8e1566e1.jpg@240w_240h_1c_1s_!web-avatar-nav.avif" alt="小小电子xxdz" style="width: 120px; height: 120px; flex-shrink: 0;">
@@ -709,23 +757,23 @@
         <!-- 关于工作室板块 -->
         <div class="feature-card animate-entrance" style="background: rgba(10, 20, 30, 0.65);">
             <h4 style="margin: 0 0 12px 0; font-weight: 700;">工作室の简介</h4>
-            <p style="font-size: 0.8rem; line-height: 1.5;">XXDZ工作室由小小电子xxdz（電籽）于2020年创立，汇聚技术、视觉、音乐等领域的伙伴，专注原创软件、艺术动画、萌系furry与术力口文化，遵循「创新是创造的基石」的理念，为互联网输出具有灵气、可爱、个性的作品~</p>
+            <p style="font-size: 0.8rem; line-height: 1.5;">XXDZ工作室由小小电子xxdz（電籽）于2020年创立，旧名“小小电子工作室”，后于2024年改名为“XXDZ工作室”，汇聚技术、视觉、音乐等领域的伙伴，专注原创软件、艺术动画、萌系furry与术力口文化，遵循「创新是创造的基石」的理念，为互联网输出具有灵气、可爱、个性的作品~</p>
         </div>
 
         <!-- 分离项目板块 -->
         <div class="separate-section animate-entrance">
             <div class="separate-label">
                 <i class="fas fa-code-branch"></i> 工作室专项 · 分离项目账号
-                <span style="font-size: 0.6rem; background: #1E3A5F; padding: 2px 8px;">人声分离 · 伴奏资源</span>
+                <span style="font-size: 0.6rem; background: #1E3A5F; padding: 2px 8px;">人声分离 & 伴奏资源</span>
             </div>
             <div id="separateCardContainer"></div>
-            <p style="font-size: 0.6rem; color: #88B8E0; margin-top: 12px; border-top: 1px dashed #4C8FCC; padding-top: 8px;">该账号为XXDZ工作室旗下独立项目号，专注伴奏提取与二次创作，不参与日常成员协作。</p>
+            <p style="font-size: 0.6rem; color: #88B8E0; margin-top: 12px; border-top: 1px dashed #4C8FCC; padding-top: 8px;">该账号为XXDZ工作室下的独立项目号，提交伴奏人声分离稿件，内容作者：小小电子xxdz</p>
         </div>
 
         <!-- 全部成员区域 -->
-        <div class="section-label animate-entrance">
+        <div class="section-label-bg animate-entrance">
             <h2><i class="fas fa-users" style="margin-right: 12px;"></i> 全部成员们 ( ⓛ ω ⓛ *)</h2>
-            <span style="font-size: 0.65rem; color: #95ADCC;">共同创作 · 互帮互助  o((>ω< ))o</span>
+            <span>共同创作 · 互帮互助  o((>ω< ))o</span>
         </div>
         <div class="member-grid" id="membersGrid"></div>
     </div>
@@ -855,8 +903,8 @@
         if(rightIntro && entranceElements.includes(rightIntro)) sortedElements.push(rightIntro);
         const separateSec = document.querySelector('.studio-right > .separate-section');
         if(separateSec && entranceElements.includes(separateSec)) sortedElements.push(separateSec);
-        const sectionLabel = document.querySelector('.studio-right > .section-label');
-        if(sectionLabel && entranceElements.includes(sectionLabel)) sortedElements.push(sectionLabel);
+        const sectionLabelBg = document.querySelector('.studio-right > .section-label-bg');
+        if(sectionLabelBg && entranceElements.includes(sectionLabelBg)) sortedElements.push(sectionLabelBg);
         // 成员卡片
         const memberCards = document.querySelectorAll('.member-card');
         memberCards.forEach(card => {
