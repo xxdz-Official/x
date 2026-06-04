@@ -2370,7 +2370,53 @@
 
         function updateVideo(videoData) { if (!videoData || !videoData.video_url) { latestVideoContainer.innerHTML = `<div class="error-text">⚠️ 未获取到最新视频喵</div>`; return; } const bvid = extractBV(videoData.video_url); if (!bvid) { latestVideoContainer.innerHTML = `<div class="error-text">⚠️ 无法解析视频 BV 号喵</div>`; return; } const title = videoData.title || "最新视频"; const coverUrl = videoData.cover_url || ""; const videoUrl = videoData.video_url || "#"; const iframeSrc = `//player.bilibili.com/player.html?bvid=${bvid}&page=1&high_quality=1&autoplay=0`; const videoHtml = `<a href="${videoUrl}" target="_blank" rel="noopener" class="video-card" data-bvid="${bvid}" data-iframe-src="${iframeSrc}"><div class="video-cover-wrapper"><img class="video-cover-img" src="${coverUrl}" alt="视频封面" onerror="this.onerror=null; this.src='';"><div class="video-iframe-wrapper"><iframe src="${iframeSrc}" scrolling="no" frameborder="0" allowfullscreen="true" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe></div></div><div class="video-title">${escapeHtml(title)}</div></a>`; latestVideoContainer.innerHTML = videoHtml; const card = latestVideoContainer.querySelector('.video-card'); if (card) { card.classList.add('dynamic-fade'); const coverImg = card.querySelector('.video-cover-img'); const iframeWrapper = card.querySelector('.video-iframe-wrapper'); const iframe = iframeWrapper.querySelector('iframe'); let hoverTimer = null, leaveTimer = null, isIframeVisible = false; card.addEventListener('mouseenter', () => { if (leaveTimer) clearTimeout(leaveTimer); if (hoverTimer) clearTimeout(hoverTimer); hoverTimer = setTimeout(() => { if (!isIframeVisible) { coverImg.style.opacity = '0'; coverImg.style.visibility = 'hidden'; iframeWrapper.style.opacity = '1'; iframeWrapper.style.visibility = 'visible'; isIframeVisible = true; } }, 1000); }); card.addEventListener('mouseleave', () => { if (hoverTimer) clearTimeout(hoverTimer); if (leaveTimer) clearTimeout(leaveTimer); leaveTimer = setTimeout(() => { if (isIframeVisible) { if (iframe && iframe.src) { iframe.src = ''; setTimeout(() => { iframe.src = iframeSrc; }, 50); } coverImg.style.opacity = '1'; coverImg.style.visibility = 'visible'; iframeWrapper.style.opacity = '0'; iframeWrapper.style.visibility = 'hidden'; isIframeVisible = false; } }, 200); }); } }
 
-        async function fetchAndUpdate() { try { const response = await fetch(API_URL, { headers: { 'X-Access-Key': ACCESS_KEY, 'Content-Type': 'application/json' } }); if (!response.ok) throw new Error(`HTTP ${response.status}`); const result = await response.json(); const data = result.record || result; if (data) { updateMetricsWithSequence(data.fans || '?', data.views || '0', data.likes || '0'); updateNotice(data.notice || null, data.fetch_time); updateVideo(data.latest_video || null); renderDynamics(data.dynamics || null); } else { throw new Error('数据格式异常喵'); } } catch (error) { console.error('[xxdz灵质空间] 加载失败喵:', error); const fansSpan = document.getElementById('fansNumberValue'); if (fansSpan) fansSpan.textContent = '?'; updateNotice(null, null); updateVideo(null); renderDynamics(null); } }
+        async function fetchAndUpdate() {
+            const BACKUP_URL = 'https://xxdz-official.github.io/x/jsonReserve/xBilibiliData_xxdz.json';
+            try {
+                const response = await fetch(API_URL, {
+                    headers: {
+                        'X-Access-Key': ACCESS_KEY,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const result = await response.json();
+                const data = result.record || result;
+                if (data) {
+                    updateMetricsWithSequence(data.fans || '?', data.views || '0', data.likes || '0');
+                    updateNotice(data.notice || null, data.fetch_time);
+                    updateVideo(data.latest_video || null);
+                    renderDynamics(data.dynamics || null);
+                    return;
+                }
+                throw new Error('数据格式异常喵');
+            } catch (error) {
+                console.warn('[xxdz灵质空间] JSONBin加载失败，尝试从GitHub备用源加载...', error);
+                try {
+                    const backupResponse = await fetch(BACKUP_URL);
+                    if (!backupResponse.ok) throw new Error(`备用源HTTP ${backupResponse.status}`);
+                    const backupResult = await backupResponse.json();
+                    // 关键修正：备用源的数据在 record 字段里！
+                    const backupData = backupResult.record || backupResult;
+                    if (backupData) {
+                        updateMetricsWithSequence(backupData.fans || '?', backupData.views || '0', backupData.likes || '0');
+                        updateNotice(backupData.notice || null, backupData.fetch_time);
+                        updateVideo(backupData.latest_video || null);
+                        renderDynamics(backupData.dynamics || null);
+                        console.log('[xxdz灵质空间] 已从GitHub备用源加载数据');
+                        return;
+                    }
+                    throw new Error('备用源数据为空');
+                } catch (backupError) {
+                    console.error('[xxdz灵质空间] 备用源也加载失败喵:', backupError);
+                    const fansSpan = document.getElementById('fansNumberValue');
+                    if (fansSpan) fansSpan.textContent = '?';
+                    updateNotice(null, null);
+                    updateVideo(null);
+                    renderDynamics(null);
+                }
+            }
+        }
 
         renderMasterpieces();
         renderQuickLinks();
