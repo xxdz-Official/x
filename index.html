@@ -2339,9 +2339,9 @@
             });
         }
 
-        const BIN_ID = '69e5fdda36566621a8d1212a';
-        const ACCESS_KEY = '$2a$10$jIZU9qtvIqpiJ.SYYF7eHedfCoM6aF5HaSqAFdbVGWkj25IIsK8Zu';
-        const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+        const GIST_ID = '9d957142cec7e7da4598b1d8eac78d50';
+        const GIST_TOKEN = ''; // 从环境变量读取，见下方说明
+        const API_URL = `https://api.github.com/gists/${GIST_ID}`;
 
         const fansNumberSpan = document.getElementById('fansNumberValue');
         const noticeContentDiv = document.getElementById('noticeContent');
@@ -2375,13 +2375,25 @@
             try {
                 const response = await fetch(API_URL, {
                     headers: {
-                        'X-Access-Key': ACCESS_KEY,
-                        'Content-Type': 'application/json'
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Authorization': `token ${GIST_TOKEN}`
                     }
                 });
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const result = await response.json();
-                const data = result.record || result;
+                // 从 Gist 的 files 中提取内容
+                const files = result.files || {};
+                let data = null;
+                for (const filename in files) {
+                    if (files[filename].content) {
+                        try {
+                            data = JSON.parse(files[filename].content);
+                            break;
+                        } catch (e) {
+                            console.warn('解析文件内容失败:', filename, e);
+                        }
+                    }
+                }
                 if (data) {
                     updateMetricsWithSequence(data.fans || '?', data.views || '0', data.likes || '0');
                     updateNotice(data.notice || null, data.fetch_time);
@@ -2391,19 +2403,18 @@
                 }
                 throw new Error('数据格式异常喵');
             } catch (error) {
-                console.warn('[xxdz灵质空间] JSONBin加载失败，尝试从GitHub备用源加载...', error);
+                console.warn('[xxdz灵质空间] GitHub Gist加载失败，尝试从备用源加载...', error);
                 try {
                     const backupResponse = await fetch(BACKUP_URL);
                     if (!backupResponse.ok) throw new Error(`备用源HTTP ${backupResponse.status}`);
                     const backupResult = await backupResponse.json();
-                    // 关键修正：备用源的数据在 record 字段里！
                     const backupData = backupResult.record || backupResult;
                     if (backupData) {
                         updateMetricsWithSequence(backupData.fans || '?', backupData.views || '0', backupData.likes || '0');
                         updateNotice(backupData.notice || null, backupData.fetch_time);
                         updateVideo(backupData.latest_video || null);
                         renderDynamics(backupData.dynamics || null);
-                        console.log('[xxdz灵质空间] 已从GitHub备用源加载数据');
+                        console.log('[xxdz灵质空间] 已从备用源加载数据');
                         return;
                     }
                     throw new Error('备用源数据为空');
