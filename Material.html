@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>電籽素材库 · 喵手书</title>
+    <!-- 使用与主站一致的 Inter 字体 & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+        /* 全局重置 + 背景层 (复用主站风格) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ===== 导航栏高亮样式（素材库激活态） ===== */
+        .nav-item-wrapper.active a {
+            color: #0097FE !important;
+            border-bottom-color: #0097FE !important;
+        }
+
+        /* ===== 主站顶部导航栏完整样式 ===== */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 3px solid rgba(0, 151, 254, 0.5);
+            padding: 0 clamp(16px, 4vw, 32px);
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        @media (min-width: 701px) {
+            .top-bar.island-mode {
+                top: 12px;
+                left: 12px;
+                width: calc(100% - 24px);
+                height: 56px;
+                padding: 0 28px;
+                background: rgba(255, 255, 255, 0.65);
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                border-bottom: 1px solid rgba(0, 151, 254, 0.35);
+                box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.35), 0 8px 18px rgba(0, 0, 0, 0.2);
+                clip-path: polygon(16px 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%, 0 16px);
+                transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            }
+            .top-bar.island-mode::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                pointer-events: none;
+                clip-path: polygon(16px 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%, 0 16px);
+                border: 1px solid rgba(0, 151, 254, 0.35);
+                border-top: none;
+                box-sizing: border-box;
+            }
+            .top-bar.island-mode .site-title img {
+                height: 2.8rem;
+            }
+            .top-bar.island-mode .nav-item-wrapper a {
+                font-size: clamp(0.6rem, 1.8vw, 0.88rem);
+            }
+            .top-bar.island-mode .nav-icon-img {
+                height: 1.3em;
+            }
+            body.island-active .material-container {
+                margin-top: 90px;
+            }
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .site-title {
+            font-size: clamp(1rem, 3.5vw, 1.65rem);
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            background: linear-gradient(135deg, #0097FE 0%, #005FAA 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            white-space: nowrap;
+        }
+        .site-title span {
+            display: inline-block;
+            transition: font-size 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .site-title img {
+            transition: height 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: clamp(4px, 1.5vw, 28px);
+            flex-wrap: nowrap;
+            align-items: center;
+        }
+        .nav-item-wrapper {
+            position: relative;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        .nav-item-wrapper a {
+            text-decoration: none;
+            font-weight: 600;
+            font-size: clamp(0.65rem, 2vw, 1rem);
+            color: #2C3E50;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+            display: inline-block;
+            white-space: nowrap;
+        }
+        .nav-item-wrapper a:hover {
+            color: #0097FE;
+            border-bottom-color: #0097FE;
+            transform: translateY(-1px);
+        }
+        .forum-icon-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+        }
+        .nav-icon-img {
+            height: 1.4em;
+            width: auto;
+            object-fit: contain;
+            transition: all 0.2s ease;
+            vertical-align: middle;
+        }
+        .forum-icon-link:hover {
+            border-bottom-color: #0097FE;
+            transform: translateY(-1px);
+        }
+        .forum-icon-link:hover .nav-icon-img {
+            transform: scale(1.02);
+        }
+
+        @media (min-width: 701px) {
+            .nav-item-wrapper.nav-item-bili,
+            .nav-item-wrapper.nav-item-github {
+                display: none;
+            }
+        }
+        @media (max-width: 700px) {
+            .nav-item-wrapper.nav-item-player,
+            .nav-item-wrapper.nav-item-wallpaper,
+            .nav-item-wrapper.nav-item-emoji,
+            .nav-item-wrapper.nav-item-bili,
+            .nav-item-wrapper.nav-item-github {
+                display: none;
+            }
+        }
+        @media (max-width: 700px) {
+            .nav-item-wrapper.nav-item-forum .nav-icon-img {
+                height: 1.8em;
+            }
+            .nav-item-wrapper.nav-item-friend a,
+            .nav-item-wrapper.nav-item-more a {
+                font-size: clamp(0.9rem, 3vw, 1.1rem);
+                font-weight: 700;
+            }
+            .nav-links {
+                gap: clamp(12px, 3vw, 20px);
+            }
+        }
+
+        /* 提示框样式 */
+        .btn-tooltip {
+            position: fixed;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 0px;
+            white-space: nowrap;
+            z-index: 10001;
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+            border-left: 2px solid #0097FE;
+            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(5px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .btn-tooltip.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 下拉菜单样式 */
+        .custom-dropdown {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 151, 254, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            z-index: 10001;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 12px 20px;
+            opacity: 0;
+            transform: translateY(5px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            pointer-events: none;
+        }
+        .custom-dropdown.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .dropdown-item-custom {
+            padding: 0;
+            margin: 0;
+            background: transparent;
+            border: none;
+        }
+        .dropdown-item-custom a {
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #2C3E50;
+            display: block;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+        }
+        .dropdown-item-custom a:hover {
+            color: #0097FE;
+            border-bottom-color: #0097FE;
+            transform: translateY(-1px);
+        }
+        @media (max-width: 700px) {
+            .custom-dropdown {
+                flex-direction: column;
+                min-width: 160px;
+                padding: 8px 0;
+                gap: 0;
+            }
+            .dropdown-item-custom {
+                padding: 8px 20px;
+            }
+            .dropdown-item-custom a {
+                border-bottom: none;
+            }
+            .dropdown-item-custom:hover {
+                background: #F0F9FF;
+            }
+            .dropdown-item-custom:hover a {
+                transform: none;
+                border-bottom: none;
+            }
+        }
+
+        /* 极端小屏幕 */
+        @media (max-width: 500px) {
+            .nav-links {
+                gap: clamp(2px, 1vw, 8px);
+            }
+            .nav-item-wrapper a {
+                font-size: clamp(0.55rem, 1.8vw, 0.75rem);
+            }
+            .nav-icon-img {
+                height: 1.2em;
+            }
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background-color: #F5F7FC;
+            color: #1F2A3E;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px 60px;
+            position: relative;
+        }
+
+        /* 背景层 (与主站一致) */
+        .bg-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://xxdz-official.github.io/x/img/bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+            pointer-events: none;
+            animation: bgZoomIn 1.2s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+        }
+
+        @keyframes bgZoomIn {
+            0% {
+                opacity: 0;
+                transform: scale(1.3);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* 主容器 — 半透明毛玻璃效果 */
+        .material-container {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15), 0 8px 20px rgba(0, 0, 0, 0.05);
+            padding: 40px 35px;
+            border-radius: 0px; /* 直角保持与主站一致 */
+            transition: all 0.25s ease;
+        }
+
+        /* 头部 + 搜索栏 */
+        .header-area {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 40px;
+            border-bottom: 2px solid rgba(0, 151, 254, 0.2);
+            padding-bottom: 18px;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0097FE 0%, #005FAA 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .page-title i {
+            color: #0097FE;
+            font-size: 1.6rem;
+            background: rgba(0, 151, 254, 0.12);
+            padding: 6px;
+            border-left: 3px solid #0097FE;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 1px solid rgba(0, 151, 254, 0.25);
+            padding: 0 16px;
+            transition: all 0.25s ease;
+            min-width: 220px;
+            flex: 1 1 260px;
+        }
+
+        .search-box:focus-within {
+            border-color: #0097FE;
+            box-shadow: 0 0 0 3px rgba(0, 151, 254, 0.15);
+            background: rgba(255, 255, 255, 0.85);
+        }
+
+        .search-box i {
+            color: #7A8BA3;
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            padding: 12px 0;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #1F2A3E;
+            width: 100%;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .search-box input::placeholder {
+            color: #9AABBF;
+            font-weight: 400;
+        }
+
+        /* ===== 列表卡片（现代化、高级感） ===== */
+        .material-list {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .list-item {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.02);
+            padding: 28px 30px 30px;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            scroll-margin-top: 30px;
+        }
+
+        .list-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 151, 254, 0.10), 0 8px 20px rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 151, 254, 0.25);
+            background: rgba(255, 255, 255, 0.78);
+        }
+
+        .list-item-header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 16px;
+            border-left: 4px solid #0097FE;
+            padding-left: 18px;
+        }
+
+        .list-item-title {
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: #0B1A2E;
+            letter-spacing: -0.3px;
+            line-height: 1.3;
+        }
+
+        .list-item-title i {
+            color: #0097FE;
+            margin-right: 10px;
+            font-size: 1.4rem;
+        }
+
+        .list-item-badge {
+            background: rgba(0, 151, 254, 0.12);
+            padding: 4px 14px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #0097FE;
+            border-left: 2px solid #0097FE;
+            white-space: nowrap;
+        }
+
+        .list-item-desc {
+            font-size: 0.95rem;
+            color: #2C3E50;
+            margin-bottom: 20px;
+            padding-left: 22px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        /* 图片网格 — 优雅展示 */
+        .image-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            padding-left: 22px;
+        }
+
+        .image-card {
+            flex: 1 1 240px;
+            min-width: 180px;
+            max-width: 320px;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+            overflow: hidden;
+        }
+
+        .image-card:hover {
+            transform: scale(1.01) translateY(-3px);
+            border-color: #0097FE;
+            box-shadow: 0 12px 28px rgba(0, 151, 254, 0.12);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            background: #f0f2f5;
+            transition: transform 0.3s ease;
+        }
+
+        .image-card:hover img {
+            transform: scale(1.02);
+        }
+
+        .image-card .image-label {
+            padding: 10px 14px 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #1F2A3E;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(2px);
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .image-label .download-hint {
+            font-size: 0.7rem;
+            color: #0097FE;
+            background: rgba(0, 151, 254, 0.08);
+            padding: 2px 10px;
+            border-left: 2px solid #0097FE;
+            transition: all 0.2s;
+            cursor: default;
+        }
+
+        .image-card:hover .download-hint {
+            background: rgba(0, 151, 254, 0.16);
+        }
+
+        /* 下载按钮 (统一风格) */
+        .download-area {
+            margin-top: 22px;
+            padding-left: 22px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 14px 24px;
+            border-top: 1px dashed rgba(0, 151, 254, 0.15);
+            padding-top: 18px;
+        }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #0097FE;
+            border: 1px solid #0097FE;
+            color: white;
+            padding: 8px 22px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 151, 254, 0.15);
+            font-family: inherit;
+        }
+
+        .btn-download:hover {
+            background: #007FE0;
+            border-color: #007FE0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 151, 254, 0.25);
+        }
+
+        .btn-download i {
+            font-size: 0.9rem;
+        }
+
+        .btn-outline-download {
+            background: transparent;
+            border-color: rgba(0, 151, 254, 0.3);
+            color: #1F2A3E;
+            box-shadow: none;
+        }
+
+        .btn-outline-download:hover {
+            background: rgba(0, 151, 254, 0.06);
+            border-color: #0097FE;
+            color: #0097FE;
+        }
+
+        .file-meta {
+            font-size: 0.75rem;
+            color: #5A6E8C;
+            display: flex;
+            align-items: center;
+            gap: 4px 14px;
+            flex-wrap: wrap;
+        }
+
+        .file-meta span {
+            background: rgba(255, 255, 255, 0.5);
+            padding: 2px 10px;
+            border-left: 2px solid #0097FE40;
+        }
+
+        /* 无结果提示 (搜索用) */
+        .no-result {
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 1.1rem;
+            color: #7A8BA3;
+            display: none;
+        }
+
+        .no-result i {
+            font-size: 2.2rem;
+            display: block;
+            margin-bottom: 12px;
+            color: #BCC9DB;
+        }
+
+        /* 响应式 */
+        @media (max-width: 700px) {
+            .material-container {
+                padding: 24px 16px;
+            }
+            .header-area {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 14px;
+            }
+            .page-title {
+                font-size: 1.4rem;
+            }
+            .list-item {
+                padding: 20px 16px 22px;
+            }
+            .list-item-title {
+                font-size: 1.25rem;
+            }
+            .image-grid {
+                padding-left: 0;
+            }
+            .image-card {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+            .download-area {
+                padding-left: 0;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .list-item-header {
+                padding-left: 12px;
+            }
+            .list-item-desc {
+                padding-left: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 1.2rem;
+            }
+            .search-box input {
+                font-size: 0.85rem;
+                padding: 10px 0;
+            }
+            .list-item-title {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* 返回主站小标签 (可选) */
+        .back-home {
+            margin-top: 40px;
+            font-size: 0.85rem;
+            color: #5A6E8C;
+            text-decoration: none;
+            border-bottom: 1px dotted #0097FE60;
+            transition: color 0.2s;
+        }
+
+        .back-home:hover {
+            color: #0097FE;
+            border-bottom-color: #0097FE;
+        }
+
+        /* 锚点高亮闪烁 (搜索滚动后) */
+        .highlight-flash {
+            animation: flashBg 1.2s ease 2;
+        }
+
+        @keyframes flashBg {
+            0%,
+            100% {
+                background: rgba(255, 255, 255, 0.65);
+            }
+            40% {
+                background: rgba(0, 151, 254, 0.18);
+                border-color: #0097FE;
+            }
+            70% {
+                background: rgba(0, 151, 254, 0.08);
+            }
+        }
+
+        /* ===== 悬浮播放器样式 ===== */
+        .floating-player {
+            position: fixed;
+            width: 540px;
+            height: 360px;
+            background: #1a1f2e;
+            border: 1px solid #39C5BB;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s, transform 0.2s ease;
+            transform: translateY(-8px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .floating-player.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .player-titlebar {
+            background: #2c3348;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8px 0 8px;
+            cursor: grab;
+            user-select: none;
+            border-bottom: 1px solid #39C5BB;
+        }
+        .breakout-btn {
+            background: transparent;
+            border: none;
+            color: #66ccff;
+            font-size: 0.9rem;
+            cursor: pointer;
+            padding: 0 6px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+            border-radius: 2px;
+            margin-right: 4px;
+        }
+        .breakout-btn:hover {
+            background: rgba(57, 197, 187, 0.3);
+            color: #39C5BB;
+            transform: scale(1.02);
+        }
+        .breakout-btn i {
+            font-size: 0.8rem;
+        }
+        .player-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #eef5ff;
+        }
+        .title-left-group {
+            display: flex;
+            align-items: center;
+        }
+        .player-titlebar:active {
+            cursor: grabbing;
+        }
+        .player-title i {
+            font-size: 0.85rem;
+            color: #66ccff;
+        }
+        .player-window-buttons {
+            display: flex;
+            gap: 6px;
+        }
+        .win-btn {
+            width: 28px;
+            height: 24px;
+            background: transparent;
+            border: none;
+            color: #eef5ff;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+        }
+        .win-btn:hover {
+            background: #4a5568;
+        }
+        .win-btn.minimize:hover {
+            background: #4a5568;
+        }
+        .win-btn.maximize:hover {
+            background: #4a5568;
+        }
+        .win-btn.close:hover {
+            background: #e81123;
+            color: white;
+        }
+        .player-content {
+            flex: 1;
+            background: #0a0e1a;
+            position: relative;
+            border: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            cursor: none !important;
+        }
+        .player-content.hover-border {
+            border-color: transparent;
+            box-shadow: none;
+        }
+        .player-content iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #0a0e1a;
+        }
+        .player-content,
+        .player-content *,
+        .player-content::before,
+        .player-content::after,
+        .player-content .hover-border,
+        .player-content .hover-border::before,
+        .player-content .hover-border::after,
+        .floating-player,
+        .floating-player *,
+        .floating-player::before,
+        .floating-player::after {
+            cursor: none !important;
+        }
+        .floating-player.minimizing {
+            transition: transform 0.35s cubic-bezier(0.55, 0, 0.75, 0.5), opacity 0.3s ease;
+            transform: translateY(-120vh) !important;
+            opacity: 0;
+        }
+        .floating-player.dragging {
+            transition: none;
+        }
+        @media (max-width: 600px) {
+            .floating-player {
+                width: calc(100vw - 24px);
+                height: calc((100vw - 24px) * 360 / 540);
+                min-height: 280px;
+                left: 12px !important;
+            }
+            .win-btn {
+                width: 32px;
+            }
+        }
+
+        /* ===== 鼠标光标样式 ===== */
+        .cursor-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 99999;
+        }
+        .cursor-layer img {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: auto;
+            height: auto;
+            pointer-events: none;
+            transform: translate(0, 0);
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor-layer" id="cursorLayer">
+        <img src="https://xxdz-official.github.io/x/img/zhengchang_luoxiaohei.gif" alt="cursor" style="position: fixed; top: 0; left: 0; pointer-events: none;" onload="console.log('[光标] 罗小黑.gif 图片加载成功')" onerror="console.error('[光标] 罗小黑.gif 加载失败，请检查 URL')">
+    </div>
+
+    <div class="bg-layer"></div>
+
+    <!-- ===== 主站顶部导航栏（完全复刻 index.html） ===== -->
+    <header class="top-bar" id="mainTopBar">
+        <div class="logo-area">
+            <div class="site-title" style="display: flex; align-items: center; gap: 6px;">
+                <img src="https://xxdz-official.github.io/x/img/logo.png" alt="logo" style="height: 3.6rem; width: auto; vertical-align: middle;">
+                <span>電籽的灵质空间</span>
+            </div>
+        </div>
+        <div class="nav-links" id="navLinks">
+            <div class="nav-item-wrapper nav-item-forum">
+                <a href="https://miku66ccff.freeflarum.com" class="forum-icon-link" target="_blank" rel="noopener" data-tooltip-text="我旗下的术力口、furry、科技圈论坛：Miku66ccff论坛">
+                    <img src="https://miku66ccff.freeflarum.com/assets/logo-cyvx1jbh.png" alt="Miku66ccff论坛" class="nav-icon-img">
+                </a>
+            </div>
+            <div class="nav-item-wrapper nav-item-wallpaper">
+                <a href="https://xxdz-official.github.io/x/background.html" data-tooltip-text="我制作的壁纸~">電籽壁纸库</a>
+            </div>
+            <div class="nav-item-wrapper nav-item-material active">
+                <a href="https://xxdz-official.github.io/x/Material.html" data-tooltip-text="我整理的素材资源~">電籽素材库</a>
+            </div>
+            <div class="nav-item-wrapper nav-item-emoji" data-collapsible="true">
+                <a href="emoji.html" target="_blank" rel="noopener" data-tooltip-text="電籽表情包大全 🐾">表情包</a>
+            </div>
+            <div class="nav-item-wrapper nav-item-bili" data-collapsible="true">
+                <a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener" data-tooltip-text="关注我的最新动态 >w<">B站空间</a>
+            </div>
+            <div class="nav-item-wrapper nav-item-github" data-collapsible="true">
+                <a href="https://github.com/xxdz-Official" target="_blank" rel="noopener" data-tooltip-text="嗷呜~ 为我的仓库给个星标？">GitHub</a>
+            </div>
+            <div class="nav-item-wrapper nav-item-friend">
+                <a href="https://xxdz-official.github.io/x/FriendURL.html" target="_blank" rel="noopener" data-tooltip-text="为我或我的项目做出贡献的朋友们~">友情链接</a>
+            </div>
+            <div class="nav-item-wrapper nav-item-player" id="playerNavItem">
+                <a href="#" id="playerToggleBtn" data-tooltip-text="这是个内嵌的术力口音乐播放器？！">术术播放器</a>
+            </div>
+            <div class="nav-item-wrapper nav-item-more" id="moreBtn">
+                <span style="cursor: pointer; font-weight: 600; font-size: clamp(0.65rem, 2vw, 1rem); color: #2C3E50; transition: all 0.2s ease; border-bottom: 2px solid transparent; padding-bottom: 4px; display: inline-block;">展开更多 ▼</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="material-container" style="margin-top: 90px;">
+
+    <!-- ===== 搜索栏（素材列表上方） ===== -->
+    <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 40px; border-bottom: 2px solid rgba(0, 151, 254, 0.2); padding-bottom: 18px; margin-top: 0px;">
+        <div class="page-title" style="font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, #0097FE 0%, #005FAA 100%); background-clip: text; -webkit-background-clip: text; color: transparent; letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-cubes" style="color: #0097FE; font-size: 1.6rem; background: rgba(0, 151, 254, 0.12); padding: 6px; border-left: 3px solid #0097FE;"></i>
+            電籽素材库
+        </div>
+        <div class="search-box" id="searchBox" style="display: flex; align-items: center; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border: 1px solid rgba(0, 151, 254, 0.25); padding: 0 16px; transition: all 0.25s ease; min-width: 220px; flex: 1 1 260px;">
+            <i class="fas fa-search" style="color: #7A8BA3; font-size: 1rem; margin-right: 10px;"></i>
+            <input type="text" id="searchInput" placeholder="搜索素材名称或标签…" style="border: none; background: transparent; padding: 12px 0; font-size: 0.95rem; font-weight: 500; color: #1F2A3E; width: 100%; outline: none; font-family: inherit;" />
+        </div>
+    </div>
+
+        <!-- ===== 素材列表 ===== -->
+        <div class="material-list" id="materialList">
+
+            <!-- ============================================================ -->
+            <!-- 条目 1：喵-手书 （锚点 id 与标题关键词一致，方便搜索）        -->
+            <!-- ============================================================ -->
+            <div class="list-item" id="喵-手书" data-keywords="喵 手书 原创 动画 翻调 Vocaloid">
+                <div class="list-item-header">
+                    <span class="list-item-title">
+                        <i class="fa-solid fa-cat"></i>
+                        来啊,今晚就和你,一起喵!喵!喵!喵!喵! —《喵》原创动画手书翻调
+                    </span>
+                    <span class="list-item-badge"><i class="fa-regular fa-folder-open"></i> 素材包 · 2张封面</span>
+                </div>
+
+                <div class="list-item-desc">
+                    <i class="fa-regular fa-file-lines" style="color:#0097FE;margin-right:6px;"></i>
+                    原创动画手书《喵》的B站封面素材，包含「主页封面」与「推荐页封面」两种尺寸，适合二创或参考。
+                </div>
+
+                <!-- 图片网格 -->
+                <div class="image-grid">
+                    <div class="image-card">
+                        <img src="img/Material/喵-手书/B站封面-主页.png" alt="B站封面-主页" loading="lazy" />
+                    <div class="image-label">
+                        <span><i class="fa-regular fa-image"></i> 主页封面</span>
+                        <span class="download-hint">
+                            PNG · 1.7 MB
+                            <a href="img/Material/喵-手书/B站封面-主页.png" download style="display:inline-block;background:#0097FE;color:#fff;padding:2px 12px;font-size:0.7rem;font-weight:600;text-decoration:none;border-radius:0px;margin-left:8px;transition:all 0.2s ease;border:1px solid #0097FE;">⬇ 下载</a>
+                        </span>
+                    </div>
+                    </div>
+                    <div class="image-card">
+                        <img src="img/Material/喵-手书/B站封面-推荐页.png" alt="B站封面-推荐页" loading="lazy" />
+                    <div class="image-label">
+                        <span><i class="fa-regular fa-image"></i> 推荐页封面</span>
+                        <span class="download-hint">
+                            PNG · 1.2 MB
+                            <a href="img/Material/喵-手书/B站封面-推荐页.png" download style="display:inline-block;background:#0097FE;color:#fff;padding:2px 12px;font-size:0.7rem;font-weight:600;text-decoration:none;border-radius:0px;margin-left:8px;transition:all 0.2s ease;border:1px solid #0097FE;">⬇ 下载</a>
+                        </span>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- 下载区（已整合到图片卡片内，此处留空备用） -->
+                <div class="download-area" style="display:none;"></div>
+            </div>
+            <!-- ============================================================ -->
+
+            <!-- 此处未来可继续追加更多 .list-item 条目，每个独立锚点 id -->
+
+        </div><!-- /material-list -->
+
+        <!-- 无结果提示 -->
+        <div class="no-result" id="noResult">
+            <i class="fa-regular fa-face-frown"></i>
+            没有找到匹配的素材 … 试试其他关键词吧
+        </div>
+
+
+
+    </div><!-- /material-container -->
+
+    <!-- ===== 悬浮播放器（术术播放器） ===== -->
+    <div id="floatingPlayer" class="floating-player">
+        <div class="player-titlebar" id="playerTitlebar">
+            <div class="title-left-group">
+                <button class="breakout-btn" id="breakoutBtn" title="冲破图层！">
+                    <i class="fas fa-external-link-alt"></i>
+                </button>
+                <div class="player-title">
+                    <i class="fas fa-head-side-vr"></i>
+                    <span>電籽术术播放器</span>
+                </div>
+            </div>
+            <div class="player-window-buttons">
+                <button class="win-btn minimize" id="winMinimizeBtn" title="最小化">_</button>
+                <button class="win-btn maximize" id="winMaximizeBtn" title="在新标签页打开">🗖</button>
+                <button class="win-btn close" id="winCloseBtn" title="关闭">🗙</button>
+            </div>
+        </div>
+        <div class="player-content" style="position: relative;">
+            <div class="cursor-layer-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; background: transparent; overflow: hidden;">
+                <img src="https://xxdz-official.github.io/x/img/zhengchang_luoxiaohei.gif" alt="cursor" style="position: absolute; top: 0; left: 0; width: auto; height: auto; transform-origin: 0px 0px; pointer-events: none; opacity: 0; transform: translate(0px, 0px) scale(0); transition: opacity 0.15s ease, transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);">
+            </div>
+            <iframe id="playerIframe" src="about:blank" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            <div class="cursor-layer-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; background: transparent; overflow: hidden;">
+                <img src="https://xxdz-official.github.io/x/img/zhengchang_luoxiaohei.gif" alt="cursor" style="position: absolute; top: 0; left: 0; width: auto; height: auto; transform-origin: 0px 0px; pointer-events: none; opacity: 0; transform: translate(0px, 0px) scale(0); transition: opacity 0.15s ease, transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const searchInput = document.getElementById('searchInput');
+            const listItems = document.querySelectorAll('.list-item');
+            const noResult = document.getElementById('noResult');
+            let searchTimer = null;
+
+            // 为每个列表项建立索引（标题 + data-keywords）
+            const itemIndex = [];
+            listItems.forEach((item, idx) => {
+                const title = item.querySelector('.list-item-title')?.textContent?.trim() || '';
+                const keywords = item.dataset.keywords || '';
+                const id = item.id || '';
+                itemIndex.push({
+                    element: item,
+                    title: title,
+                    keywords: keywords + ' ' + id,
+                    index: idx
+                });
+            });
+
+            function performSearch(query) {
+                const q = query.trim().toLowerCase();
+                let hasVisible = false;
+
+                if (q === '') {
+                    // 清空搜索，显示全部
+                    listItems.forEach(item => {
+                        item.style.display = '';
+                    });
+                    noResult.style.display = 'none';
+                    return;
+                }
+
+                // 模糊匹配：只要标题或关键词中包含查询词即视为匹配
+                const tokens = q.split(/\s+/).filter(t => t.length > 0);
+
+                itemIndex.forEach(({ element, title, keywords }) => {
+                    const haystack = (title + ' ' + keywords).toLowerCase();
+                    // 所有token都必须匹配 (AND)
+                    const match = tokens.every(token => haystack.includes(token));
+                    if (match) {
+                        element.style.display = '';
+                        hasVisible = true;
+                    } else {
+                        element.style.display = 'none';
+                    }
+                });
+
+                // 显示/隐藏无结果提示
+                noResult.style.display = hasVisible ? 'none' : 'block';
+
+                // 如果有可见项，滚动到第一个匹配项（带有平滑动画）
+                if (hasVisible) {
+                    const firstVisible = Array.from(listItems).find(el => el.style.display !== 'none');
+                    if (firstVisible) {
+                        // 加一个高亮闪现效果
+                        firstVisible.classList.remove('highlight-flash');
+                        // 强制回流后添加动画
+                        void firstVisible.offsetWidth;
+                        firstVisible.classList.add('highlight-flash');
+
+                        // 滚动到该元素
+                        firstVisible.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start',
+                        });
+                    }
+                }
+            }
+
+            // 输入防抖 + 触发搜索
+            searchInput.addEventListener('input', function(e) {
+                clearTimeout(searchTimer);
+                searchTimer = setTimeout(() => {
+                    performSearch(this.value);
+                }, 180);
+            });
+
+            // 页面加载后自动聚焦搜索框（桌面友好）
+            if (window.innerWidth >= 768) {
+                searchInput.focus();
+            }
+
+            // 如果URL带有 #锚点，自动聚焦并高亮对应条目
+            if (window.location.hash) {
+                const targetId = window.location.hash.substring(1);
+                const targetItem = document.getElementById(targetId);
+                if (targetItem) {
+                    setTimeout(() => {
+                        targetItem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        targetItem.classList.add('highlight-flash');
+                        // 同时在搜索框填入锚点名称，触发筛选
+                        searchInput.value = targetId;
+                        performSearch(targetId);
+                    }, 400);
+                }
+            }
+        })();
+
+        // ===== 展开更多下拉菜单逻辑 =====
+        (function() {
+            const moreBtn = document.getElementById('moreBtn');
+            if (!moreBtn) return;
+            const dropdown = document.createElement('div');
+            dropdown.className = 'custom-dropdown';
+            dropdown.innerHTML = `<div class="dropdown-item-custom desktop-hide"><a href="https://xxdz-official.github.io/x/background.html">電籽壁纸库</a></div><div class="dropdown-item-custom desktop-hide"><a href="emoji.html">表情包</a></div><div class="dropdown-item-custom desktop-hide"><a href="#" id="playerToggleBtnMobile">术术播放器</a></div><div class="dropdown-item-custom"><a href="https://space.bilibili.com/3461569935575626" target="_blank" rel="noopener">B站空间</a></div><div class="dropdown-item-custom"><a href="https://github.com/xxdz-Official" target="_blank" rel="noopener">GitHub</a></div>`;
+            document.body.appendChild(dropdown);
+            let hideTimer = null, isHoveringButton = false, isHoveringDropdown = false;
+            function updateDesktopHide() {
+                const isDesktop = window.innerWidth >= 701;
+                const items = dropdown.querySelectorAll('.desktop-hide');
+                items.forEach(item => {
+                    if (isDesktop) item.style.display = 'none';
+                    else item.style.display = '';
+                });
+            }
+            function updateDropdownPosition() {
+                const rect = moreBtn.getBoundingClientRect();
+                const dropdownWidth = dropdown.offsetWidth;
+                let left = window.innerWidth - dropdownWidth - 28;
+                if (left < 8) left = 8;
+                let top = rect.bottom + 20 + (document.getElementById('mainTopBar') && !document.getElementById('mainTopBar').classList.contains('island-mode') ? 10 : 0);
+                dropdown.style.left = left + 'px';
+                dropdown.style.top = top + 'px';
+            }
+            function showDropdown() {
+                if (hideTimer) clearTimeout(hideTimer);
+                updateDropdownPosition();
+                dropdown.classList.remove('show');
+                void dropdown.offsetHeight;
+                dropdown.classList.add('show');
+            }
+            function hideDropdown() {
+                if (hideTimer) clearTimeout(hideTimer);
+                hideTimer = setTimeout(() => {
+                    if (!isHoveringButton && !isHoveringDropdown) dropdown.classList.remove('show');
+                }, 150);
+            }
+            updateDesktopHide();
+            updateDropdownPosition();
+            window.addEventListener('resize', () => {
+                updateDesktopHide();
+                if (dropdown.classList.contains('show')) updateDropdownPosition();
+            });
+            moreBtn.addEventListener('mouseenter', () => {
+                isHoveringButton = true;
+                showDropdown();
+            });
+            moreBtn.addEventListener('mouseleave', () => {
+                isHoveringButton = false;
+                hideDropdown();
+            });
+            dropdown.addEventListener('mouseenter', () => {
+                isHoveringDropdown = true;
+                if (hideTimer) clearTimeout(hideTimer);
+                dropdown.classList.add('show');
+            });
+            dropdown.addEventListener('mouseleave', () => {
+                isHoveringDropdown = false;
+                hideDropdown();
+            });
+            const observer = new MutationObserver(updateDropdownPosition);
+            const topBarObs = document.getElementById('mainTopBar');
+            if (topBarObs) observer.observe(topBarObs, { attributes: true, attributeFilter: ['class'] });
+            window.addEventListener('scroll', updateDropdownPosition);
+            // 手机端点击下拉菜单中的"术术播放器"按钮
+            const playerToggleBtnMobile = document.getElementById('playerToggleBtnMobile');
+            if (playerToggleBtnMobile) {
+                playerToggleBtnMobile.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const playerToggleBtn = document.getElementById('playerToggleBtn');
+                    if (playerToggleBtn) playerToggleBtn.click();
+                    dropdown.classList.remove('show');
+                });
+            }
+            // 点击页面其他地方关闭下拉菜单
+            document.addEventListener('click', function(e) {
+                if (!moreBtn.contains(e.target) && !dropdown.contains(e.target)) {
+                    dropdown.classList.remove('show');
+                }
+            });
+        })();
+
+        // ===== 悬浮播放器逻辑（术术播放器） =====
+        (function() {
+            const floatingPlayer = document.getElementById('floatingPlayer');
+            const playerIframe = document.getElementById('playerIframe');
+            const playerTitlebar = document.getElementById('playerTitlebar');
+            const winMinimizeBtn = document.getElementById('winMinimizeBtn');
+            const winMaximizeBtn = document.getElementById('winMaximizeBtn');
+            const winCloseBtn = document.getElementById('winCloseBtn');
+            const PLAYER_URL = 'https://xxdz-official.github.io/x/Vocaloidplayer.html';
+            let isPlayerOpen = false, isMinimized = false, savedPosition = { left: null, top: null };
+            let isDragging = false, dragOffsetX = 0, dragOffsetY = 0;
+            function showFloatingPlayer(triggerElement, useSavedPosition = false) {
+                if (!floatingPlayer) return;
+                floatingPlayer.classList.remove('minimizing');
+                if (!useSavedPosition && triggerElement) {
+                    const rect = triggerElement.getBoundingClientRect();
+                    const playerWidth = 540, playerHeight = 360;
+                    let left = rect.left + (rect.width/2) - (playerWidth/2);
+                    let top = rect.bottom + 8;
+                    if (left + playerWidth > window.innerWidth - 16) left = window.innerWidth - playerWidth - 16;
+                    if (left < 16) left = 16;
+                    if (top + playerHeight > window.innerHeight - 16) top = rect.top - playerHeight - 8;
+                    floatingPlayer.style.left = left + 'px';
+                    floatingPlayer.style.top = top + 'px';
+                    savedPosition = { left, top };
+                } else if (savedPosition.left !== null && savedPosition.top !== null) {
+                    floatingPlayer.style.left = savedPosition.left + 'px';
+                    floatingPlayer.style.top = savedPosition.top + 'px';
+                }
+                if (!isPlayerOpen && playerIframe.src === 'about:blank') playerIframe.src = PLAYER_URL;
+                floatingPlayer.classList.add('show');
+                isPlayerOpen = true;
+                isMinimized = false;
+            }
+            function minimizePlayer() {
+                if (!floatingPlayer || !isPlayerOpen) return;
+                isMinimized = true;
+                floatingPlayer.classList.add('minimizing');
+                setTimeout(() => {
+                    if (isMinimized) {
+                        floatingPlayer.classList.remove('show');
+                        floatingPlayer.classList.remove('minimizing');
+                        isPlayerOpen = false;
+                    }
+                }, 350);
+            }
+            function maximizePlayer() {
+                window.open(PLAYER_URL, '_blank');
+                closePlayer();
+            }
+            function closePlayer() {
+                if (!floatingPlayer) return;
+                floatingPlayer.classList.remove('show');
+                isPlayerOpen = false;
+                isMinimized = false;
+                if (playerIframe) playerIframe.src = 'about:blank';
+                savedPosition = { left: null, top: null };
+            }
+            const playerToggleBtn = document.getElementById('playerToggleBtn');
+            if (playerToggleBtn) {
+                playerToggleBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (isMinimized) {
+                        showFloatingPlayer(playerToggleBtn, true);
+                        isMinimized = false;
+                    } else if (isPlayerOpen) {
+                        if (!floatingPlayer.classList.contains('show')) showFloatingPlayer(playerToggleBtn, true);
+                    } else {
+                        showFloatingPlayer(playerToggleBtn);
+                    }
+                });
+            }
+            if (winMinimizeBtn) winMinimizeBtn.addEventListener('click', function(e) { e.stopPropagation(); minimizePlayer(); });
+            if (winMaximizeBtn) winMaximizeBtn.addEventListener('click', function(e) { e.stopPropagation(); maximizePlayer(); });
+            if (winCloseBtn) {
+                winCloseBtn.addEventListener('click', function(e) { e.stopPropagation(); closePlayer(); });
+                const breakoutBtn = document.getElementById('breakoutBtn');
+                if (breakoutBtn) {
+                    breakoutBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const targetUrl = (playerIframe && playerIframe.src !== 'about:blank') ? playerIframe.src : PLAYER_URL;
+                        const popup = window.open(targetUrl, 'DianziPlayerPopup', 'width=860,height=560,resizable=yes,scrollbars=no,toolbar=no,menubar=no');
+                        if (!popup) alert("浏览器可能阻止了我的小窗口，请允许弹出窗口后重试qwq");
+                        else if (isPlayerOpen) closePlayer();
+                    });
+                }
+            }
+            if (playerTitlebar) {
+                playerTitlebar.addEventListener('mousedown', function(e) {
+                    if (!isPlayerOpen || isMinimized) return;
+                    if (!playerTitlebar.contains(e.target)) return;
+                    if (e.target.classList && (e.target.classList.contains('win-btn') || e.target.closest('.win-btn'))) return;
+                    e.preventDefault();
+                    isDragging = true;
+                    floatingPlayer.classList.add('dragging');
+                    const rect = floatingPlayer.getBoundingClientRect();
+                    dragOffsetX = e.clientX - rect.left;
+                    dragOffsetY = e.clientY - rect.top;
+                    document.addEventListener('mousemove', onDrag);
+                    document.addEventListener('mouseup', stopDrag);
+                    document.body.style.userSelect = 'none';
+                });
+                function onDrag(e) {
+                    if (!isDragging) return;
+                    let left = e.clientX - dragOffsetX;
+                    let top = e.clientY - dragOffsetY;
+                    left = Math.max(4, Math.min(left, window.innerWidth - floatingPlayer.offsetWidth - 4));
+                    top = Math.max(4, Math.min(top, window.innerHeight - floatingPlayer.offsetHeight - 4));
+                    floatingPlayer.style.left = left + 'px';
+                    floatingPlayer.style.top = top + 'px';
+                    savedPosition = { left, top };
+                }
+                function stopDrag() {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    floatingPlayer.classList.remove('dragging');
+                    document.removeEventListener('mousemove', onDrag);
+                    document.removeEventListener('mouseup', stopDrag);
+                    document.body.style.userSelect = '';
+                }
+            }
+        })();
+
+        // ===== 鼠标光标逻辑 =====
+        (function() {
+            const cursorLayer = document.getElementById('cursorLayer');
+            if (!cursorLayer) return;
+            const cursorImg = cursorLayer.querySelector('img');
+            if (!cursorImg) return;
+            cursorLayer.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2147483647; visibility: visible;';
+            cursorImg.style.cssText = 'position: fixed; top: 0; left: 0; width: auto; height: auto; transform-origin: 0px 0px; pointer-events: none; will-change: transform; opacity: 0; transform: translate(-100px, -100px); transition: opacity 0.1s ease, transform 0.12s linear;';
+            let mouseX = 0, mouseY = 0, rafId = null, visible = false;
+            const hideStyle = document.createElement('style');
+            hideStyle.textContent = '*,*::before,*::after,html,body,div,span,a,button,input,textarea,select,iframe,iframe *,.floating-player,.floating-player *,.player-content,.player-content *,.player-content::before,.player-content::after,.hover-border,.hover-border::before,.hover-border::after{cursor:none !important;}.player-content{cursor:none !important;}';
+            document.head.appendChild(hideStyle);
+            document.addEventListener('mousemove', function(e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                if (!visible) {
+                    visible = true;
+                    cursorImg.style.opacity = '1';
+                }
+                if (rafId === null) rafId = requestAnimationFrame(updateCursor);
+            });
+            function updateCursor() {
+                cursorImg.style.transform = 'translate(' + mouseX + 'px, ' + mouseY + 'px)';
+                rafId = null;
+            }
+            document.addEventListener('mouseleave', function() {
+                visible = false;
+                cursorImg.style.opacity = '0';
+            });
+            const iframe = document.getElementById('playerIframe');
+            if (iframe) {
+                iframe.addEventListener('load', function() {
+                    try {
+                        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                        if (iframeDoc) {
+                            const iframeStyle = iframeDoc.createElement('style');
+                            iframeStyle.textContent = '* { cursor: none !important; }';
+                            iframeDoc.head.appendChild(iframeStyle);
+                        }
+                    } catch(e) {}
+                });
+                if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+                    try {
+                        const iframeDoc = iframe.contentDocument;
+                        const iframeStyle = iframeDoc.createElement('style');
+                        iframeStyle.textContent = '* { cursor: none !important; }';
+                        iframeDoc.head.appendChild(iframeStyle);
+                    } catch(e) {}
+                }
+            }
+            const playerContent = document.querySelector('.player-content');
+            if (playerContent) {
+                playerContent.style.cursor = 'none';
+                const style2 = document.createElement('style');
+                style2.textContent = '.player-content,.player-content::before,.player-content::after,.player-content.hover-border,.player-content.hover-border::before,.player-content.hover-border::after{cursor:none !important;}';
+                document.head.appendChild(style2);
+                playerContent.addEventListener('mouseenter', function() {
+                    playerContent.classList.add('hover-border');
+                    cursorImg.style.opacity = '0';
+                });
+                playerContent.addEventListener('mouseleave', function() {
+                    playerContent.classList.remove('hover-border');
+                    if (visible) cursorImg.style.opacity = '1';
+                    else cursorImg.style.opacity = '0';
+                });
+            }
+        })();
+    </script>
+
+</body>
+</html>
