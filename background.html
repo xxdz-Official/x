@@ -725,11 +725,11 @@
         function generateCard(item) {
             let previewUrl = BASE_URL + item.filename;
             let downloadUrl = BASE_URL + item.filename;
-            let isDynamicCase = (item.filename === "XXDZ遇到问题，需要ruarua.mp4");
+            let isDynamicCase = (item.filename === "XXDZ遇到问题，需要ruarua_MINI.mp4");
             let mediaTag = '';
             if (isDynamicCase) {
-                previewUrl = BASE_URL + "XXDZ遇到问题，需要ruarua.mp4";
-                downloadUrl = DYNAMIC_HD_URL;
+                previewUrl = BASE_URL + "XXDZ遇到问题，需要ruarua_MINI.mp4";
+                downloadUrl = BASE_URL + "XXDZ遇到问题，需要ruarua_MINI.mp4";
                 mediaTag = `<video src="${previewUrl}" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;"></video>`;
             } else {
                 mediaTag = `<img src="${previewUrl}" alt="${item.name}" loading="lazy" onerror="this.src='https://xxdz-official.github.io/x/img/fallback.png'">`;
