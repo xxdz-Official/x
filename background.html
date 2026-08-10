@@ -310,6 +310,55 @@
         .section-header h2 { font-size: 1.8rem; font-weight: 700; color: #1F2A3E; }
         .section-header i { font-size: 2rem; color: #0097FE; }
 
+        .search-box {
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 151, 254, 0.25);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .search-box input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 16px;
+            border: 1.5px solid #E2E8F0;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+            font-family: inherit;
+            color: #1F2A3E;
+            transition: border-color 0.2s;
+            outline: none;
+        }
+        .search-box input:focus {
+            border-color: #0097FE;
+        }
+        .search-box input::placeholder {
+            color: #9AA4B8;
+        }
+        .search-box .search-icon {
+            color: #0097FE;
+            font-size: 1.2rem;
+        }
+        .search-box .search-clear {
+            color: #9AA4B8;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 4px 8px;
+            transition: color 0.2s;
+            display: none;
+        }
+        .search-box .search-clear:hover { color: #e81123; }
+        .search-box .search-count {
+            font-size: 0.8rem;
+            color: #6c7a91;
+            white-space: nowrap;
+        }
+
         .wallpaper-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -649,11 +698,42 @@
 </header>
 
 <main class="main-container">
+    <div class="search-box">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="searchInput" placeholder="搜索壁纸名称... (例如: rua, 笛, 星空)" aria-label="搜索壁纸">
+        <span class="search-clear" id="searchClear"><i class="fas fa-times"></i></span>
+        <span class="search-count" id="searchCount">共 0 张壁纸</span>
+    </div>
+
     <div class="wallpaper-section">
         <div class="section-header">
             <h2>✨ 新版壁纸</h2>
         </div>
         <div id="newWallpaperGrid" class="wallpaper-grid"><div class="loading-skeleton"><i class="fas fa-spinner fa-pulse"></i> 加载中...</div></div>
+    </div>
+
+    <div class="wallpaper-section">
+        <div class="section-header">
+            <h2>AI壁纸</h2>
+        </div>
+        <div id="aiWallpaperGrid" class="wallpaper-grid">
+            <div class="wallpaper-card">
+                <div class="card-preview" data-full="" data-is-dynamic="true">
+                    <video src="https://xxdz-official.github.io/x/background/【電籽壁纸】看！窗台上有只兽_MINI.mp4" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;"></video>
+                    <div class="video-indicator"><i class="fas fa-infinity"></i>动态壁纸预览</div>
+                </div>
+                <div class="card-info">
+                    <div class="info-text">
+                        <h3>【電籽壁纸】看！窗台上有只兽</h3>
+                        <span class="version-tag new-badge"><i class="fas fa-certificate"></i> AI壁纸</span>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <a class="download-btn info-btn" href="#" target="_blank" rel="noopener" style="padding: 8px 12px;"><i class="fas fa-info-circle"></i></a>
+                        <a class="download-btn" href="#" download target="_blank"><i class="fas fa-download"></i> 直接下载原图</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="wallpaper-section">
@@ -1217,6 +1297,53 @@
             });
             backBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        // ========== 搜索过滤 ==========
+        const searchInput = document.getElementById('searchInput');
+        const searchClear = document.getElementById('searchClear');
+        const searchCount = document.getElementById('searchCount');
+
+        function filterWallpapers(keyword) {
+            const cards = document.querySelectorAll('.wallpaper-card');
+            let visibleCount = 0;
+            const kw = keyword.trim().toLowerCase();
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name') || '';
+                const matches = !kw || name.toLowerCase().includes(kw);
+                card.style.display = matches ? '' : 'none';
+                if (matches) visibleCount++;
+            });
+            if (searchCount) {
+                searchCount.textContent = `共 ${visibleCount} 张壁纸`;
+            }
+            if (searchClear) {
+                searchClear.style.display = kw ? 'block' : 'none';
+            }
+        }
+
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                filterWallpapers(this.value);
+            });
+        }
+
+        if (searchClear) {
+            searchClear.addEventListener('click', function() {
+                if (searchInput) {
+                    searchInput.value = '';
+                    filterWallpapers('');
+                    searchInput.focus();
+                }
+            });
+        }
+
+        // 初始化计数（在壁纸渲染完成后执行）
+        setTimeout(() => {
+            const allCards = document.querySelectorAll('.wallpaper-card');
+            if (searchCount) {
+                searchCount.textContent = `共 ${allCards.length} 张壁纸`;
+            }
+        }, 100);
 
         render();
     })();
