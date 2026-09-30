@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta name="referrer" content="no-referrer">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Miku66ccff 术力口论坛 | 電籽术力口社区</title>
+    <meta name="description" content="Miku66ccff术力口论坛（简称M6CF论坛） 是電籽（小小电子xxdz）创建的术力口爱好者主题社区，分享Vocaloid音乐、有趣的极客作品、Crazy Error、萌系Furry文化等喵~">
+    <meta name="keywords" content="Miku66ccff,术力口,论坛,電籽,小小电子xxdz,Vocaloid,Miku,虚拟歌手,音乐社区,Flarum,免费论坛,最新主题,术力口社区,M6CF">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://miku66ccff.freeflarum.com/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Miku66ccff 术力口论坛 | 電籽术力口社区">
+    <meta property="og:description" content="Miku66ccff术力口论坛（简称M6CF论坛） 是電籽（小小电子xxdz）创建的术力口爱好者主题社区，分享Vocaloid音乐、有趣的极客作品、Crazy Error、萌系Furry文化等喵~">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://miku66ccff.freeflarum.com/">
+    <meta property="og:image" content="https://miku66ccff.freeflarum.com/assets/logo-cyvx1jbh.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Miku66ccff 术力口论坛 | 電籽术力口社区">
+    <meta name="twitter:description" content="Miku66ccff术力口论坛（简称M6CF论坛） 是電籽（小小电子xxdz）创建的术力口爱好者主题社区，分享Vocaloid音乐、有趣的极客作品、Crazy Error、萌系Furry文化等喵~">
+    <meta name="twitter:image" content="https://miku66ccff.freeflarum.com/assets/logo-cyvx1jbh.png">
+
+    <style>
+        :root {
+            --c1: 16px;   /* 面板倒角 */
+            --c2: 10px;   /* 按钮倒角 */
+            --c3: 8px;    /* 进度条倒角 */
+
+            --panel: polygon(
+                var(--c1) 0, calc(100% - var(--c1)) 0,
+                100% var(--c1), 100% calc(100% - var(--c1)),
+                calc(100% - var(--c1)) 100%, var(--c1) 100%,
+                0 calc(100% - var(--c1)), 0 var(--c1)
+            );
+            --btn: polygon(
+                var(--c2) 0, calc(100% - var(--c2)) 0,
+                100% var(--c2), 100% calc(100% - var(--c2)),
+                calc(100% - var(--c2)) 100%, var(--c2) 100%,
+                0 calc(100% - var(--c2)), 0 var(--c2)
+            );
+            --bar: polygon(
+                var(--c3) 0, calc(100% - var(--c3)) 0,
+                100% var(--c3), 100% calc(100% - var(--c3)),
+                calc(100% - var(--c3)) 100%, var(--c3) 100%,
+                0 calc(100% - var(--c3)), 0 var(--c3)
+            );
+        }
+
+        * { border-radius: 0 !important; }
+
+        body {
+            background-color: #66ccff;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            color: white;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        /* 几何图形层 */
+        #shapes-container {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .panel-shadow {
+            filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.22));
+            width: 90%;
+            max-width: 600px;
+            margin: 40px 0;
+            z-index: 10;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.2);
+            clip-path: var(--panel);
+            -webkit-clip-path: var(--panel);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            padding: 30px;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            display: block;
+            max-width: 320px;
+            width: 80%;
+            height: auto;
+            margin: 0 auto 22px;
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.25));
+        }
+
+        h1 {
+            font-size: 2.2em;
+            margin: 0 0 12px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+        }
+
+        p {
+            font-size: 1.1em;
+            margin: 0 0 20px;
+            line-height: 1.6;
+        }
+
+        .status {
+            font-family: monospace;
+            background-color: rgba(0, 0, 0, 0.3);
+            clip-path: var(--bar);
+            -webkit-clip-path: var(--bar);
+            padding: 7px 14px;
+            margin-bottom: 20px;
+            display: inline-block;
+            font-size: 0.95em;
+            word-break: break-all;
+        }
+
+        /* 跳转动效条（纯装饰，表示正在跳转） */
+        .loading-bar {
+            width: 100%;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.3);
+            clip-path: var(--bar);
+            -webkit-clip-path: var(--bar);
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .loading-runner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 35%;
+            background: linear-gradient(90deg, rgba(255,255,255,0), #ffffff, #ff6699);
+            animation: slide 0.9s linear infinite;
+        }
+
+        @keyframes slide {
+            0%   { transform: translateX(-110%); }
+            100% { transform: translateX(330%); }
+        }
+
+        /* 双层倒角按钮：外层白边，内层粉底 */
+        .button {
+            display: inline-block;
+            background-color: #ffffff;
+            clip-path: var(--btn);
+            -webkit-clip-path: var(--btn);
+            padding: 3px;
+            text-decoration: none;
+            margin: 6px;
+            transition: transform 0.2s ease-out;
+            vertical-align: middle;
+        }
+
+        .button > span {
+            display: block;
+            background-color: #ff6699;
+            clip-path: var(--btn);
+            -webkit-clip-path: var(--btn);
+            padding: 12px 28px;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 1em;
+            transition: background-color 0.25s;
+            white-space: nowrap;
+        }
+
+        .button:hover {
+            transform: translateY(-2px) scale(1.04);
+        }
+
+        .button:hover > span {
+            background-color: #ff3385;
+        }
+
+        .button:active {
+            transform: translateY(0) scale(0.99);
+        }
+
+        .footer-note {
+            margin: 26px 0 0;
+            font-size: 0.9em;
+            line-height: 1.7;
+            opacity: 0.92;
+        }
+
+        .footer-note a {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        /* 几何图形元素 */
+        .shape {
+            position: absolute;
+            transition: all 0.5s ease-out;
+            opacity: 0.6;
+        }
+
+        .circle {
+            border-radius: 50% !important; /* 装饰几何体本身是圆形，非 UI 圆角 */
+        }
+
+        .triangle {
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-color: transparent;
+            border-width: 0 50px 86.6px 50px;
+            border-bottom-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .square {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        @media (max-width: 600px) {
+            :root { --c1: 12px; --c2: 8px; --c3: 6px; }
+            h1 { font-size: 1.6em; }
+            p { font-size: 1em; }
+            .container { padding: 22px 18px; }
+            .logo { max-width: 240px; }
+            .button > span { padding: 10px 20px; font-size: 0.95em; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 动态生成的几何图形 -->
+    <div id="shapes-container"></div>
+
+    <div class="panel-shadow">
+        <div class="container">
+            <img class="logo" src="https://miku66ccff.freeflarum.com/assets/logo-cyvx1jbh.png" alt="Miku66ccff 電籽术力口论坛">
+
+            <h1>正在跳转…</h1>
+            <div class="status">→ miku66ccff.freeflarum.com</div>
+
+            <p>正在把你送进 Miku66ccff 電籽术力口论坛<br>
+            如果浏览器没有自动跳转，点下面的按钮就好啦！</p>
+
+            <div class="loading-bar"><div class="loading-runner"></div></div>
+
+            <div>
+                <a class="button" href="https://miku66ccff.freeflarum.com/?sort=newest5">
+                    <span>手动前往论坛</span>
+                </a>
+            </div>
+
+            <p class="footer-note">
+                目标地址：<a href="https://miku66ccff.freeflarum.com/?sort=newest5">miku66ccff.freeflarum.com</a><br>
+                联系站长小小电子xxdz，或在论坛里敲敲音符~
+            </p>
+        </div>
+    </div>
+
+    <script>
+        /* ---------------- 立即跳转（打开就尽快跳） ---------------- */
+        (function () {
+            var TARGET_URL = 'https://miku66ccff.freeflarum.com/?sort=newest5';
+
+            function go() {
+                window.location.replace(TARGET_URL);
+            }
+
+            // 等页面绘制一帧后立刻跳转（约 30ms 内），既能瞬间跳转，也保证页面能闪出来
+            function goSoon() {
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(go);
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', goSoon);
+            } else {
+                goSoon();
+            }
+        })();
+
+        /* ---------------- 几何图形背景 ---------------- */
+        const shapesContainer = document.getElementById('shapes-container');
+        const shapes = [];
+        const colors = ['rgba(255,255,255,0.4)', 'rgba(255,102,153,0.4)', 'rgba(102,204,255,0.4)'];
+
+        // 初始化 20 个图形
+        for (let i = 0; i < 20; i++) {
+            createShape();
+        }
+
+        function createShape() {
+            const shape = document.createElement('div');
+            shape.className = 'shape';
+
+            // 随机选择形状类型
+            const shapeTypes = ['circle', 'triangle', 'square'];
+            const type = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
+            shape.classList.add(type);
+
+            // 设置随机大小
+            const size = Math.random() * 100 + 50;
+
+            if (type === 'circle') {
+                shape.style.width = `${size}px`;
+                shape.style.height = `${size}px`;
+                shape.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            }
+            else if (type === 'triangle') {
+                shape.style.borderWidth = `0 ${size / 2}px ${size * 0.866}px ${size / 2}px`;
+                shape.style.borderBottomColor = colors[Math.floor(Math.random() * colors.length)];
+            }
+            else if (type === 'square') {
+                shape.style.width = `${size}px`;
+                shape.style.height = `${size}px`;
+                shape.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                shape.style.transform = `rotate(${Math.random() * 45}deg)`;
+            }
+
+            // 随机位置
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight;
+
+            shape.style.left = `${x}px`;
+            shape.style.top = `${y}px`;
+
+            shapesContainer.appendChild(shape);
+            shapes.push({
+                element: shape,
+                x: x,
+                y: y,
+                vx: Math.random() * 2 - 1,
+                vy: Math.random() * 2 - 1
+            });
+        }
+
+        // 鼠标移动交互
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+
+            shapes.forEach(shape => {
+                const rect = shape.element.getBoundingClientRect();
+                const shapeX = rect.left + rect.width / 2;
+                const shapeY = rect.top + rect.height / 2;
+
+                const dx = mouseX - shapeX;
+                const dy = mouseY - shapeY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < 200 && distance > 0.01) {
+                    const force = (200 - distance) / 20;
+                    const angle = Math.atan2(dy, dx);
+
+                    shape.x -= Math.cos(angle) * force;
+                    shape.y -= Math.sin(angle) * force;
+                }
+
+                // 边界检查
+                if (shape.x < 0) shape.x = 0;
+                if (shape.x > window.innerWidth) shape.x = window.innerWidth;
+                if (shape.y < 0) shape.y = 0;
+                if (shape.y > window.innerHeight) shape.y = window.innerHeight;
+
+                shape.element.style.left = `${shape.x}px`;
+                shape.element.style.top = `${shape.y}px`;
+            });
+        });
+
+        // 让图形缓慢漂移
+        function animate() {
+            shapes.forEach(shape => {
+                shape.x += shape.vx;
+                shape.y += shape.vy;
+
+                // 边界反弹
+                const rect = shape.element.getBoundingClientRect();
+                if (shape.x < 0 || shape.x + rect.width > window.innerWidth) {
+                    shape.vx *= -1;
+                }
+                if (shape.y < 0 || shape.y + rect.height > window.innerHeight) {
+                    shape.vy *= -1;
+                }
+
+                shape.element.style.left = `${shape.x}px`;
+                shape.element.style.top = `${shape.y}px`;
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
