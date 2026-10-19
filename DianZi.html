@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta name="referrer" content="no-referrer">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>電籽_小小电子xxdz自设OC设定页</title>
+    <meta name="description" content="小小电子xxdz（電籽）的自设OC设定页。了解電籽详细档案~">
+    <meta name="keywords" content="電籽,小小电子xxdz,OC设定,百科,自设角色,Furry,小狼,XXDZ工作室,兽设设定,个人资料,身高,体重,性格,性别,生日,Itoc编辑器,术力口">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://xxdz-official.github.io/x/DianZi.html">
+    <meta property="og:title" content="電籽_小小电子xxdz自设OC设定页">
+    <meta property="og:description" content="小小电子xxdz（電籽）的自设OC设定页。了解電籽详细档案~">
+    <meta property="og:type" content="profile">
+    <meta property="og:url" content="https://xxdz-official.github.io/x/DianZi.html">
+    <meta property="og:image" content="https://xxdz-official.github.io/x/img/xxdz/StyleStar%E5%A4%B4%E5%83%8F.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="msvalidate.01" content="4BAEA6DA804D3EAD53ED426D2BFA8C0B" />
+    <link rel="icon" href="https://xxdz-official.github.io/x/img/logo.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html, body {
+        width: 100%;
+        overflow-x: hidden;
+        background: #000;
+        scroll-behavior: smooth;
+      }
+      ::-webkit-scrollbar { width: 10px; }
+      ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.5); }
+      ::-webkit-scrollbar-thumb { background: rgba(0, 153, 255, 0.6); border-radius: 5px; }
+      ::-webkit-scrollbar-thumb:hover { background: rgba(0, 153, 255, 0.9); }
+      .stage {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
+        background: #000;
+        isolation: isolate;
+      }
+      .bg-img {
+        position: absolute;
+        top: -40px;
+        left: -40px;
+        width: calc(100% + 80px);
+        height: calc(100% + 80px);
+        object-fit: cover;
+        object-position: 100% 100%;
+        pointer-events: none;
+        user-select: none;
+        -webkit-user-drag: none;
+        will-change: transform;
+        transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+        --glitch-x: 0px;
+        --glitch-y: 0px;
+      }
+      .petal { mix-blend-mode: overlay; }
+      .main-char { z-index: 4; }
+      .top-petal { z-index: 5; }
+      @keyframes glitch-layer-1 {
+        0% { clip-path: inset(20% 0 60% 0); --glitch-x: -8px; --glitch-y: 4px; filter: hue-rotate(90deg) drop-shadow(2px 0 0 rgba(255,0,0,0.8)) drop-shadow(-2px 0 0 rgba(0,255,255,0.8)); }
+        25% { clip-path: inset(50% 0 30% 0); --glitch-x: 10px; --glitch-y: -5px; filter: hue-rotate(180deg) drop-shadow(-2px 0 0 rgba(255,0,0,0.8)) drop-shadow(2px 0 0 rgba(0,255,255,0.8)); }
+        50% { clip-path: inset(10% 0 80% 0); --glitch-x: -5px; --glitch-y: 0px; filter: hue-rotate(120deg) drop-shadow(3px 0 0 rgba(255,0,0,0.8)) drop-shadow(-3px 0 0 rgba(0,255,255,0.8)); }
+        75% { clip-path: inset(70% 0 10% 0); --glitch-x: 6px; --glitch-y: -8px; filter: hue-rotate(60deg) drop-shadow(-3px 0 0 rgba(255,0,0,0.8)) drop-shadow(3px 0 0 rgba(0,255,255,0.8)); }
+        100% { clip-path: inset(20% 0 60% 0); --glitch-x: 0px; --glitch-y: 0px; filter: none; }
+      }
+      @keyframes glitch-layer-2 {
+        0% { clip-path: inset(60% 0 20% 0); --glitch-x: 12px; --glitch-y: -6px; filter: contrast(2) drop-shadow(2px 0 0 rgba(255,255,0,0.8)) drop-shadow(-2px 0 0 rgba(0,255,255,0.8)); }
+        25% { clip-path: inset(15% 0 75% 0); --glitch-x: -10px; --glitch-y: 5px; filter: contrast(1.5) drop-shadow(-2px 0 0 rgba(255,255,0,0.8)) drop-shadow(2px 0 0 rgba(0,255,255,0.8)); }
+        50% { clip-path: inset(80% 0 5% 0); --glitch-x: 8px; --glitch-y: -3px; filter: contrast(1.8) drop-shadow(3px 0 0 rgba(255,255,0,0.8)) drop-shadow(-3px 0 0 rgba(0,255,255,0.8)); }
+        75% { clip-path: inset(40% 0 45% 0); --glitch-x: -6px; --glitch-y: 8px; filter: contrast(2) drop-shadow(-3px 0 0 rgba(255,0,0,0.8)) drop-shadow(3px 0 0 rgba(0,255,255,0.8)); }
+        100% { clip-path: inset(60% 0 20% 0); --glitch-x: 0px; --glitch-y: 0px; filter: none; }
+      }
+      .glitching-1 { animation: glitch-layer-1 0.15s steps(1, end) infinite; transition: none !important; }
+      .glitching-2 { animation: glitch-layer-2 0.15s steps(1, end) infinite; transition: none !important; }
+      .title-wrapper {
+        position: absolute;
+        z-index: 3;
+        top: calc(6% - var(--scroll-y, 0px));
+        left: 2%;
+        pointer-events: none;
+        will-change: transform, top, opacity, z-index, translate;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        translate: 0 0;
+        transition: top 0.1s linear, z-index 0.4s ease, opacity 0.6s ease, visibility 0.6s ease, transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), translate 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+      .logo-img {
+        display: block;
+        width: 120vw;
+        max-width: 2600px;
+        height: auto;
+        filter: drop-shadow(10px 10px 15px rgba(0, 0, 0, 0.9));
+        margin-bottom: -1vw;
+        user-select: none;
+        -webkit-user-drag: none;
+        pointer-events: none;
+      }
+      .title-container {
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        color: #ffffff;
+        font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Helvetica, sans-serif;
+        font-weight: 200;
+        filter: drop-shadow(6px 6px 8px rgba(0, 0, 0, 0.9));
+        margin-left: 5vw;
+        margin-bottom: 2vh;
+        margin-top: 1.5vh;
+        pointer-events: auto;
+        cursor: pointer;
+      }
+      .avatar-img {
+        height: clamp(60px, 8vw, 150px);
+        width: auto;
+        display: block;
+        margin-right: 2vw;
+        user-select: none;
+        -webkit-user-drag: none;
+      }
+      .title-container.flicker span {
+        animation: textFlicker 0.25s linear forwards;
+        animation-delay: var(--delay);
+      }
+      .title-container.flicker-out span {
+        animation: textFlickerOut 0.25s linear forwards;
+        animation-delay: var(--delay);
+      }
+      @keyframes textFlicker {
+        0% { color: #fff; filter: brightness(1) drop-shadow(0 0 0 rgba(255,255,255,0)); }
+        10% { color: #fff; filter: brightness(3) drop-shadow(0 0 15px rgba(255,255,255,1)) drop-shadow(0 0 30px rgba(251,114,153,0.8)); }
+        20% { color: #FB7299; filter: brightness(1) drop-shadow(0 0 0 rgba(251,114,153,0)); }
+        30% { color: #fff; filter: brightness(3) drop-shadow(0 0 15px rgba(255,255,255,1)); }
+        40% { color: #FB7299; filter: brightness(1); }
+        50% { color: #fff; filter: brightness(2) drop-shadow(0 0 10px rgba(255,255,255,0.8)); }
+        60% { color: #FB7299; filter: brightness(1); }
+        70% { color: #fff; filter: brightness(3) drop-shadow(0 0 15px rgba(255,255,255,1)); }
+        80%, 100% { color: #FB7299; filter: brightness(1) drop-shadow(0 0 0 rgba(251,114,153,0)); }
+      }
+      @keyframes textFlickerOut {
+        0% { color: #FB7299; filter: brightness(1) drop-shadow(0 0 0 rgba(251,114,153,0)); }
+        10% { color: #FB7299; filter: brightness(3) drop-shadow(0 0 15px rgba(255,255,255,1)) drop-shadow(0 0 30px rgba(251,114,153,0.8)); }
+        20% { color: #fff; filter: brightness(1) drop-shadow(0 0 0 rgba(255,255,255,0)); }
+        30% { color: #FB7299; filter: brightness(3) drop-shadow(0 0 15px rgba(255,255,255,1)); }
+        40% { color: #fff; filter: brightness(1); }
+        50% { color: #FB7299; filter: brightness(2) drop-shadow(0 0 10px rgba(255,255,255,0.8)); }
+        60% { color: #fff; filter: brightness(1); }
+        70% { color: #FB7299; filter: brightness(3) drop-shadow(0 0 15px rgba(255,255,255,1)); }
+        80%, 100% { color: #fff; filter: brightness(1) drop-shadow(0 0 0 rgba(255,255,255,0)); }
+      }
+      .title-container span {
+        display: inline-block;
+        line-height: 1;
+        letter-spacing: -0.04em;
+        color: #fff;
+        will-change: transform, filter, color;
+        transform: translateY(var(--ty)) rotate(var(--rot));
+        transition: transform 0.1s ease-out;
+      }
+      .char1 { font-size: clamp(20px, 2.5vw, 45px); --ty: 0px; --rot: 0deg; }
+      .char2 { font-size: clamp(22px, 2.8vw, 50px); --ty: -5px; --rot: -2deg; }
+      .char3 { font-size: clamp(28px, 4vw, 75px); --ty: 5px; --rot: 1deg; }
+      .char4 { font-size: clamp(26px, 3.5vw, 65px); --ty: -8px; --rot: -3deg; }
+      .char-x1 { font-size: clamp(16px, 2vw, 35px); --ty: 10px; --rot: 5deg; opacity: 0.9; }
+      .char-x2 { font-size: clamp(16px, 2vw, 35px); --ty: -5px; --rot: -2deg; opacity: 0.9; }
+      .char-d  { font-size: clamp(18px, 2.2vw, 40px); --ty: 5px; --rot: 2deg; }
+      .char-z  { font-size: clamp(18px, 2.2vw, 40px); --ty: -3px; --rot: -4deg; }
+      .info-panel {
+        margin-left: 2vw;
+        width: clamp(350px, calc(100vw - 7vw - 15px), 1400px);
+        padding: 24px 30px;
+        background: rgba(12, 20, 35, 0.8);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(0, 153, 255, 0.3);
+        border-left: 4px solid #0099ff;
+        color: #d0e0f0;
+        font-family: "Consolas", "Microsoft YaHei", sans-serif;
+        font-size: clamp(13px, 1.1vw, 15px);
+        line-height: 1.8;
+        overflow: visible;
+        border-radius: 4px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+        pointer-events: auto;
+        will-change: transform, width;
+        transform: translateZ(0);
+        transition: background 0.4s ease, width 0.4s ease;
+      }
+      .info-panel strong { color: #00e5ff; font-weight: 600; margin-right: 4px; }
+      .info-panel .mini { font-size: 11px; opacity: 0.7; }
+      .info-panel h4 {
+        color: #ffffff;
+        font-size: 16px;
+        margin: 20px 0 10px 0;
+        border-bottom: 1px dashed rgba(255,255,255,0.2);
+        padding-bottom: 6px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        user-select: none;
+        transition: color 0.2s ease;
+      }
+      .info-panel h4:hover { color: #00e5ff; }
+      .info-panel h4 i {
+        color: #00e5ff;
+        margin-right: 10px;
+        font-size: 18px;
+        width: 20px;
+        text-align: center;
+      }
+      .info-panel h4 .fold-icon {
+        margin-left: auto;
+        color: #00e5ff;
+        font-size: 18px;
+        transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+      .section-wrap {
+        display: grid;
+        grid-template-rows: 1fr;
+        transition: grid-template-rows 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+      .section-inner { overflow: hidden; }
+      .info-panel p { margin-bottom: 12px; }
+      .info-panel .indent-1 { display: block; margin-left: 2em; }
+      .info-panel .indent-2 { display: inline-block; margin-left: 4em; }
+      .color-palette {
+        display: flex !important;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 12px;
+        width: calc(100% - 2em);
+      }
+      .color-chip {
+        display: flex; align-items: center; font-size: 11px;
+        background: rgba(255,255,255,0.05); padding: 3px 8px;
+        border-radius: 3px; border: 1px solid rgba(255,255,255,0.1);
+      }
+      .color-box {
+        width: 12px; height: 12px; border-radius: 2px;
+        margin-right: 6px; display: inline-block; box-shadow: 0 0 5px rgba(0,0,0,0.5);
+      }
+      .gallery-panel {
+        margin-left: 2vw;
+        width: clamp(350px, calc(100vw - 7vw - 15px), 1400px);
+        padding: 20px 30px;
+        background: rgba(12, 20, 35, 0.8);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(0, 153, 255, 0.3);
+        border-left: 4px solid #0099ff;
+        color: #d0e0f0;
+        border-radius: 4px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+        pointer-events: auto;
+        margin-top: 20px;
+        margin-bottom: 60px;
+        will-change: transform;
+        transform: translateZ(0);
+        transition: background 0.4s ease, width 0.4s ease;
+      }
+      .gallery-panel h4 {
+        color: #ffffff;
+        font-size: 16px;
+        margin: 0 0 15px 0;
+        border-bottom: 1px dashed rgba(255,255,255,0.2);
+        padding-bottom: 6px;
+        display: flex;
+        align-items: center;
+      }
+      .gallery-panel h4 i {
+        color: #00e5ff;
+        margin-right: 10px;
+        font-size: 18px;
+        width: 20px;
+        text-align: center;
+      }
+      .gallery-img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        border: 1px solid rgba(0, 153, 255, 0.3);
+        cursor: pointer;
+        transition: transform 0.2s, border-color 0.2s;
+        border-radius: 4px;
+      }
+      .gallery-img:hover { transform: scale(1.02); border-color: #0099ff; }
+      .image-preview-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0);
+          z-index: 99999;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          visibility: hidden;
+          transition: visibility 0.3s, background 0.3s ease;
+      }
+      .image-preview-overlay.active {
+          visibility: visible;
+          background: rgba(0,0,0,0.85);
+      }
+      .image-preview-img {
+          max-width: 90vw;
+          max-height: 90vh;
+          object-fit: contain;
+          border: 2px solid #fff;
+          box-shadow: 0 0 30px rgba(0,0,0,0.5);
+          transition: transform 0.35s cubic-bezier(0.34, 1.3, 0.64, 1), opacity 0.3s ease;
+      }
+      .image-preview-close {
+          position: absolute;
+          top: 20px;
+          right: 30px;
+          font-size: 2rem;
+          color: white;
+          cursor: pointer;
+          background: none;
+          border: none;
+          font-weight: bold;
+          transition: opacity 0.2s, transform 0.2s;
+          opacity: 0;
+      }
+      .image-preview-overlay.active .image-preview-close { opacity: 1; }
+      .image-preview-close:hover { transform: scale(1.1); }
+      .pc-top-nav {
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        z-index: 9999;
+        translate: 0 0;
+        transition: top 0.4s cubic-bezier(0.25, 1, 0.5, 1), left 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease, visibility 0.6s ease, translate 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        will-change: top, left, opacity, translate;
+      }
+      .pc-top-nav.sticky {
+        top: 0;
+        left: 0;
+      }
+      .pc-top-nav::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(12, 20, 35, 0.75);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        clip-path: polygon(0 0, 100% 0, calc(100% - 46px) 100%, 0 100%);
+        border-left: 3px solid #0099ff;
+        z-index: -1;
+        transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        pointer-events: none;
+        will-change: top, left, height;
+      }
+      .pc-top-nav.sticky::before {
+        top: -16px;
+        left: -16px;
+        width: calc(100% + 16px);
+        height: calc(100% + 16px);
+        background: rgba(12, 20, 35, 0.95);
+        border-bottom: 2px solid #0099ff;
+        box-shadow: 0 4px 15px rgba(0, 153, 255, 0.4);
+      }
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        padding-left: 28px;
+        padding-right: 64px;
+        height: 100%;
+      }
+      .nav-link {
+        color: #d0e0f0;
+        text-decoration: none;
+        font-size: 16px;
+        font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+        transition: color 0.2s, text-shadow 0.2s;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .nav-link:hover {
+        color: #00e5ff;
+        text-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
+      }
+      .nav-more {
+        position: relative;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        z-index: 10000;
+      }
+      .nav-dropdown {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        background: rgba(12, 20, 35, 0.98);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(0, 153, 255, 0.3);
+        border-left: 3px solid #0099ff;
+        border-radius: 4px;
+        display: flex;
+        flex-direction: column;
+        min-width: 160px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-5px);
+        transition: all 0.2s ease;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        z-index: 10001;
+      }
+      .nav-more:hover .nav-dropdown {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      .nav-dropdown a {
+        color: #d0e0f0;
+        text-decoration: none;
+        padding: 12px 18px;
+        font-size: 14px;
+        transition: background 0.2s, color 0.2s;
+        white-space: nowrap;
+        border-bottom: 1px dashed rgba(255,255,255,0.05);
+      }
+      .nav-dropdown a:last-child { border-bottom: none; }
+      .nav-dropdown a:hover {
+        background: rgba(0, 153, 255, 0.15);
+        color: #00e5ff;
+      }
+      @media (max-width: 1024px) {
+        .pc-top-nav {
+          top: auto;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 58px;
+          justify-content: center;
+        }
+        .pc-top-nav::before {
+          top: 0; left: 0; right: 0; bottom: 0;
+          clip-path: none;
+          border-left: none;
+          border-top: 2px solid #0099ff;
+          background: rgba(12, 20, 35, 0.95);
+        }
+        .pc-top-nav.sticky::before {
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border-bottom: none;
+          box-shadow: none;
+        }
+        .nav-inner {
+          width: 100%;
+          display: flex;
+          justify-content: space-around;
+          gap: 0;
+          padding: 0 10px;
+        }
+        .nav-link { font-size: 14px; }
+        .nav-more { height: auto; }
+        .nav-dropdown {
+          top: auto;
+          bottom: calc(100% + 12px);
+          left: 50%;
+          transform: translate(-50%, 5px);
+          margin-top: 0;
+        }
+        .nav-more:hover .nav-dropdown { transform: translate(-50%, 0); }
+      }
+      .title-wrapper.is-mobile-top {
+        z-index: 10;
+        filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.8));
+        transform: translateY(20px) scale(0.98);
+        opacity: 0.3;
+      }
+      .title-wrapper.is-ready {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      @media (max-width: 1385px) {
+        .info-panel, .gallery-panel {
+          background: rgba(10, 15, 25, 0.9);
+        }
+      }
+
+      /* 壁纸模式：面板向左滑出，导航向上滑出 */
+      body.wallpaper-mode .title-wrapper {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        translate: -100px 0;
+      }
+      body.wallpaper-mode .pc-top-nav {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        translate: 0 -100px;
+      }
+
+      .cursor-layer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 2147483647;
+        visibility: visible;
+      }
+      .cursor-layer img {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: auto;
+        height: auto;
+        transform-origin: 0px 0px;
+        pointer-events: none;
+        will-change: transform;
+        opacity: 0;
+        transform: translate(-100px, -100px);
+        transition: opacity 0.1s ease, transform 0.12s linear;
+      }
+    </style>
+</head>
+<body>
+
+  <div class="cursor-layer" id="cursorLayer">
+    <img src="https://xxdz-official.github.io/x/img/zhengchang_luoxiaohei.gif" alt="cursor" style="position: fixed; top: 0; left: 0; pointer-events: none;" onload="console.log('[光标] 罗小黑.gif 图片加载成功')" onerror="console.error('[光标] 罗小黑.gif 加载失败，请检查 URL')">
+  </div>
+
+  <div id="scroll-proxy"></div>
+
+  <nav class="pc-top-nav" id="pcTopNav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-link" style="font-weight: 600; color: #00e5ff;">電籽的灵质空间</a>
+      <a href="https://space.bilibili.com/3461569935575626" target="_blank" class="nav-link">B站空间</a>
+      <a href="https://xxdz-official.github.io/x/background.html" target="_blank" class="nav-link">壁纸库</a>
+      <div class="nav-more">
+        <span class="nav-link">更多 <i class="fa fa-angle-down" aria-hidden="true"></i></span>
+        <div class="nav-dropdown">
+          <a href="https://miku66ccff.freeflarum.com" target="_blank">Miku66ccff论坛</a>
+          <a href="https://xxdz-official.github.io/x/Material.html" target="_blank">素材库</a>
+          <a href="emoji.html" target="_blank">表情包</a>
+          <a href="https://github.com/xxdz-Official" target="_blank">GitHub</a>
+          <a href="https://xxdz-official.github.io/x/FriendURL.html" target="_blank">友情链接</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="stage" id="stage">
+    <img src="img/xxdz/小狼坏事做尽-背景.png" class="bg-img" alt="背景" draggable="false">
+    <img src="img/xxdz/小狼坏事做尽-花瓣-底层.png" class="bg-img petal parallax-layer" data-depth="1" alt="花瓣底层" draggable="false">
+
+    <div class="title-wrapper" id="titleWrapper">
+      <img src="img/xxdz/電籽_logo.png" alt="電籽" class="logo-img">
+      <div class="title-container">
+        <img src="https://xxdz-official.github.io/x/img/xxdz/StyleStar%E5%A4%B4%E5%83%8F.png" class="avatar-img" alt="头像" draggable="false">
+        <span class="char1">小</span>
+        <span class="char2">小</span>
+        <span class="char3">电</span>
+        <span class="char4">子</span>
+        <span class="char-x1">x</span>
+        <span class="char-x2">x</span>
+        <span class="char-d">d</span>
+        <span class="char-z">z</span>
+      </div>
+
+      <div class="info-panel">
+        <h4><i class="fa fa-folder-open" aria-hidden="true"></i> 基础档案</h4>
+        <p class="indent-1">
+          <strong>名字：</strong>電籽
+          <br><strong>名字解析：</strong>“小小电子”的拼音缩写，“電”为繁体，代表非主流，“籽”代表可爱与创新的活力，亦是数字生命萌芽的具象化
+          <br><strong>破壳日：</strong>2009年2月13日
+          <br><strong>性别：</strong>♂
+          <br><strong>身高：</strong>1.70m
+          <br><strong>体重：</strong>46kg
+          <br><strong>职务：</strong>XXDZ工作室创始人&室长
+          <br><strong>物种：</strong>一只小狼 <span class="mini">（“狼”是祖先的图腾呢，因此我的姓也是取了它的同音字嗷~）</span>
+          <br><strong>最害怕的动物：</strong>蜘蛛 <span class="mini">（真的超级怕，无论大小，都会原地瑟瑟发抖 qwq）</span>
+          <br><strong>民族：</strong>满族 <span class="mini">（啊对，镶黄旗一枚(?)）</span>
+          <br><strong>喜欢吃的食物：</strong>微软巧克力 <span class="mini">（吃完真的能写出更优雅的代码吗？）</span>
+        </p>
+
+        <h4><i class="fa fa-comments" aria-hidden="true"></i> 性格特征</h4>
+        <p class="indent-1">
+          一只喜欢创新的小狼，平时内向、胆小怕事 qwq，敏感且情商不高；但一聊起自己热爱的领域，就会变得自信又带点小骄傲。作为XXDZ工作室创始人，他坚信自己“可爱的性格会让自己慢慢进步”
+          <br><span class="mini indent-2">（谁能拒绝一只软乎乎的小狼呢？）</span>
+        </p>
+
+        <h4><i class="fa fa-tachometer" aria-hidden="true"></i> 配色色卡</h4>
+        <div class="color-palette indent-1">
+          <div class="color-chip"><span class="color-box" style="background:#0023ff"></span>#0023ff</div>
+          <div class="color-chip"><span class="color-box" style="background:#0060ff"></span>#0060ff</div>
+          <div class="color-chip"><span class="color-box" style="background:#0098ff"></span>#0098ff</div>
+          <div class="color-chip"><span class="color-box" style="background:#99fefe"></span>#99fefe</div>
+          <div class="color-chip"><span class="color-box" style="background:#ffb3ff"></span>#ffb3ff</div>
+          <div class="color-chip"><span class="color-box" style="background:#ff7d00"></span>#ff7d00</div>
+          <div class="color-chip"><span class="color-box" style="background:#00ff00"></span>#00ff00</div>
+          <div class="color-chip"><span class="color-box" style="background:#ffff00"></span>#ffff00</div>
+          <div class="color-chip"><span class="color-box" style="background:#8800ff"></span>#8800ff</div>
+          <div class="color-chip"><span class="color-box" style="background:#ffffff"></span>#ffffff</div>
+          <div class="color-chip"><span class="color-box" style="background:#bbbbbb"></span>#bbbbbb</div>
+          <div class="color-chip"><span class="color-box" style="background:#323479"></span>#323479</div>
+        </div>
+
+        <h4><i class="fa fa-eye" aria-hidden="true"></i> 头部细节</h4>
+        <p class="indent-1">
+          <strong>耳朵：</strong>萌系兽耳，外侧根部蓝色，端部青色，中间夹黄色线条。耳内深蓝紫色
+          <br><span class="mini indent-2">正视：黄色线条中间有跨越上下的深蓝色小三角</span>
+          <br><span class="mini indent-2">背视：蓝色区域延伸出勾云纹，弯卷处有两蓝点跨越黄线至青端</span>
+          <br><strong>毛发：</strong>整体亮蓝色，呈蓬松状，头顶带一撮蓝色呆毛
+          <br><strong>面部：</strong>下半张脸（口吻部）为白色，脸颊有粉色红晕，其余为蓝色
+          <br><strong>眼睛：</strong>青蓝色（下青外蓝）眼睛，深蓝色瞳孔，黄色眉毛
+          <br><strong>额饰：</strong>额头中央一撮毛上有菱形晶体装饰，由橙、绿、蓝、黄微软四色构成
+        </p>
+
+        <h4><i class="fa fa-paw" aria-hidden="true"></i> 身体细节</h4>
+        <p class="indent-1">
+          <strong>身体：</strong>主躯干为中蓝色。
+          <br><strong>花纹：</strong>胸前及腹部有连贯的青色菱形；腰两侧有跨越正背面的月牙纹；腿部有青色正三角底部的黄色卷曲勾云纹
+          <br><strong>手臂：</strong>前端及爪部青色，上臂蓝色。手臂外侧蓝青分界处有顶点向手端的黄色细三角。爪掌有粉色肉垫
+          <br><strong>尾巴：</strong>非常蓬松且呈分节状，从根到顶依次为青、绿、黄、橙（微软四色），拼接多彩效果。背部中央有“※”形紫色小花
+          <br><strong>背部悬浮晶片：</strong>背部及手臂后侧悬浮着半透明的浅蓝色几何晶体碎片（对称翅膀状，十字切割排列）。背部晶体由四个直角端点相邻的直角梯形组成（由Windows8/10 logo重编排变形）
+        </p>
+
+        <h4><i class="fa fa-cogs" aria-hidden="true"></i> 技能与喜好</h4>
+        <p class="indent-1">
+          <strong>技能：</strong>软件开发者、插件开发者、视频创作者、furry小画师、UP主。开发了 Windows crazy error 程序开发工具“Itoc编辑器”，让无门槛开发弹窗鬼畜程序成为可能，以及“上一个桌面背景”、“危信”等软件；也喜欢使用Pr、Ps、Ae、XS等软件实现自己的编程之外的创意~
+          <br><strong>喜好：</strong>热爱操作系统圈和术曲，同时也是二次元 furry 爱好者。作为 XXDZ 工作室创始人，相信“创新是创造的基石”，也相信自己可爱的性格会让自己慢慢进步喵~
+        </p>
+      </div>
+
+      <div class="gallery-panel">
+        <h4><i class="fa fa-image" aria-hidden="true"></i> 電籽三视图</h4>
+        <img src="https://i0.hdslb.com/bfs/new_dyn/1dd5fb161ccb5cf72178f11110d865b13461569935575626.png@1052w_!web-dynamic.avif" alt="電籽三视图" class="gallery-img" id="galleryPreviewImg">
+      </div>
+    </div>
+
+    <img src="img/xxdz/小狼坏事做尽-主体.png" class="bg-img main-char parallax-layer" data-depth="2" alt="主体" draggable="false">
+    <img src="img/xxdz/小狼坏事做尽-花瓣-顶层.png" class="bg-img top-petal petal parallax-layer" data-depth="3" alt="花瓣顶层" draggable="false">
+  </div>
+
+  <script>
+    function initCollapsibleSections() {
+      document.querySelectorAll('.info-panel h4').forEach(header => {
+        const icon = document.createElement('i');
+        icon.className = 'fa fa-angle-down fold-icon';
+        icon.setAttribute('aria-hidden', 'true');
+        header.appendChild(icon);
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'section-wrap';
+        const inner = document.createElement('div');
+        inner.className = 'section-inner';
+        wrapper.appendChild(inner);
+
+        let nextNode = header.nextElementSibling;
+        while (nextNode && nextNode.tagName !== 'H4') {
+          const currentNode = nextNode;
+          nextNode = nextNode.nextElementSibling;
+          inner.appendChild(currentNode);
+        }
+
+        header.parentNode.insertBefore(wrapper, header.nextSibling);
+
+        header.addEventListener('click', () => {
+          const isCollapsed = wrapper.style.gridTemplateRows === '0fr';
+          wrapper.style.gridTemplateRows = isCollapsed ? '1fr' : '0fr';
+          icon.style.transform = isCollapsed ? 'rotate(0deg)' : 'rotate(-90deg)';
+        });
+      });
+    }
+    initCollapsibleSections();
+
+    const stage = document.getElementById('stage');
+    const parallaxLayers = document.querySelectorAll('.parallax-layer');
+    const titleWrapper = document.getElementById('titleWrapper');
+    const petalLayers = document.querySelectorAll('.petal');
+
+    window.addEventListener('scroll', () => {
+      document.documentElement.style.setProperty('--scroll-y', `${window.scrollY}px`);
+    });
+
+    // 动态计算实际滚动高度，让页面不再有多余留白
+    function updateScrollHeight() {
+      const titleWrapper = document.getElementById('titleWrapper');
+      const scrollProxy = document.getElementById('scroll-proxy');
+      if (titleWrapper && scrollProxy) {
+        // 窗口高度的 6% 是起始偏移量，加上内容自身高度，就是真实的滚动总长
+        const topOffset = window.innerHeight * 0.06;
+        scrollProxy.style.height = (topOffset + titleWrapper.offsetHeight + 50) + 'px';
+      }
+    }
+    window.addEventListener('load', updateScrollHeight);
+    window.addEventListener('resize', updateScrollHeight);
+    // 折叠面板点击时也重新计算高度
+    document.querySelectorAll('.info-panel h4').forEach(h => {
+      h.addEventListener('click', () => setTimeout(updateScrollHeight, 450));
+    });
+    setTimeout(updateScrollHeight, 100);
+
+    let isMobileLayout = false;
+    function checkLayoutWidth() {
+      const isNowMobile = window.innerWidth <= 1385;
+      if (isNowMobile && !isMobileLayout) {
+        titleWrapper.classList.add('is-mobile-top');
+        setTimeout(() => titleWrapper.classList.add('is-ready'), 50);
+      }
+      else if (!isNowMobile && isMobileLayout) {
+        titleWrapper.classList.remove('is-ready');
+        setTimeout(() => titleWrapper.classList.remove('is-mobile-top'), 500);
+      }
+      isMobileLayout = isNowMobile;
+    }
+    checkLayoutWidth();
+    window.addEventListener('resize', checkLayoutWidth);
+
+    const titleContainer = document.querySelector('.title-container');
+    const titleChars = document.querySelectorAll('.title-container span');
+    let flickerTimeout = null;
+
+    function triggerFlicker(isOut = false) {
+      titleContainer.classList.remove('flicker', 'flicker-out');
+      let currentDelay = 0;
+      const processChars = isOut ? Array.from(titleChars).reverse() : Array.from(titleChars);
+
+      processChars.forEach((char) => {
+        char.style.setProperty('--delay', `${currentDelay}s`);
+        const randomJump = 0.01 + Math.random() * 0.06;
+        currentDelay += randomJump;
+        char.style.color = isOut ? '#FB7299' : '#fff';
+      });
+
+      void titleContainer.offsetWidth;
+
+      if (isOut) {
+        titleContainer.classList.add('flicker-out');
+      } else {
+        titleContainer.classList.add('flicker');
+      }
+
+      clearTimeout(flickerTimeout);
+      flickerTimeout = setTimeout(() => {
+        titleChars.forEach(char => {
+          char.style.color = '';
+          char.style.setProperty('--delay', '0s');
+        });
+      }, (currentDelay + 0.25) * 1000);
+    }
+
+    if (titleContainer) {
+      titleContainer.addEventListener('mouseenter', () => triggerFlicker(false));
+      titleContainer.addEventListener('mouseleave', () => triggerFlicker(true));
+      titleContainer.addEventListener('click', () => {
+        window.open('https://space.bilibili.com/3461569935575626', '_blank');
+      });
+    }
+
+    function updateParallax(clientX, clientY) {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const ratioX = (clientX / width) * 2 - 1;
+      const ratioY = (clientY / height) * 2 - 1;
+
+      parallaxLayers.forEach(layer => {
+        const depth = parseFloat(layer.getAttribute('data-depth'));
+        const maxMove = 20;
+        const moveX = ratioX > 0 ? (ratioX * maxMove * depth) : (ratioX * 5 * depth);
+        const moveY = ratioY > 0 ? (ratioY * maxMove * depth) : (ratioY * 5 * depth);
+        layer.style.transform = `translate3d(calc(${moveX}px + var(--glitch-x, 0px)), calc(${moveY}px + var(--glitch-y, 0px)), 0)`;
+      });
+
+      const textMoveX = ratioX * 8;
+      const textMoveY = ratioY * 8;
+      titleWrapper.style.transform = `translate3d(${textMoveX}px, ${textMoveY}px, 0)`;
+
+      const titleChars = document.querySelectorAll('.title-container span');
+      titleChars.forEach((char, index) => {
+        const charDepth = 0.8 + (index * 0.1);
+        const charMoveX = ratioX * 6 * charDepth;
+        const charMoveY = ratioY * 6 * charDepth;
+        char.style.transform = `translate3d(${charMoveX}px, ${charMoveY}px, 0) translateY(var(--ty)) rotate(var(--rot))`;
+      });
+    }
+
+    stage.addEventListener('mousemove', (e) => updateParallax(e.clientX, e.clientY));
+    stage.addEventListener('mouseleave', () => updateParallax(window.innerWidth / 2, window.innerHeight / 2));
+
+    function triggerRandomGlitch() {
+      if (Math.random() > 0.3) {
+        petalLayers[0].classList.add('glitching-1');
+        setTimeout(() => petalLayers[0].classList.remove('glitching-1'), Math.random() * 200 + 80);
+      }
+      if (Math.random() > 0.3) {
+        setTimeout(() => {
+          petalLayers[1].classList.add('glitching-2');
+          setTimeout(() => petalLayers[1].classList.remove('glitching-2'), Math.random() * 200 + 80);
+        }, Math.random() * 100);
+      }
+      setTimeout(triggerRandomGlitch, Math.random() * 4000 + 1500);
+    }
+    setTimeout(triggerRandomGlitch, 2000);
+
+    let previewCache = null, isClosing = false, currentSrc = '';
+
+    function closePreview() {
+      if (isClosing || !previewCache) return;
+      isClosing = true;
+      const img = previewCache.querySelector('.image-preview-img');
+      img.style.transition = 'transform 0.35s cubic-bezier(0.55,0,0.75,0.5), opacity 0.3s';
+      img.style.transform = 'scale(1.2)';
+      img.style.opacity = '0';
+      previewCache.classList.remove('active');
+      setTimeout(() => {
+        img.style.cssText = '';
+        img.src = '';
+        currentSrc = '';
+        isClosing = false;
+      }, 400);
+    }
+
+    function showPreview(src) {
+      if (isClosing) return;
+      const original = src;
+      if (currentSrc === original && previewCache?.classList.contains('active')) return;
+      if (!previewCache) {
+        previewCache = document.createElement('div');
+        previewCache.className = 'image-preview-overlay';
+        previewCache.innerHTML = `<button class="image-preview-close">&times;</button><img class="image-preview-img" alt="预览">`;
+        document.body.appendChild(previewCache);
+        const closeBtn = previewCache.querySelector('.image-preview-close');
+        closeBtn.onclick = (e) => { e.stopPropagation(); closePreview(); };
+        previewCache.onclick = (e) => { if (e.target === previewCache) closePreview(); };
+      }
+      const previewImg = previewCache.querySelector('.image-preview-img');
+      previewImg.src = '';
+      previewImg.style.cssText = 'transition:none; transform:scale(0.5); opacity:0;';
+      void previewImg.offsetHeight;
+      previewImg.src = original;
+      currentSrc = original;
+      const onLoad = () => {
+        previewImg.removeEventListener('load', onLoad);
+        previewImg.style.transition = 'transform 0.35s cubic-bezier(0.34,1.2,0.64,1), opacity 0.3s';
+        previewCache.classList.add('active');
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          previewImg.style.transform = 'scale(1)';
+          previewImg.style.opacity = '1';
+        }));
+      };
+      previewImg.addEventListener('load', onLoad);
+      if (previewImg.complete) onLoad();
+    }
+
+    const galleryImg = document.getElementById('galleryPreviewImg');
+    if (galleryImg) {
+      galleryImg.addEventListener('click', () => {
+        const originalUrl = "https://i0.hdslb.com/bfs/new_dyn/1dd5fb161ccb5cf72178f11110d865b13461569935575626.png";
+        showPreview(originalUrl);
+      });
+    }
+  </script>
+  <script>
+    // 壁纸模式点击切换逻辑
+    document.getElementById('stage').addEventListener('click', (e) => {
+      // 如果点击的是导航栏区域，不触发
+      if (e.target.closest('.pc-top-nav')) return;
+
+      // 如果当前不在壁纸模式，且点击的是文字面板区域（因为面板占据左侧，点击右侧主体才会触发），不触发
+      if (!document.body.classList.contains('wallpaper-mode') && e.target.closest('.title-wrapper')) {
+        return;
+      }
+
+      // 切换壁纸模式
+      document.body.classList.toggle('wallpaper-mode');
+    });
+
+    function updateNavSticky() {
+      const nav = document.getElementById('pcTopNav');
+      if (!nav) return;
+      if (window.innerWidth > 1024) {
+        if (window.scrollY > 20) {
+          nav.classList.add('sticky');
+        } else {
+          nav.classList.remove('sticky');
+        }
+      } else {
+        nav.classList.remove('sticky');
+      }
+    }
+    window.addEventListener('scroll', updateNavSticky);
+    window.addEventListener('resize', updateNavSticky);
+    updateNavSticky();
+  </script>
+  <script>
+    (function() {
+      const cursorLayer = document.getElementById('cursorLayer');
+      if (!cursorLayer) return;
+      const cursorImg = cursorLayer.querySelector('img');
+      if (!cursorImg) return;
+
+      const hideStyle = document.createElement('style');
+      hideStyle.textContent = `*,*::before,*::after,html,body,div,span,a,button,input,textarea,select,iframe,iframe *{cursor:none !important;}`;
+      document.head.appendChild(hideStyle);
+
+      let mouseX = 0, mouseY = 0, rafId = null, visible = false;
+
+      document.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        if (!visible) {
+          visible = true;
+          cursorImg.style.opacity = '1';
+        }
+        if (rafId === null) {
+          rafId = requestAnimationFrame(updateCursor);
+        }
+      });
+
+      function updateCursor() {
+        cursorImg.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+        rafId = null;
+      }
+
+      document.addEventListener('mouseleave', function() {
+        visible = false;
+        cursorImg.style.opacity = '0';
+      });
+    })();
+  </script>
+</body>
+</html>
